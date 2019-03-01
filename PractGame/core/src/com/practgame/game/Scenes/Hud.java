@@ -15,43 +15,29 @@ public class Hud {
     public Stage stage;
     private Viewport viewport;
 
-    private Integer worldTimer;
-    private float timeCount;
     private Integer score;
 
-    Label coundownLabel;
-    Label marioLabel;
-    Label worldLabel;
-    Label timeLabel;
+
     Label scoreLabel;
     Label levelLabel;
 
     public Hud(SpriteBatch sb){
-        worldTimer = 300;
-        timeCount = 0;
         score = 0;
 
-        viewport = new FitViewport(PractGame.V_WIDTH, PractGame.V_HEIGHT, new OrthographicCamera());
+        viewport = new FitViewport(320, 180, new OrthographicCamera()); // remember 16/9! 02/11
         stage = new Stage(viewport, sb);
 
         Table table = new Table();
         table.top();
         table.setFillParent(true);
 
-        coundownLabel = new Label(String.format("%03d",worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        marioLabel = new Label("MARIO", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel = new Label(String.format("%06d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreLabel = new Label(String.format("%04d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        levelLabel = new Label("planet D280", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        table.add(marioLabel).expandX().padTop(10);
-        table.add(worldLabel).expandX().padTop(10);
-        table.add(timeLabel).expandX().padTop(10);
-        table.row();
-        table.add(scoreLabel).expandX();
-        table.add(levelLabel).expandX();
-        table.add(coundownLabel).expandX();
+        table.add(scoreLabel).expandX().padTop(10);
+        table.add().expandX().padTop(10);
+        table.add(levelLabel).expandX().padTop(10);
+
 
         stage.addActor(table);
 

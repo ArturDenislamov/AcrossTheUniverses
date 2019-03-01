@@ -8,7 +8,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
 import com.practgame.game.Scenes.Hud;
@@ -20,6 +24,8 @@ public class PlayScreen implements Screen {
     private Viewport gamePort;
     private PractGame game;
     private Hud hud;
+    private float SCREEN_W = 160;
+    private float SCREEN_H = 90;
 
     private TmxMapLoader mapLoader;
     private TiledMap map;
@@ -28,13 +34,12 @@ public class PlayScreen implements Screen {
     public PlayScreen(PractGame game){
         this.game = game;
         gamecam = new OrthographicCamera();
-        gamePort = new FitViewport(PractGame.V_WIDTH,  PractGame.V_HEIGHT, gamecam);
+        gamePort = new FitViewport(SCREEN_W, SCREEN_H,gamecam);
         hud = new Hud(game.batch);
-
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("level1.tmx");
+        map = mapLoader.load("lv1.tmx");
         renderer  = new OrthogonalTiledMapRenderer(map);
-        gamecam.position.set(gamePort.getWorldWidth()/2,gamePort.getWorldHeight()/2,0);
+        gamecam.position.set(SCREEN_W/2,SCREEN_H/2,0);
     }
 
     @Override

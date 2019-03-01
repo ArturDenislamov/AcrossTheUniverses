@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="52" height="12" tilewidth="5" tileheight="5" infinite="0" nextlayerid="8" nextobjectid="44">
+ <imagelayer id="2" name="background">
+  <image source="image_lv0.png" width="261" height="60"/>
+ </imagelayer>
+ <objectgroup id="3" name="floor">
+  <object id="3" x="0" y="55" width="260" height="5"/>
+  <object id="29" x="0" y="30" width="5" height="25"/>
+ </objectgroup>
+ <objectgroup id="4" name="lift">
+  <object id="4" x="200" y="30" width="15" height="25"/>
+ </objectgroup>
+ <objectgroup id="5" name="willbesoon">
+  <object id="6" x="250" y="25" width="10" height="30"/>
+ </objectgroup>
+ <objectgroup id="7" name="guy">
+  <object id="43" x="75" y="40" width="10" height="15"/>
+ </objectgroup>
+</map>
