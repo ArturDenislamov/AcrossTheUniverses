@@ -7,18 +7,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import  com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.practgame.game.PractGame;
-import com.practgame.game.utils.Multilanguage;
-
 
 
 public class StartScreen extends ScreenAdapter {

@@ -1,17 +1,14 @@
 package com.practgame.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.practgame.game.Screens.MenuLevel;
 import com.practgame.game.Screens.PlayScreen;
 import com.practgame.game.Screens.StartScreen;
-import com.practgame.game.utils.Controller;
-import com.practgame.game.utils.Multilanguage;
+import com.practgame.game.Utils.Controller;
+import com.practgame.game.Utils.Multilanguage;
 
 public class PractGame extends Game {
 	public static SpriteBatch batch;

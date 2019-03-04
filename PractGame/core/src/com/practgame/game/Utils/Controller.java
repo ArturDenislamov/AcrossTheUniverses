@@ -1,4 +1,4 @@
-package com.practgame.game.utils;
+package com.practgame.game.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -7,18 +7,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -57,7 +53,7 @@ public class Controller {
 
         Table table = new Table();
         table.left().bottom();
-        Texture leftTexture = new Texture("gc/shadedDark26.png");
+        Texture leftTexture = new Texture("gc/shadedDark26.png"); // TODO maybe you should make ImageButtons for all of the buttons 03/04
         Texture upPressedTexture = new Texture("gc/shadedLight26.png");
         upbutton = new ImageButton(new TextureRegionDrawable(new TextureRegion(leftTexture)), new TextureRegionDrawable(new TextureRegion(upPressedTexture)));
         upbutton.addListener(new InputListener(){
@@ -130,7 +126,7 @@ public class Controller {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 leftPressed = true;
-                LOGGER.info("left pressed");
+                LOGGER.info("left pressed"); // TODO REMOVE maybe
                 return true;
             }
 

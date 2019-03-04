@@ -1,4 +1,4 @@
-package com.practgame.game.utils;
+package com.practgame.game.Utils;
 
 
 import java.util.HashMap;

@@ -2,7 +2,6 @@ package com.practgame.game.Screens;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,16 +21,16 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
-import com.practgame.game.Scenes.Hud;
 import com.practgame.game.Sprites.Player;
-import com.practgame.game.utils.Controller;
+import com.practgame.game.Utils.B2WorldCreator;
+import com.practgame.game.Utils.Controller;
 
 public class MenuLevel implements Screen {
     private OrthographicCamera gamecam;
     private Viewport gamePort;
     private PractGame game;
-    private float SCREEN_W = 58;
-    private float SCREEN_H = 60;
+    private float SCREEN_W = 80; // TODO you need to improve the situation about the screen view
+    private float SCREEN_H = 45;
 
     private TmxMapLoader mapLoader;
     private TiledMap map;
@@ -58,54 +57,9 @@ public class MenuLevel implements Screen {
         player = new Player(world);
         controller = new Controller();
 
+        new B2WorldCreator(world, map);
 
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
-        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / PractGame.PPM, (rect.getY() + rect.getHeight() / 2) / PractGame.PPM);
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2 / PractGame.PPM, rect.getHeight() / 2 / PractGame.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / PractGame.PPM, (rect.getY() + rect.getHeight() / 2) / PractGame.PPM);
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2 / PractGame.PPM, rect.getHeight() / 2 / PractGame.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / PractGame.PPM, (rect.getY() + rect.getHeight() / 2) / PractGame.PPM);
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2 / PractGame.PPM, rect.getHeight() / 2 / PractGame.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / PractGame.PPM, (rect.getY() + rect.getHeight() / 2) / PractGame.PPM);
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2 / PractGame.PPM, rect.getHeight() / 2 / PractGame.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
     }
 
     @Override
@@ -131,7 +85,7 @@ public class MenuLevel implements Screen {
         handleInput();
         world.step(1 / 60f, 6, 2);
 
-        // gamecam.position.x = player.b2body.getPosition().x;
+         gamecam.position.x = player.b2body.getPosition().x;
 
         gamecam.update();
         // tell our renderer to draw only what our camera see in game world
