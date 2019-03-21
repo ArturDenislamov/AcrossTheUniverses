@@ -19,7 +19,7 @@ import com.practgame.game.PractGame;
 public class StartScreen extends ScreenAdapter {
 
     private static final float WORLD_WIDTH = 1280;
-    private static final float WORLD_HEIGHT = 720; // TODO maybe better 16/9 ( 1280X20, 1920X1080 )
+    private static final float WORLD_HEIGHT = 720; // using 16/9 ( 1280X20, 1920X1080 )
 
     Texture backgroundtexture;
     private Stage stage;

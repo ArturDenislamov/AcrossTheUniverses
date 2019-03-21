@@ -1,0 +1,40 @@
+
+Character.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+left1
+  rotate: false
+  xy: 0, 0
+  size: 12, 25
+  orig: 12, 25
+  offset: 0, 0
+  index: -1
+left2
+  rotate: false
+  xy: 14, 0
+  size: 12, 25
+  orig: 12, 25
+  offset: 0, 0
+  index: -1
+right1
+  rotate: false
+  xy: 28, 0
+  size: 12, 25
+  orig: 12, 25
+  offset: 0, 0
+  index: -1
+right2
+  rotate: false
+  xy: 42, 0
+  size: 12, 25
+  orig: 12, 25
+  offset: 0, 0
+  index: -1
+stand
+  rotate: false
+  xy: 56, 0
+  size: 12, 25
+  orig: 12, 25
+  offset: 0, 0
+  index: -1

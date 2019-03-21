@@ -10,6 +10,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.practgame.game.PractGame;
+import com.practgame.game.Sprites.ActionBrick;
+import com.practgame.game.Sprites.BlockTileObject;
+
+import jdk.nashorn.internal.ir.Block;
 
 public class B2WorldCreator {
 
@@ -18,48 +22,28 @@ public class B2WorldCreator {
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
         Body body;
-        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
+        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) { // in menu - floor
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / PractGame.PPM, (rect.getY() + rect.getHeight() / 2) / PractGame.PPM);
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2 / PractGame.PPM, rect.getHeight() / 2 / PractGame.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
+            new BlockTileObject(world, map, rect); // creating object using class
         }
 
-        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
+        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) { // in menu - lift
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / PractGame.PPM, (rect.getY() + rect.getHeight() / 2) / PractGame.PPM);
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2 / PractGame.PPM, rect.getHeight() / 2 / PractGame.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
+            new ActionBrick(world, map, rect, "lift");
         }
 
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
+        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // in menu - will be soon
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / PractGame.PPM, (rect.getY() + rect.getHeight() / 2) / PractGame.PPM);
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2 / PractGame.PPM, rect.getHeight() / 2 / PractGame.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
+             new BlockTileObject(world, map, rect);
         }
 
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
+        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // in menu - guy
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / PractGame.PPM, (rect.getY() + rect.getHeight() / 2) / PractGame.PPM);
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2 / PractGame.PPM, rect.getHeight() / 2 / PractGame.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
+           new ActionBrick(world, map, rect, "lobby");
 
     }
 

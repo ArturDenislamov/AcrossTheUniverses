@@ -44,7 +44,7 @@ public class Controller {
         return rightPressed;
     }
 
-    public Controller() {
+    public Controller() { // TODO change controller, left, right and jump, fire 03/20
         LOGGER.info("controller created");
         cam = new OrthographicCamera();
         viewport = new FitViewport(160, 90, cam);
@@ -69,24 +69,6 @@ public class Controller {
                                        upPressed = false;
                                    }
                                });
-
-        /*
-        Image upImg = new Image(new Texture("gc/shadedDark26.png"));
-        upImg.setSize(bsize,bsize);
-        upImg.addListener(new InputListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                upPressed = true;
-                LOGGER.info("up pressed");
-                return true;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                upPressed = false;
-            }
-        });
-        */
 
         Image downImg = new Image(new Texture("gc/shadedDark27.png"));
         downImg.setSize(bsize,bsize);

@@ -10,20 +10,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.practgame.game.PractGame;
 
-public class Hud implements Disposable {
+import java.util.logging.Logger;
+
+public class WindowManager implements Disposable {
     public Stage stage;
     private Viewport viewport;
+    private Label messageLabel;
+    private Table table;
 
-    private Integer score;
+    private final static Logger LOGGER = Logger.getLogger(WindowManager.class.getName());
 
-
-    Label scoreLabel;
-    Label levelLabel;
-
-    public Hud(SpriteBatch sb){
-        score = 0;
+    public WindowManager(SpriteBatch sb){
 
         viewport = new FitViewport(320, 180, new OrthographicCamera()); // remember 16/9! 02/11
         stage = new Stage(viewport, sb);
@@ -32,19 +30,25 @@ public class Hud implements Disposable {
         table.top();
         table.setFillParent(true);
 
-        scoreLabel = new Label(String.format("%04d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label("planet D280", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        table.add(scoreLabel).expandX().padTop(10);
+        messageLabel = new Label( "", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         table.add().expandX().padTop(10);
-        table.add(levelLabel).expandX().padTop(10);
-
-
+        table.add(messageLabel).expandX().padTop(10);
+        table.add().expandX().padTop(10);
         stage.addActor(table);
-
-
-
     }
+
+    public void showMessage(String tag){
+        if(tag.equals("lobby")){
+            LOGGER.info("in showMessage method -- Hello");
+            messageLabel.setText("Hello, K04!");
+        }
+    }
+
+    public void hideMessage(){
+        messageLabel.setText("");
+    }
+
 
     @Override
     public void dispose() {
