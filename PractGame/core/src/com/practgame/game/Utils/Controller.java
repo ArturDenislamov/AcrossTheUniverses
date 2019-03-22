@@ -21,19 +21,15 @@ import java.util.logging.Logger;
 public class Controller {
     private final static Logger LOGGER = Logger.getLogger(Controller.class.getName());
 
-    private float bsize = 15;
+    private float bsize = 20;
     Viewport viewport;
     public  Stage stage;
-    boolean upPressed, downPressed, leftPressed, rightPressed;
+    private boolean upPressed, downPressed, leftPressed, rightPressed;
     OrthographicCamera cam;
-    ImageButton upbutton;
+    ImageButton aButton,bButton, leftButton, rightButton;
 
     public boolean isUpPressed() {
         return upPressed;
-    }
-
-    public boolean isDownPressed() {
-        return downPressed;
     }
 
     public boolean isLeftPressed() {
@@ -51,12 +47,18 @@ public class Controller {
         stage = new Stage(viewport, PractGame.batch);
         Gdx.input.setInputProcessor(stage);
 
-        Table table = new Table();
-        table.left().bottom();
-        Texture leftTexture = new Texture("gc/shadedDark26.png"); // TODO maybe you should make ImageButtons for all of the buttons 03/04
-        Texture upPressedTexture = new Texture("gc/shadedLight26.png");
-        upbutton = new ImageButton(new TextureRegionDrawable(new TextureRegion(leftTexture)), new TextureRegionDrawable(new TextureRegion(upPressedTexture)));
-        upbutton.addListener(new InputListener(){
+        Table tableMove = new Table();
+        tableMove.left().bottom();
+
+        Table tableAction = new Table();
+        tableAction.setFillParent(true);
+        tableAction.right().bottom();
+
+
+        Texture aTexture = new Texture("gc/aDark.png");
+        Texture aPressedTexture = new Texture("gc/aLight.png");
+        aButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(aTexture)), new TextureRegionDrawable(new TextureRegion(aPressedTexture)));
+        aButton.addListener(new InputListener(){
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                        upPressed = true;
@@ -70,25 +72,10 @@ public class Controller {
                                    }
                                });
 
-        Image downImg = new Image(new Texture("gc/shadedDark27.png"));
-        downImg.setSize(bsize,bsize);
-        downImg.addListener(new InputListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                downPressed = true;
-                LOGGER.info("down pressed");
-                return true;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                downPressed = false;
-            }
-        });
-
-        Image rightImg = new Image(new Texture("gc/shadedDark25.png"));
-        rightImg.setSize(bsize,bsize);
-        rightImg.addListener(new InputListener(){
+        Texture rightTexture = new Texture("gc/rightDark.png");
+        Texture rightPressedTexture = new Texture("gc/rightLight.png");
+        rightButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(rightTexture)), new TextureRegionDrawable(new TextureRegion(rightPressedTexture)));
+        rightButton.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 rightPressed = true;
@@ -102,13 +89,14 @@ public class Controller {
             }
         });
 
-        Image leftImg = new Image(new Texture("gc/shadedDark24.png"));
-        leftImg.setSize(bsize,bsize);
-        leftImg.addListener(new InputListener(){
+        Texture leftTexture = new Texture("gc/leftDark.png");
+        Texture leftPressedTexture = new Texture("gc/leftLight.png");
+        leftButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(leftTexture)), new TextureRegionDrawable(new TextureRegion(leftPressedTexture)));
+        leftButton.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 leftPressed = true;
-                LOGGER.info("left pressed"); // TODO REMOVE maybe
+                LOGGER.info("left pressed");
                 return true;
             }
 
@@ -118,20 +106,39 @@ public class Controller {
             }
         });
 
-        table.add();
-        table.add(upbutton).size(bsize, bsize);
-        table.add();
-        table.row().pad(3, 3, 3, 3);
-        table.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight());
-        table.add();
-        table.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight());
-        table.row().padBottom(5);
-        table.add();
-        table.add(downImg).size(downImg.getWidth(), downImg.getHeight());
-        table.add();
-        table.pack();
+        Texture bTexture = new Texture("gc/bDark.png");
+        Texture bPressedTexture = new Texture("gc/bLight.png");
+        bButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(bTexture)), new TextureRegionDrawable(new TextureRegion(bPressedTexture)));
+        bButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+              //  rightPressed = true; TODO fix button B 03/22
+                LOGGER.info("b pressed");
+                return true;
+            }
 
-        stage.addActor(table);
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                //rightPressed = false;
+            }
+        });
+
+
+
+        tableMove.row().pad(2,2,2,2);
+        tableMove.add(leftButton).size(bsize, bsize).padBottom(10);
+        tableMove.add();
+        tableMove.add(rightButton).size(bsize, bsize).padBottom(10);
+        tableMove.pack();
+
+        tableAction.row().pad(2,2,2,2);
+        tableAction.add(aButton).size(bsize,bsize).padBottom(10);
+        tableAction.add();
+        tableAction.add(bButton).size(bsize, bsize).padBottom(10);
+        tableAction.pack();
+
+        stage.addActor(tableMove);
+        stage.addActor(tableAction);
     }
 
     public void draw(){
