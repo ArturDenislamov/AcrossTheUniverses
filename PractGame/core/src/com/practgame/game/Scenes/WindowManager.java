@@ -27,7 +27,8 @@ public class WindowManager implements Disposable {
     private Label messageLabel;
     private Table table, levelTable;
     public String waitingForAnwser = "none";
-    private ImageButton firstW, secondW, thirdW;
+    private ImageButton firstW, secondW, thirdW, backW;
+    float bsize = 50;
 
     private PractGame maingame;
 
@@ -97,6 +98,7 @@ public class WindowManager implements Disposable {
             Texture first = new Texture("ui/first.png");
             Texture second = new Texture("ui/second.png");
             Texture third = new Texture("ui/third.png");
+            Texture back = new Texture("ui/back.png");
             firstW = new ImageButton(new TextureRegionDrawable(new TextureRegion(first)));
             firstW.addListener(new InputListener() {
                 @Override
@@ -115,6 +117,7 @@ public class WindowManager implements Disposable {
 
             secondW = new ImageButton(new TextureRegionDrawable(new TextureRegion(second)));
 
+            /*
             secondW.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -129,13 +132,32 @@ public class WindowManager implements Disposable {
                     //   waitingForAnwser = "none";
                 }
             });
+            */
 
 
             thirdW = new ImageButton(new TextureRegionDrawable(new TextureRegion(third)));
 
-            levelTable.add(firstW).padTop(10);
-            levelTable.add(secondW).padTop(10);
-            levelTable.add(thirdW).padTop(10);
+            backW = new ImageButton(new TextureRegionDrawable(new TextureRegion(back)));
+
+            backW.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    LOGGER.info("Exit level selection pressed");
+                    hideWindow();
+                    waitingForAnwser = "none";
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    //   waitingForAnwser = "none";
+                }
+            });
+            levelTable.row().padLeft(5).padRight(5);
+            levelTable.add(firstW).size(bsize, bsize).padTop(10);
+            levelTable.add(secondW).size(bsize, bsize).padTop(10);
+            levelTable.add(thirdW).size(bsize, bsize).padTop(10);
+            levelTable.add(backW).size(bsize, bsize).padTop(10);
             levelTable.pack();
             stage.addActor(levelTable);
             LOGGER.info("Level table added");

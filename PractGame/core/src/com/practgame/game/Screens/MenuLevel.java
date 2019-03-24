@@ -49,7 +49,7 @@ public class MenuLevel implements Screen {
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(SCREEN_W / PractGame.PPM, SCREEN_H / PractGame.PPM, gamecam);
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("lv0.tmx"); // menu map, 260X60 pixels
+        map = mapLoader.load("maps/lv0.tmx"); // menu map, 260X60 pixels
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM, SCREEN_H / 2 / PractGame.PPM, 0); // TODO check situation with PPM
 

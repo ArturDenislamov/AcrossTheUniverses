@@ -33,11 +33,11 @@ public class Hud implements Disposable {
         table.setFillParent(true);
 
         scoreLabel = new Label(String.format("%04d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label("planet D280", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+      //  levelLabel = new Label("planet D280", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(scoreLabel).expandX().padTop(10);
         table.add().expandX().padTop(10);
-        table.add(levelLabel).expandX().padTop(10);
+        table.add().expandX().padTop(10);
 
 
         stage.addActor(table);

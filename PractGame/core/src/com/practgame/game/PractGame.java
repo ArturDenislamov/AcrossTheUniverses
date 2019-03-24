@@ -50,7 +50,7 @@ public class PractGame extends Game {
         // TODO Multilanguage error null object reference 02/08
         setScreen(startScreen);
 
-        levelList1.add(new LevelInfo("lv1_1.tmx"));
+        levelList1.add(new LevelInfo("maps/lv1_1.tmx"));
         // levelList1.add(new LevelInfo("lv1_2"));  // TODO you need map files (and tilesets) 03/23
         // levelList1.add(new LevelInfo("lv1_3.tmx"));
        // levelList2.add(new LevelInfo("lv2_1"));
