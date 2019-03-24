@@ -8,7 +8,12 @@ import com.practgame.game.Screens.MenuLevel;
 import com.practgame.game.Screens.PlayScreen;
 import com.practgame.game.Screens.StartScreen;
 import com.practgame.game.Utils.Controller;
+import com.practgame.game.Utils.LevelInfo;
 import com.practgame.game.Utils.Multilanguage;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PractGame extends Game {
 	public static SpriteBatch batch;
@@ -23,12 +28,18 @@ public class PractGame extends Game {
 	public int levelLine3;
 	public static float PPM = 100;
 	Controller controller;
+	ArrayList <LevelInfo> levelList1 = new ArrayList<LevelInfo>();
+   // ArrayList <LevelInfo> levelList2 = new ArrayList<LevelInfo>();
+  //  ArrayList <LevelInfo> levelList3 = new ArrayList<LevelInfo>();
+    //LevelInfo demoLevel; // TODO make this 03/23
 
 
-	@Override
+
+
+    @Override
 	public void create() {
 		// TODO add if(save exists) 02/15
-        levelLine1 = 0;
+        levelLine1 = 0; // created for managing levels
         levelLine2 = 0;
         levelLine3 = 0;
 		batch = new SpriteBatch();
@@ -38,7 +49,30 @@ public class PractGame extends Game {
 		Multilanguage.setLanguage("eng"); // TODO 02/04 it should be replaced
         // TODO Multilanguage error null object reference 02/08
         setScreen(startScreen);
-	}
+
+        levelList1.add(new LevelInfo("lv1_1.tmx"));
+        // levelList1.add(new LevelInfo("lv1_2"));  // TODO you need map files (and tilesets) 03/23
+        // levelList1.add(new LevelInfo("lv1_3.tmx"));
+       // levelList2.add(new LevelInfo("lv2_1"));
+        // levelList3.add(new LevelInfo("lv3_!"));
+    }
+
+    public void changeScreen(int worldType){
+            switch (worldType){
+                case 1:
+                    playScreen.setLevel(levelList1.get(levelLine1).mapInfo);
+                    break;
+
+                case 2:
+                    //playScreen.setLevel(levelLine2);
+                    break;
+                case 3:
+                    //playScreen.setLevel(levelLine3);
+                    break;
+            }
+            setScreen(playScreen);
+    }
+
 
 	@Override
 	public void render() {

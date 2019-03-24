@@ -35,20 +35,27 @@ public class WorldContactListener implements ContactListener {
             LOGGER.info("object : "  + object.getUserData());
 
 
-            if(("lobby").equals(object.getUserData())){//don't know is this good realisation or not
+            if(("lobby").equals(object.getUserData())){
                 windowManager.showMessage("lobby");
                 messageShown = true;
+            }
 
+            if(("lift").equals(object.getUserData())){
+                windowManager.showMessage("lift");
+                windowManager.waitingForAnwser = "lift";
+                messageShown = true;
             }
         }
     }
 
+
     @Override
-    public void endContact(Contact contact) {
-            if(messageShown){
+    public void endContact(Contact contact){
+            if(messageShown) {
                 messageShown = false;
                 windowManager.hideMessage();
             }
+            windowManager.waitingForAnwser = "none";
     }
 
     @Override

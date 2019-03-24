@@ -37,7 +37,7 @@ public class PlayScreen implements Screen {
         gamePort = new FitViewport(SCREEN_W, SCREEN_H,gamecam);
         hud = new Hud(game.batch);
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("lv1.tmx");
+        map = mapLoader.load("lv1_1.tmx");
         renderer  = new OrthogonalTiledMapRenderer(map);
         gamecam.position.set(SCREEN_W/2,SCREEN_H/2,0);
     }
@@ -47,10 +47,12 @@ public class PlayScreen implements Screen {
 
     }
 
-    public void handleInput(float dt){
-        if(Gdx.input.isTouched())
-            gamecam.position.x +=500*dt;
+    public void setLevel(String mapWay){
+        map = mapLoader.load(mapWay); // TODO add "Maps" package 03/23
+    }
 
+
+    public void handleInput(float dt){
     }
 
     public void update(float dt){

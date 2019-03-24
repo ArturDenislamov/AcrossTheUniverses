@@ -24,7 +24,7 @@ public class Controller {
     private float bsize = 20;
     Viewport viewport;
     public  Stage stage;
-    private boolean upPressed, downPressed, leftPressed, rightPressed;
+    private boolean upPressed, leftPressed, rightPressed, bPressed;
     OrthographicCamera cam;
     ImageButton aButton,bButton, leftButton, rightButton;
 
@@ -38,6 +38,10 @@ public class Controller {
 
     public boolean isRightPressed() {
         return rightPressed;
+    }
+
+    public boolean isBPressed(){
+        return bPressed;
     }
 
     public Controller() { // TODO change controller, left, right and jump, fire 03/20
@@ -112,14 +116,14 @@ public class Controller {
         bButton.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-              //  rightPressed = true; TODO fix button B 03/22
+                bPressed = true;
                 LOGGER.info("b pressed");
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                //rightPressed = false;
+                bPressed = false;
             }
         });
 

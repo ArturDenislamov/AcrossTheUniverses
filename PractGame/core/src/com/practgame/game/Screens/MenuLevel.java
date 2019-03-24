@@ -60,7 +60,7 @@ public class MenuLevel implements Screen {
 
         new B2WorldCreator(world, map);
 
-        windowManager = new WindowManager(mainGame.batch);
+        windowManager = new WindowManager(mainGame.batch, mainGame);
 
         world.setContactListener(new WorldContactListener(windowManager));
     }
@@ -72,6 +72,8 @@ public class MenuLevel implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(controller.stage); // without this controller doesn't work
+        if(windowManager.waitingForAnwser != "none")
+            Gdx.input.setInputProcessor(windowManager.stage);
     }
 
     public void handleInput() {
@@ -84,6 +86,10 @@ public class MenuLevel implements Screen {
 
         if(controller.isUpPressed() && player.b2body.getLinearVelocity().y == 0)
             player.b2body.applyLinearImpulse(new Vector2(0, 2.5f), player.b2body.getWorldCenter(), true);
+
+        if(controller.isBPressed() && windowManager.waitingForAnwser != "none"){
+            windowManager.showWindow(windowManager.waitingForAnwser);
+        }
     }
 
 
