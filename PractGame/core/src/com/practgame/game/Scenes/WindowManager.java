@@ -73,7 +73,7 @@ public class WindowManager implements Disposable {
 
         if(tag.equals("lift")){
             LOGGER.info("lift message appears");
-            messageLabel.setText("B -- go to lift");
+            messageLabel.setText("B - go to lift");
         }
     }
 

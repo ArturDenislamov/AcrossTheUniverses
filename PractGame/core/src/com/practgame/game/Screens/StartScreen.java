@@ -23,11 +23,10 @@ public class StartScreen extends ScreenAdapter {
 
     Texture backgroundtexture;
     private Stage stage;
-    private Texture playTexture;
-    private Texture playPressedTexture;
-    private ImageButton playButton;
+    private Texture playTexture, playPressedTexture;
+    private Texture settingsTextture, settingsPressedTexture;
+    private ImageButton playButton, settingsButton;
     private PractGame maingame;
-    Skin skin;
 
    public  StartScreen(PractGame maingame){
         this.maingame = maingame;
@@ -56,6 +55,14 @@ public class StartScreen extends ScreenAdapter {
         };
         playButton.addListener(playListener);
         stage.addActor(playButton);
+
+        settingsTextture = new Texture("ui/settings.png");
+        settingsPressedTexture = new Texture("ui/settingsDown.png");
+        settingsButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(settingsTextture)), new TextureRegionDrawable(new TextureRegion(settingsPressedTexture)));
+        settingsButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
+       // ClickListener settingsListener
+
+        stage.addActor(settingsButton);
     }
 
     @Override
