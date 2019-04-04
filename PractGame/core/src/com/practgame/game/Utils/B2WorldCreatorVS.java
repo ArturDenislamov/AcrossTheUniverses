@@ -9,14 +9,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.practgame.game.PractGame;
 import com.practgame.game.Sprites.ActionBrick;
 import com.practgame.game.Sprites.BlockTileObject;
 
-import jdk.nashorn.internal.ir.Block;
-
-public class B2WorldCreator {
-
+public class B2WorldCreatorVS {
     public B2WorldCreator(World world, TiledMap map) {
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -37,15 +33,15 @@ public class B2WorldCreator {
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // in menu - will be soon
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-             new BlockTileObject(world, map, rect);
+            new BlockTileObject(world, map, rect);
         }
 
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // in menu - guy
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-           new ActionBrick(world, map, rect, "lobby");
+            new ActionBrick(world, map, rect, "lobby");
 
-    }
+        }
 
     }
 }

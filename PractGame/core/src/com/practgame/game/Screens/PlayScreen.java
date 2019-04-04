@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -50,6 +51,9 @@ public class PlayScreen implements Screen {
     private Player player;
     Controller controller;
 
+    private float mapPixelWidth;
+    private float mapPixelHeight;
+
     private final static Logger LOGGER = Logger.getLogger(PlayScreen.class.getName());
 
     public PlayScreen(PractGame game){ // TODO get width, height programmatically
@@ -61,7 +65,8 @@ public class PlayScreen implements Screen {
         mapLoader = new TmxMapLoader();
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM,SCREEN_H / 2 / PractGame.PPM,0);
         atlas  = new TextureAtlas("Character.pack");
-        player = new Player(world, this); // TODO you need universial class
+        player = new Player(world, this);
+        map = new TiledMap();
     }
 
     @Override
@@ -70,11 +75,21 @@ public class PlayScreen implements Screen {
     }
 
     public void setLevel(String mapWay){
-        map = mapLoader.load(mapWay);// TODO add "Maps" package 03/23
+        map = mapLoader.load(mapWay);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
         new LevelWorldCreator(world, map);
         b2dr = new Box2DDebugRenderer();
         controller = new Controller();
+
+        MapProperties prop = map.getProperties();
+
+        int mapWidth = prop.get("width", Integer.class);
+        int mapHeight = prop.get("height", Integer.class);
+        int tilePixelWidth = prop.get("tilewidth", Integer.class);
+        int tilePixelHeight = prop.get("tileheight", Integer.class);
+
+        mapPixelWidth = mapWidth * tilePixelWidth;
+        mapPixelHeight = mapHeight * tilePixelHeight;
     }
 
 
@@ -89,14 +104,14 @@ public class PlayScreen implements Screen {
         if(controller.isUpPressed() && player.b2body.getLinearVelocity().y == 0)
             player.b2body.applyLinearImpulse(new Vector2(0, 2.5f), player.b2body.getWorldCenter(), true);
 
-        LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
-
+       // LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
+        // TODO maybe you should remove this Log
     }
 
     public void update(float dt) {
         handleInput();
         world.step(1 / 60f, 6, 2); // TODO get width, height by code
-        if(player.b2body.getPosition().x >= 0.80 && player.b2body.getPosition().x <= 7.20) // 0.40 == 40 pixels
+        if(player.b2body.getPosition().x >= SCREEN_W/200 && player.b2body.getPosition().x <= (mapPixelWidth/100 - SCREEN_W/200)) // 0.40 == 40 pixels
             gamecam.position.x = player.b2body.getPosition().x;
 
         gamecam.update();
@@ -114,8 +129,6 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
-
-        //  b2dr.render(world, gamecam.combined); // if it is used, green lines appear
 
         maingame.batch.setProjectionMatrix(gamecam.combined);
         maingame.batch.begin();
