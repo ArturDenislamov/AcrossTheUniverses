@@ -22,11 +22,14 @@ public class LevelWorldCreator {
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
         Body body;
+
+
         for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) { // ground
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             new BlockTileObject(world, map, rect); // creating object using class
         }
+
 
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // danger_blocks
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -34,20 +37,26 @@ public class LevelWorldCreator {
             new ActionBrick(world, map, rect, "kill");
         }
 
+        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // collectibles
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new ActionBrick(world, map, rect, "weapon");
+        }
+
         for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) { // finish
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            new BlockTileObject(world, map, rect);
+            new ActionBrick(world, map, rect, "next_level");
         }
 
-        /*
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) { // extra
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            new ActionBrick(world, map, rect, "lobby");
-
+            new ActionBrick(world, map, rect, "extra");
         }
-        */
 
+    }
+
+    public void clearAll(){
     }
 }

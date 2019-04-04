@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
 import com.practgame.game.Scenes.WindowManager;
 import com.practgame.game.Sprites.Player;
-import com.practgame.game.Utils.B2WorldCreator;
+import com.practgame.game.Utils.B2WorldCreatorMenu;
 import com.practgame.game.Utils.Controller;
 import com.practgame.game.Utils.WorldContactListener;
 
@@ -34,7 +34,7 @@ public class MenuLevel implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
-    private Box2DDebugRenderer b2dr;
+ //   private Box2DDebugRenderer b2dr;
     private Player player;
     Controller controller;
 
@@ -54,13 +54,13 @@ public class MenuLevel implements Screen {
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM, SCREEN_H / 2 / PractGame.PPM, 0); // TODO check situation with PPM
 
         world = new World(new Vector2(0, -10), true); // gravity vector
-        b2dr = new Box2DDebugRenderer();
+      //  b2dr = new Box2DDebugRenderer();
         player = new Player(world, this);
         controller = new Controller();
 
-        new B2WorldCreator(world, map);
+        new B2WorldCreatorMenu(world, map);
 
-        windowManager = new WindowManager(mainGame.batch, mainGame);
+        windowManager = new WindowManager(mainGame);
 
         world.setContactListener(new WorldContactListener(windowManager));
     }
@@ -124,6 +124,7 @@ public class MenuLevel implements Screen {
 
         if(Gdx.app.getType() == Application.ApplicationType.Android)
         controller.draw();
+
         windowManager.stage.draw();
     }
 
@@ -153,6 +154,6 @@ public class MenuLevel implements Screen {
         map.dispose();
         renderer.dispose();
         world.dispose();
-        b2dr.dispose();
+        //b2dr.dispose();
     }
 }

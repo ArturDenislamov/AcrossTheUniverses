@@ -34,25 +34,11 @@ public class WindowManager implements Disposable {
 
     private final static Logger LOGGER = Logger.getLogger(WindowManager.class.getName());
 
-    public WindowManager(SpriteBatch sb, PractGame maingame){
+    public WindowManager(PractGame maingame){
         this.maingame = maingame;
 
         viewport = new FitViewport(320, 180, new OrthographicCamera()); // remember 16/9! 02/11
-        stage = new Stage(viewport, sb);
-
-
-        /*
-        table = new Table();
-        table.top();
-        table.setFillParent(true);
-
-
-        messageLabel = new Label( "", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        table.add().expandX().padTop(10);
-        table.add(messageLabel).expandX().padTop(10);
-        table.add().expandX().padTop(10);
-        stage.addActor(table);
-        */
+        stage = new Stage(viewport, maingame.batch);
     }
 
     public void showMessage(String tag){
@@ -74,6 +60,11 @@ public class WindowManager implements Disposable {
         if(tag.equals("lift")){
             LOGGER.info("lift message appears");
             messageLabel.setText("B - go to lift");
+        }
+
+        if(tag.equals("next_level")){
+            LOGGER.info("next level message");
+            messageLabel.setText("B - next level");
         }
     }
 
@@ -161,6 +152,17 @@ public class WindowManager implements Disposable {
             levelTable.pack();
             stage.addActor(levelTable);
             LOGGER.info("Level table added");
+        }
+
+        if(tag.equals("next_level")){
+            if(maingame.worldType == 1)
+                maingame.levelLine1++;
+            else if(maingame.worldType == 2)
+                maingame.levelLine2++;
+            else
+                maingame.levelLine3++;
+
+            maingame.changeScreen(maingame.worldType);
         }
     }
 

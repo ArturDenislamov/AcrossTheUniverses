@@ -26,6 +26,8 @@ public class PractGame extends Game {
 	public  int levelLine1;
 	public int levelLine2;
 	public int levelLine3;
+	public int worldType;
+
 	public static float PPM = 100;
 	Controller controller;
 	ArrayList <LevelInfo> levelList1 = new ArrayList<LevelInfo>();
@@ -50,24 +52,28 @@ public class PractGame extends Game {
         // TODO Multilanguage error null object reference 02/08
         setScreen(startScreen);
 
-        levelList1.add(new LevelInfo("maps/lv1_1.tmx"));
+        levelList1.add(new LevelInfo("maps/lv1_1.tmx")); // TODO maybe you need to load it in other class 04/04
+        levelList1.add(new LevelInfo("maps/lv1_2.tmx"));
         // levelList1.add(new LevelInfo("lv1_2"));  // TODO you need map files (and tilesets) 03/23
         // levelList1.add(new LevelInfo("lv1_3.tmx"));
        // levelList2.add(new LevelInfo("lv2_1"));
-        // levelList3.add(new LevelInfo("lv3_!"));
+        // levelList3.add(new LevelInfo("lv3_1"));
     }
 
     public void changeScreen(int worldType){
             switch (worldType){
                 case 1:
                     playScreen.setLevel(levelList1.get(levelLine1).mapInfo);
+                    this.worldType = 1;
                     break;
 
                 case 2:
                     //playScreen.setLevel(levelLine2);
+					//this.worldType = 2;
                     break;
                 case 3:
                     //playScreen.setLevel(levelLine3);
+					//this.worldType = 3;
                     break;
             }
             setScreen(playScreen);
