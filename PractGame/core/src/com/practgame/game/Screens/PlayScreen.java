@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -121,17 +122,36 @@ public class PlayScreen implements Screen {
             windowManager.hideMessage();
         }
 
-        LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
+       LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
         // TODO maybe you should remove this Log
     }
 
     public void update(float dt) {
         handleInput();
         world.step(1 / 60f, 6, 2); // TODO get width, height by code
-        if(player.b2body.getPosition().x >= SCREEN_W/200 && player.b2body.getPosition().x <= (mapPixelWidth/100 - SCREEN_W/200)) // 0.40 == 40 pixels
+        /*
+        if(player.b2body.getPosition().x >= SCREEN_W/(2*PractGame.PPM) && player.b2body.getPosition().x <= (mapPixelWidth/PractGame.PPM - SCREEN_W/(2*PractGame.PPM))) // 0.40 == 40 pixels
             gamecam.position.x = player.b2body.getPosition().x;
 
-       // if(player) // updating y TODO add this 04/04
+        float smooth = SCREEN_H/PractGame.PPM;
+        if(player.b2body.getPosition().y*smooth - 0.11f >= SCREEN_H/(2*PractGame.PPM) && player.b2body.getPosition().y <= (mapPixelHeight/PractGame.PPM - SCREEN_W/(2*PractGame.PPM) ) )// TODO so, this works, but it can be better 04/05
+            gamecam.position.y =  player.b2body.getPosition().y*smooth - 0.11f;
+
+*/
+        float lerp = 0.1f; // 0.1f
+        Vector3 position = gamecam.position;
+        if(player.b2body.getPosition().x >= SCREEN_W/(2*PractGame.PPM) && player.b2body.getPosition().x <= (mapPixelWidth/PractGame.PPM - SCREEN_W/(2*PractGame.PPM))) // 0.40 == 40 pixels
+            position.x += (player.b2body.getPosition().x - position.x) * lerp;
+
+        if(player.b2body.getPosition().y >= SCREEN_H/(2*PractGame.PPM) && player.b2body.getPosition().y <= (mapPixelHeight/PractGame.PPM - SCREEN_W/(2*PractGame.PPM) ) )// TODO so, this works, but it can be better 04/05
+        position.y += (player.b2body.getPosition().y - position.y) * lerp;
+
+        if(player.b2body.getPosition().y < SCREEN_H/(2*PractGame.PPM))
+            position.y += (SCREEN_H/(2*PractGame.PPM) - position.y)*lerp;
+
+       // if(player.b2body.getPosition().y)
+
+
 
         gamecam.update();
         // tell our renderer to draw only what our camera see in game world

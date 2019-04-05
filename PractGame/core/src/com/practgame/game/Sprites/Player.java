@@ -122,6 +122,7 @@ public class Player extends Sprite {
                 b2body = world.createBody(bdef);
 
             FixtureDef fdef = new FixtureDef();
+          //  fdef.friction = 0; // player doesn't stick to the walls (can be changed)
             Shape shape = new PolygonShape();
             ((PolygonShape) shape).setAsBox(4/PractGame.PPM, 12/PractGame.PPM);
            // shape.setRadius(6 / PractGame.PPM); // CircleShape changed to BoxShape
