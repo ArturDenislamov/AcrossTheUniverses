@@ -18,6 +18,7 @@ public class WorldContactListener implements ContactListener {
     private WindowManager windowManager;
     private boolean messageShown;
 
+
         public WorldContactListener(WindowManager wm){
             windowManager = wm;
         }
@@ -26,6 +27,13 @@ public class WorldContactListener implements ContactListener {
         LOGGER.info("Contact began");
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB(); // TODO  why null error ? 03/17
+
+        if(("feet").equals(fixA.getUserData()) || ("feet").equals(fixB.getUserData())){
+            windowManager.onGround = true;
+            LOGGER.info("Player is on Ground");
+        }
+
+
 
         if(("player").equals(fixA.getUserData()) || ("player").equals(fixB.getUserData())){
             Fixture player = ("player").equals(fixA.getUserData()) ? fixA : fixB;

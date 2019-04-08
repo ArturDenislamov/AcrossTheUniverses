@@ -33,8 +33,8 @@ public class PlayScreen implements Screen {
     private Viewport gamePort;
     private PractGame maingame;
     private Hud hud;
-    private float SCREEN_W = 160;
-    private float SCREEN_H = 90;
+    private final float SCREEN_W = 160;
+    private final float SCREEN_H = 90;
     private TextureAtlas atlas;
 
     private TmxMapLoader mapLoader;
@@ -114,30 +114,25 @@ public class PlayScreen implements Screen {
         else
             player.b2body.setLinearVelocity(new Vector2(0, player.b2body.getLinearVelocity().y));
 
-        if(controller.isUpPressed() && player.b2body.getLinearVelocity().y == 0)
+        if(controller.isUpPressed() && player.b2body.getLinearVelocity().y == 0 && windowManager.onGround) {
             player.b2body.applyLinearImpulse(new Vector2(0, 2.5f), player.b2body.getWorldCenter(), true);
+            windowManager.onGround = false;
+        }
 
         if(controller.isBPressed() && windowManager.waitingForAnwser != "none"){
             windowManager.showWindow(windowManager.waitingForAnwser);
             windowManager.hideMessage();
         }
 
-       LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
+      // LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
         // TODO maybe you should remove this Log
     }
 
     public void update(float dt) {
         handleInput();
         world.step(1 / 60f, 6, 2); // TODO get width, height by code
-        /*
-        if(player.b2body.getPosition().x >= SCREEN_W/(2*PractGame.PPM) && player.b2body.getPosition().x <= (mapPixelWidth/PractGame.PPM - SCREEN_W/(2*PractGame.PPM))) // 0.40 == 40 pixels
-            gamecam.position.x = player.b2body.getPosition().x;
 
-        float smooth = SCREEN_H/PractGame.PPM;
-        if(player.b2body.getPosition().y*smooth - 0.11f >= SCREEN_H/(2*PractGame.PPM) && player.b2body.getPosition().y <= (mapPixelHeight/PractGame.PPM - SCREEN_W/(2*PractGame.PPM) ) )// TODO so, this works, but it can be better 04/05
-            gamecam.position.y =  player.b2body.getPosition().y*smooth - 0.11f;
 
-*/
         float lerp = 0.1f; // 0.1f
         Vector3 position = gamecam.position;
         if(player.b2body.getPosition().x >= SCREEN_W/(2*PractGame.PPM) && player.b2body.getPosition().x <= (mapPixelWidth/PractGame.PPM - SCREEN_W/(2*PractGame.PPM))) // 0.40 == 40 pixels
@@ -148,9 +143,6 @@ public class PlayScreen implements Screen {
 
         if(player.b2body.getPosition().y < SCREEN_H/(2*PractGame.PPM))
             position.y += (SCREEN_H/(2*PractGame.PPM) - position.y)*lerp;
-
-       // if(player.b2body.getPosition().y)
-
 
 
         gamecam.update();
@@ -169,7 +161,9 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
+
         maingame.batch.setProjectionMatrix(gamecam.combined);
+
         maingame.batch.begin();
         player.draw(maingame.batch);
         maingame.batch.end();
@@ -179,7 +173,13 @@ public class PlayScreen implements Screen {
 
         windowManager.stage.draw();
 
-       //   b2dr.render(world, gamecam.combined); // if it is used, green lines appear
+        /*
+        if(maingame.worldType == 3) { // ctv effect
+            hud.stage.draw();
+        }
+        */
+
+        //  b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
     }
 
     public TextureAtlas getAtlas(){

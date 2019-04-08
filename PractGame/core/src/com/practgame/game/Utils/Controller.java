@@ -24,7 +24,10 @@ public class Controller {
     private float bsize = 20;
     Viewport viewport;
     public  Stage stage;
-    private boolean upPressed, leftPressed, rightPressed, bPressed;
+    private boolean leftPressed, rightPressed, bPressed;
+
+    public boolean upPressed; //TODO is this normal ? 04/08
+
     OrthographicCamera cam;
     ImageButton aButton,bButton, leftButton, rightButton;
 

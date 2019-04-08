@@ -30,6 +30,8 @@ public class WindowManager implements Disposable {
     private ImageButton firstW, secondW, thirdW, backW;
     float bsize = 50;
 
+    public boolean onGround;
+
     private PractGame maingame;
 
     private final static Logger LOGGER = Logger.getLogger(WindowManager.class.getName());
@@ -39,6 +41,8 @@ public class WindowManager implements Disposable {
 
         viewport = new FitViewport(320, 180, new OrthographicCamera()); // remember 16/9! 02/11
         stage = new Stage(viewport, maingame.batch);
+
+        onGround = false;
     }
 
     public void showMessage(String tag){
@@ -128,7 +132,26 @@ public class WindowManager implements Disposable {
 
             thirdW = new ImageButton(new TextureRegionDrawable(new TextureRegion(third)));
 
+            /*
+            thirdW.addListener(new InputListener(){
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    LOGGER.info("Button Third World pressed");
+                    maingame.changeScreen(3);
+                    waitingForAnwser = "none";
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+
+                }
+            });
+            */
+
             backW = new ImageButton(new TextureRegionDrawable(new TextureRegion(back)));
+
 
             backW.addListener(new InputListener() {
                 @Override
@@ -144,6 +167,8 @@ public class WindowManager implements Disposable {
                     //   waitingForAnwser = "none";
                 }
             });
+
+
             levelTable.row().padLeft(5).padRight(5);
             levelTable.add(firstW).size(bsize, bsize).padTop(10);
             levelTable.add(secondW).size(bsize, bsize).padTop(10);

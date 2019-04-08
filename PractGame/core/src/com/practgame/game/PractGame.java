@@ -32,7 +32,7 @@ public class PractGame extends Game {
 	Controller controller;
 	ArrayList <LevelInfo> levelList1 = new ArrayList<LevelInfo>();
    // ArrayList <LevelInfo> levelList2 = new ArrayList<LevelInfo>();
-  //  ArrayList <LevelInfo> levelList3 = new ArrayList<LevelInfo>();
+  	 ArrayList <LevelInfo> levelList3 = new ArrayList<LevelInfo>();
     //LevelInfo demoLevel; // TODO make this 03/23
 
 
@@ -54,6 +54,7 @@ public class PractGame extends Game {
 
         levelList1.add(new LevelInfo("maps/lv1_1.tmx")); // TODO maybe you need to load it in other class 04/04
         levelList1.add(new LevelInfo("maps/lv1_2.tmx"));
+        levelList3.add(new LevelInfo("maps/lv1_1.tmx")); // TODO this is for test ctv effect
         // levelList1.add(new LevelInfo("lv1_2"));  // TODO you need map files (and tilesets) 03/23
         // levelList1.add(new LevelInfo("lv1_3.tmx"));
        // levelList2.add(new LevelInfo("lv2_1"));
@@ -72,8 +73,8 @@ public class PractGame extends Game {
 					//this.worldType = 2;
                     break;
                 case 3:
-                    //playScreen.setLevel(levelLine3);
-					//this.worldType = 3;
+                    playScreen.setLevel(levelList3.get(levelLine3).mapInfo);
+					this.worldType = 3;
                     break;
             }
             setScreen(playScreen);
