@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.TouchableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -24,12 +26,14 @@ public class Controller {
     private float bsize = 20;
     Viewport viewport;
     public  Stage stage;
-    private boolean leftPressed, rightPressed, bPressed;
+    private boolean leftPressed, rightPressed;
 
     public boolean upPressed; //TODO is this normal ? 04/08
+    public boolean bPressed; // and this ? 04/11
 
     OrthographicCamera cam;
-    ImageButton aButton,bButton, leftButton, rightButton;
+    ImageButton aButton, leftButton, rightButton;
+    public ImageButton bButton;
 
     public boolean isUpPressed() {
         return upPressed;
@@ -113,9 +117,12 @@ public class Controller {
             }
         });
 
+
+
         Texture bTexture = new Texture("gc/bDark.png");
         Texture bPressedTexture = new Texture("gc/bLight.png");
         bButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(bTexture)), new TextureRegionDrawable(new TextureRegion(bPressedTexture)));
+
         bButton.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -127,8 +134,10 @@ public class Controller {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 bPressed = false;
+                bButton.setTouchable(Touchable.enabled);
             }
         });
+
 
 
 

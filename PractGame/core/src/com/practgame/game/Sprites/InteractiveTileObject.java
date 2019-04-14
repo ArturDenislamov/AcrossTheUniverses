@@ -31,7 +31,7 @@ public abstract class InteractiveTileObject {
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        bdef.type = BodyDef.BodyType.StaticBody;
+        bdef.type = BodyDef.BodyType.StaticBody; // static bodies require less computing power
         bdef.position.set((bounds.getX() + bounds.getWidth() / 2) / PractGame.PPM, (bounds.getY() + bounds.getHeight() / 2) / PractGame.PPM);
 
         body = world.createBody(bdef);

@@ -21,12 +21,16 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
 import com.practgame.game.Scenes.Hud;
 import com.practgame.game.Scenes.WindowManager;
+import com.practgame.game.Sprites.Bullet;
 import com.practgame.game.Sprites.Player;
 import com.practgame.game.Utils.Controller;
 import com.practgame.game.Utils.LevelWorldCreator;
 import com.practgame.game.Utils.WorldContactListener;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
+
+import javax.swing.text.html.parser.Entity;
 
 public class PlayScreen implements Screen {
     private OrthographicCamera gamecam;
@@ -53,11 +57,15 @@ public class PlayScreen implements Screen {
 
     private final static Logger LOGGER = Logger.getLogger(PlayScreen.class.getName());
 
-    public PlayScreen(PractGame game){ // TODO get width, height programmatically
+    public int shotsMade;
+
+    ArrayList <Bullet> bulletsArray;
+    ArrayList <Bullet> destroyBullets;
+
+    public PlayScreen(PractGame game){
         this.maingame = game;
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(SCREEN_W / PractGame.PPM, SCREEN_H / PractGame.PPM, gamecam); // TODO 03/24 remake this!
-        hud = new Hud(game.batch);
         world = new World(new Vector2(0, -10), true); // gravity vector
         mapLoader = new TmxMapLoader();
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM,SCREEN_H / 2 / PractGame.PPM,0);
@@ -66,7 +74,15 @@ public class PlayScreen implements Screen {
         windowManager = new WindowManager(maingame);
         player = new Player(world, this);
 
-        world.setContactListener(new WorldContactListener(windowManager));
+        hud = new Hud(game.batch);
+        hud.updateBullets(player.bulletsAmount);
+
+        world.setContactListener(new WorldContactListener(windowManager, world, this));
+
+        shotsMade = 0;
+        bulletsArray = new ArrayList<Bullet>();
+        destroyBullets = new ArrayList<Bullet>(); // for destroying bullets after hit
+
     }
 
     @Override
@@ -77,12 +93,13 @@ public class PlayScreen implements Screen {
     public void setLevel(String mapWay){
          // TODO maybe you should remake this
         // deleting map objects
-
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
         for(int i = 0; i < bodies.size; i++){
             world.destroyBody(bodies.get(i));
         }
+
+        bulletsArray.clear();
 
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM,SCREEN_H / 2 / PractGame.PPM,0);
 
@@ -124,6 +141,31 @@ public class PlayScreen implements Screen {
             windowManager.hideMessage();
         }
 
+        if(controller.isBPressed() && windowManager.waitingForAnwser == "none" /*&& shotsMade < player.bulletsAmount*/){
+            bulletsArray.add(new Bullet(world, player));
+            controller.bPressed  = false; // for one click - one shot
+           // shotsMade++;
+            hud.updateBullets(player.bulletsAmount - shotsMade);
+        }
+
+
+        //TODO this time it works 04/13, preshow is soon
+        for(int i = 0; i < bulletsArray.size(); i++){
+            if(bulletsArray.get(i).b2bullet != null) {
+                if (bulletsArray.get(i).b2bullet.getPosition().x <= 0 || bulletsArray.get(i).b2bullet.getPosition().x >= (mapPixelWidth / PractGame.PPM)) {
+                    bulletsArray.get(i).dispose();
+                    bulletsArray.remove(i);
+                }
+            } else {
+                bulletsArray.get(i).dispose();
+                bulletsArray.remove(i);
+            }
+
+
+        }
+     //   LOGGER.info("bulletsArray size is :" + bulletsArray.size());
+
+
       // LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
         // TODO maybe you should remove this Log
     }
@@ -131,6 +173,14 @@ public class PlayScreen implements Screen {
     public void update(float dt) {
         handleInput();
         world.step(1 / 60f, 6, 2); // TODO get width, height by code
+
+
+        //destroying bodies, cleaning destroy array (doing this out of method step)
+       for(int i = 0; i < destroyBullets.size(); i++){
+           world.destroyBody(destroyBullets.get(i).b2bullet);
+           destroyBullets.get(i).b2bullet = null;
+       }
+       destroyBullets.clear();
 
 
         float lerp = 0.1f; // 0.1f
@@ -149,6 +199,15 @@ public class PlayScreen implements Screen {
         // tell our renderer to draw only what our camera see in game world
         renderer.setView(gamecam);
         player.update(dt);
+
+        for(int i = 0; i < bulletsArray.size(); i++){
+            if(bulletsArray.get(i).b2bullet.getUserData() != "null") {
+                bulletsArray.get(i).update();
+                } else {
+                bulletsArray.get(i).dispose();      // TODO not sure
+                bulletsArray.remove(i);
+            }
+        }
     }
 
 
@@ -173,24 +232,39 @@ public class PlayScreen implements Screen {
 
         windowManager.stage.draw();
 
-        /*
-        if(maingame.worldType == 3) { // ctv effect
             hud.stage.draw();
-        }
-        */
 
-        //  b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
+      //    b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
+
+        maingame.batch.begin();
+        maingame.batch.setProjectionMatrix(gamecam.combined);
+        for(int i = 0; i < bulletsArray.size(); i++) {
+            if(bulletsArray.get(i).b2bullet.getUserData() != "null") {
+                bulletsArray.get(i).drawBullet(maingame.batch);
+            } else {
+                bulletsArray.get(i).dispose(); // TODO not sure
+                bulletsArray.remove(i);
+            }
+        }
+        maingame.batch.end();
     }
+
 
     public TextureAtlas getAtlas(){
         return atlas;
     }
 
-
     @Override
     public void resize(int width, int height) {
         gamePort.update(width, height);
         controller.resize(width, height);
+    }
+
+    public void destroy(Bullet bullet){
+        if (!destroyBullets.contains(bullet)){
+            destroyBullets.add(bullet);
+            bulletsArray.remove(bullet);
+        }
     }
 
     @Override

@@ -5,10 +5,13 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.World;
 import com.practgame.game.Scenes.WindowManager;
 import com.practgame.game.Screens.MenuLevel;
+import com.practgame.game.Screens.PlayScreen;
 import com.practgame.game.Sprites.ActionBrick;
 import com.practgame.game.Sprites.BlockTileObject;
+import com.practgame.game.Sprites.Bullet;
 
 import java.util.logging.Logger;
 
@@ -17,16 +20,34 @@ public class WorldContactListener implements ContactListener {
     private final static Logger LOGGER = Logger.getLogger(WorldContactListener.class.getName());
     private WindowManager windowManager;
     private boolean messageShown;
+    private World world;
+    private PlayScreen playScreen;
 
-
-        public WorldContactListener(WindowManager wm){
+        public WorldContactListener(WindowManager wm, World world){
             windowManager = wm;
+            this.world = world;
         }
+
+    public WorldContactListener(WindowManager wm, World world,PlayScreen playScreen ){
+        windowManager = wm;
+        this.world = world;
+        this.playScreen = playScreen;
+    }
+
     @Override
     public void beginContact(Contact contact) {
         LOGGER.info("Contact began");
         Fixture fixA = contact.getFixtureA();
-        Fixture fixB = contact.getFixtureB(); // TODO  why null error ? 03/17
+        Fixture fixB = contact.getFixtureB();
+
+       //  TODO destroying bullet after hitting an object , first version 04/14
+
+        LOGGER.info("On beginContact a : " + contact.getFixtureA().getUserData() + "  b : " + contact.getFixtureB().getUserData());
+
+        if (contact.getFixtureB().getUserData() instanceof Bullet && contact.getFixtureA().getUserData() != "next_level") {
+            LOGGER.info("destroy method ran, destroy on " + contact.getFixtureB().getUserData());
+            playScreen.destroy((Bullet) contact.getFixtureB().getUserData());
+        }
 
         if(("feet").equals(fixA.getUserData()) || ("feet").equals(fixB.getUserData())){
             windowManager.onGround = true;
@@ -74,11 +95,9 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-
     }
 }

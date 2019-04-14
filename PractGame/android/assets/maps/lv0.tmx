@@ -5,7 +5,7 @@
  </imagelayer>
  <objectgroup id="3" name="floor">
   <object id="3" x="0" y="55" width="260" height="5"/>
-  <object id="29" x="0" y="30" width="5" height="25"/>
+  <object id="29" x="0" y="24.25" width="5" height="30.75"/>
  </objectgroup>
  <objectgroup id="4" name="lift">
   <object id="4" x="200" y="30" width="15" height="25"/>

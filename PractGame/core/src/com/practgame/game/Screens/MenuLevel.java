@@ -62,7 +62,7 @@ public class MenuLevel implements Screen {
 
         windowManager = new WindowManager(mainGame);
 
-        world.setContactListener(new WorldContactListener(windowManager));
+        world.setContactListener(new WorldContactListener(windowManager, world));
     }
 
     public TextureAtlas getAtlas(){

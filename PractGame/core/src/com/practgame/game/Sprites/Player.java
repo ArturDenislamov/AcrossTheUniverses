@@ -28,9 +28,11 @@ public class Player extends Sprite {
     private TextureRegion playerStand;
     private Animation <TextureRegion> playerRun;
     private float stateTimer;
-    private boolean runningRight;
+    public boolean runningRight;
 
     private Sprite gun;
+
+    public int bulletsAmount;
 
     public Player (World world, MenuLevel level){
         super(level.getAtlas().findRegion("stand")); // TODO here you can change player's textures (without helmet) 04/08
@@ -78,6 +80,10 @@ public class Player extends Sprite {
 
         gun = new Sprite(new Texture("gun.png"), 0, 0, 5, 5);
         gun.setBounds(0, 0, 5 / PractGame.PPM, 5 / PractGame.PPM );
+
+        //TODO check  type of the gun
+        bulletsAmount = 5;
+
     }
 
 

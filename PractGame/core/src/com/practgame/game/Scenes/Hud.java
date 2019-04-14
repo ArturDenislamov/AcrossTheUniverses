@@ -22,41 +22,45 @@ public class Hud implements Disposable {
     public Stage stage;
     private Viewport viewport;
 
-    private Integer score;
+    private Integer bullets;
 
 
-    Label scoreLabel;
+    Label bulletsLabel;
     Label levelLabel;
 
+
     public Hud(SpriteBatch sb){
-        /*
-        score = 0;
 
         viewport = new FitViewport(320, 180, new OrthographicCamera()); // remember 16/9! 02/11
         stage = new Stage(viewport, sb);
 
         Table table = new Table();
-        table.top();
+        table.top().right();
         table.setFillParent(true);
 
-        scoreLabel = new Label(String.format("%04d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        bulletsLabel = new Label(String.format("%02d",0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
       //  levelLabel = new Label("planet D280", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        table.add(scoreLabel).expandX().padTop(10);
-        table.add().expandX().padTop(10);
-        table.add().expandX().padTop(10);
+        table.add(bulletsLabel).padTop(10).padRight(15);
 
 
         stage.addActor(table);
-        */
 
+        /*
         viewport = new FitViewport(16, 9, new OrthographicCamera()); // remember 16/9! 02/11
         stage = new Stage(viewport, sb);
         Image ctv= new Image(new Texture("crt3.png"));
         ctv.setSize(16, 9);
         stage.addActor(ctv);
+        */
+    }
 
-
+    public void updateBullets(int bulletsAmount){
+        if(bulletsAmount == 0){
+            bulletsLabel.setColor(Color.valueOf("#0F52BA"));
+            bulletsLabel.setText(Integer.toString(bulletsAmount));
+        }
+        bulletsLabel.setText(Integer.toString(bulletsAmount));
     }
 
     @Override
