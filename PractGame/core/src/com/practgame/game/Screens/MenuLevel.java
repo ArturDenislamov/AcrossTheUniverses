@@ -25,7 +25,7 @@ import com.practgame.game.Utils.WorldContactListener;
 public class MenuLevel implements Screen {
     private OrthographicCamera gamecam;
     private Viewport gamePort;
-    private float SCREEN_W = 80; // TODO screen view, situation  improved 03/20
+    private float SCREEN_W = 80;
     private float SCREEN_H = 45;
     private TextureAtlas atlas;
 
@@ -34,7 +34,6 @@ public class MenuLevel implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
- //   private Box2DDebugRenderer b2dr;
     private Player player;
     Controller controller;
 
@@ -44,19 +43,18 @@ public class MenuLevel implements Screen {
 
 
     public MenuLevel(PractGame practGame) {
-        atlas  = new TextureAtlas("Character.pack");
         mainGame = practGame;
+        atlas  = new TextureAtlas("Character/Character.pack");
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(SCREEN_W / PractGame.PPM, SCREEN_H / PractGame.PPM, gamecam);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("maps/lv0.tmx"); // menu map, 260X60 pixels
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
-        gamecam.position.set(SCREEN_W / 2 / PractGame.PPM, SCREEN_H / 2 / PractGame.PPM, 0); // TODO check situation with PPM
+        gamecam.position.set(SCREEN_W / 2 / PractGame.PPM, SCREEN_H / 2 / PractGame.PPM, 0);
 
         world = new World(new Vector2(0, -10), true); // gravity vector
-      //  b2dr = new Box2DDebugRenderer();
         player = new Player(world, this);
-        controller = new Controller();
+        controller = new Controller(mainGame.manager);
 
         new B2WorldCreatorMenu(world, map);
 
@@ -115,8 +113,6 @@ public class MenuLevel implements Screen {
 
         renderer.render();
 
-      //  b2dr.render(world, gamecam.combined); // if it is used, green lines appear
-
         mainGame.batch.setProjectionMatrix(gamecam.combined);
         mainGame.batch.begin();
         player.draw(mainGame.batch);
@@ -154,6 +150,5 @@ public class MenuLevel implements Screen {
         map.dispose();
         renderer.dispose();
         world.dispose();
-        //b2dr.dispose();
     }
 }

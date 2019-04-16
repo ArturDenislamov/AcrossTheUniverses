@@ -1,5 +1,6 @@
 package com.practgame.game.Sprites;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,7 +27,7 @@ public class Bullet extends Sprite{
 
     private  final static Logger LOGGER = Logger.getLogger(Bullet.class.getName());
 
-    public Bullet(World world, Player player){
+    public Bullet(World world, Player player, AssetManager manager){
         this.player = player;
         this.world = world;
 
@@ -56,8 +57,7 @@ public class Bullet extends Sprite{
         b2bullet.setGravityScale(0f); // bullets are not affected by gravity
         b2bullet.createFixture(fdefB).setUserData(this); // needed for destroying object
 
-       // bullet_sprite = new Sprite(new Texture("bullet_texture.png"));
-        setTexture(new Texture("bullet_texture.png"));
+        setTexture((Texture) manager.get("Character/bullet_texture.png"));
         setBounds(0,0, 2/PractGame.PPM, 2/PractGame.PPM);
     }
 

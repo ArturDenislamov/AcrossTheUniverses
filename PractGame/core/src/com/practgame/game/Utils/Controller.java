@@ -1,6 +1,7 @@
 package com.practgame.game.Utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -35,6 +36,8 @@ public class Controller {
     ImageButton aButton, leftButton, rightButton;
     public ImageButton bButton;
 
+    private AssetManager manager;;
+
     public boolean isUpPressed() {
         return upPressed;
     }
@@ -51,7 +54,8 @@ public class Controller {
         return bPressed;
     }
 
-    public Controller() { // TODO change controller, left, right and jump, fire 03/20
+    public Controller(AssetManager manager) {
+        this.manager = manager;
         LOGGER.info("controller created");
         cam = new OrthographicCamera();
         viewport = new FitViewport(160, 90, cam);
@@ -66,8 +70,8 @@ public class Controller {
         tableAction.right().bottom();
 
 
-        Texture aTexture = new Texture("gc/aDark.png");
-        Texture aPressedTexture = new Texture("gc/aLight.png");
+        Texture aTexture = manager.get("gc/aDark.png");
+        Texture aPressedTexture = manager.get("gc/aLight.png");
         aButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(aTexture)), new TextureRegionDrawable(new TextureRegion(aPressedTexture)));
         aButton.addListener(new InputListener(){
                                    @Override
@@ -83,8 +87,8 @@ public class Controller {
                                    }
                                });
 
-        Texture rightTexture = new Texture("gc/rightDark.png");
-        Texture rightPressedTexture = new Texture("gc/rightLight.png");
+        Texture rightTexture = manager.get("gc/rightDark.png");
+        Texture rightPressedTexture = manager.get("gc/rightLight.png");
         rightButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(rightTexture)), new TextureRegionDrawable(new TextureRegion(rightPressedTexture)));
         rightButton.addListener(new InputListener(){
             @Override
@@ -100,8 +104,8 @@ public class Controller {
             }
         });
 
-        Texture leftTexture = new Texture("gc/leftDark.png");
-        Texture leftPressedTexture = new Texture("gc/leftLight.png");
+        Texture leftTexture = manager.get("gc/leftDark.png");
+        Texture leftPressedTexture = manager.get("gc/leftLight.png");
         leftButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(leftTexture)), new TextureRegionDrawable(new TextureRegion(leftPressedTexture)));
         leftButton.addListener(new InputListener(){
             @Override
@@ -119,8 +123,8 @@ public class Controller {
 
 
 
-        Texture bTexture = new Texture("gc/bDark.png");
-        Texture bPressedTexture = new Texture("gc/bLight.png");
+        Texture bTexture = manager.get("gc/bDark.png");
+        Texture bPressedTexture = manager.get("gc/bLight.png");
         bButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(bTexture)), new TextureRegionDrawable(new TextureRegion(bPressedTexture)));
 
         bButton.addListener(new InputListener(){

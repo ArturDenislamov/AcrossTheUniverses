@@ -78,7 +78,7 @@ public class Player extends Sprite {
         setBounds(0,0, 13 / PractGame.PPM,26 / PractGame.PPM);
         setRegion(playerStand);
 
-        gun = new Sprite(new Texture("gun.png"), 0, 0, 5, 5);
+        gun = new Sprite(new Texture("Character/gun.png"), 0, 0, 5, 5);
         gun.setBounds(0, 0, 5 / PractGame.PPM, 5 / PractGame.PPM );
 
         //TODO check  type of the gun

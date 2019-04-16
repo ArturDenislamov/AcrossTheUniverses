@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -24,13 +23,12 @@ public class StartScreen extends ScreenAdapter {
     Texture backgroundtexture;
     private Stage stage;
     private Texture playTexture, playPressedTexture;
-    private Texture settingsTextture, settingsPressedTexture;
+    private Texture settingsTexture, settingsPressedTexture;
     private ImageButton playButton, settingsButton;
     private PractGame maingame;
 
-   public  StartScreen(PractGame maingame){
-        this.maingame = maingame;
-       // this.skin = maingame.skinM;
+   public  StartScreen(PractGame practGame){
+        maingame = practGame;
     }
 
 
@@ -38,11 +36,11 @@ public class StartScreen extends ScreenAdapter {
     public void show() {
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         Gdx.input.setInputProcessor(stage);
-        backgroundtexture = new Texture("mainMenuWall_hdpi_2.png");
+        backgroundtexture = maingame.manager.get("mainMenuWall_hdpi_2.png");
         Image background = new Image(backgroundtexture);
         stage.addActor(background);
-        playTexture = new Texture("ui/play.png");
-        playPressedTexture = new Texture("ui/playDown.png");
+        playTexture = maingame.manager.get("ui/play.png");
+        playPressedTexture = maingame.manager.get("ui/playDown.png");
         playButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(playPressedTexture)), new TextureRegionDrawable(new TextureRegion(playTexture)));
 
         playButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2, Align.center);
@@ -56,9 +54,9 @@ public class StartScreen extends ScreenAdapter {
         playButton.addListener(playListener);
         stage.addActor(playButton);
 
-        settingsTextture = new Texture("ui/settings.png");
-        settingsPressedTexture = new Texture("ui/settingsDown.png");
-        settingsButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(settingsTextture)), new TextureRegionDrawable(new TextureRegion(settingsPressedTexture)));
+        settingsTexture = maingame.manager.get("ui/settings.png");
+        settingsPressedTexture = maingame.manager.get("ui/settingsDown.png");
+        settingsButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(settingsTexture)), new TextureRegionDrawable(new TextureRegion(settingsPressedTexture)));
         settingsButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
        // ClickListener settingsListener
 

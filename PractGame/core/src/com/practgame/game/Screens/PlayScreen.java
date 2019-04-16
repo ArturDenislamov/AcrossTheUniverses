@@ -30,7 +30,6 @@ import com.practgame.game.Utils.WorldContactListener;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import javax.swing.text.html.parser.Entity;
 
 public class PlayScreen implements Screen {
     private OrthographicCamera gamecam;
@@ -69,7 +68,7 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0, -10), true); // gravity vector
         mapLoader = new TmxMapLoader();
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM,SCREEN_H / 2 / PractGame.PPM,0);
-        atlas  = new TextureAtlas("Character.pack");
+        atlas  = new TextureAtlas("Character/Character.pack");
         map = new TiledMap();
         windowManager = new WindowManager(maingame);
         player = new Player(world, this);
@@ -92,6 +91,7 @@ public class PlayScreen implements Screen {
 
     public void setLevel(String mapWay){
          // TODO maybe you should remake this
+
         // deleting map objects
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
@@ -106,7 +106,7 @@ public class PlayScreen implements Screen {
         map = mapLoader.load(mapWay);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
         new LevelWorldCreator(world, map);
-        controller = new Controller();
+        controller = new Controller(maingame.manager);
         player.definePlayer();
 
         MapProperties prop = map.getProperties();
@@ -142,7 +142,7 @@ public class PlayScreen implements Screen {
         }
 
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none" /*&& shotsMade < player.bulletsAmount*/){
-            bulletsArray.add(new Bullet(world, player));
+            bulletsArray.add(new Bullet(world, player, maingame.manager));
             controller.bPressed  = false; // for one click - one shot
            // shotsMade++;
             hud.updateBullets(player.bulletsAmount - shotsMade);
