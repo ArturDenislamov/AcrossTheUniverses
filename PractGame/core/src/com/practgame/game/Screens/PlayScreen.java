@@ -166,7 +166,7 @@ public class PlayScreen implements Screen {
      //   LOGGER.info("bulletsArray size is :" + bulletsArray.size());
 
 
-      // LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
+       LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
         // TODO maybe you should remove this Log
     }
 
@@ -207,6 +207,11 @@ public class PlayScreen implements Screen {
                 bulletsArray.get(i).dispose();      // TODO not sure
                 bulletsArray.remove(i);
             }
+        }
+
+        if(player.b2body.getPosition().y < -10){
+            LOGGER.info("Level restart");
+            maingame.changeScreen(maingame.worldType);
         }
     }
 
