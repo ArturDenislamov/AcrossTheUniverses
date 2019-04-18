@@ -100,6 +100,7 @@ public class WindowManager implements Disposable {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     LOGGER.info("Button First World pressed");
                         maingame.changeScreen(1);
+                        maingame.musicManager.setSound("world1.ogg");
                         waitingForAnwser = "none";
                     return true;
                 }

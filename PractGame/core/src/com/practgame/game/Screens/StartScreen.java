@@ -2,6 +2,7 @@ package com.practgame.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -27,6 +28,8 @@ public class StartScreen extends ScreenAdapter {
     private ImageButton playButton, settingsButton;
     private PractGame maingame;
 
+    private Sound clickSound;
+
    public  StartScreen(PractGame practGame){
         maingame = practGame;
     }
@@ -49,6 +52,9 @@ public class StartScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 maingame.setScreen(maingame.menuLevel);
+                String rand ="sound/switch" + Integer.toString((int)(Math.random()*2 + 1)) + ".wav";
+                clickSound = maingame.manager.get(rand);
+                clickSound.play();
             }
         };
         playButton.addListener(playListener);
@@ -72,5 +78,11 @@ public class StartScreen extends ScreenAdapter {
     public void render(float delta) {
         stage.act(delta);
         stage.draw();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        clickSound.dispose();
     }
 }

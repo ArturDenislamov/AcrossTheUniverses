@@ -10,6 +10,7 @@ import com.practgame.game.Screens.StartScreen;
 import com.practgame.game.Utils.Controller;
 import com.practgame.game.Utils.LevelInfo;
 import com.practgame.game.Utils.Multilanguage;
+import com.practgame.game.Utils.MusicManager;
 
 import java.util.ArrayList;
 
@@ -31,9 +32,11 @@ public class PractGame extends Game {
 	public ArrayList <LevelInfo> levelList1;
     ArrayList <LevelInfo> levelList2;
     ArrayList <LevelInfo> levelList3;
-    //LevelInfo demoLevel; // TODO make this 03/23
+    //LevelInfo demoLevel; // TODO make this 03/23 ; really ? 04/18, a week before preshow
+
 
 	public AssetManager manager;
+	public MusicManager musicManager;
 
     @Override
 	public void create() {
@@ -41,14 +44,17 @@ public class PractGame extends Game {
 		levelList2 = new ArrayList<LevelInfo>();
 		levelList3 = new ArrayList<LevelInfo>();
 
+
 		// TODO add if(save exists) 02/15
 
 		loadScreen = new LoadScreen(this);
 		setScreen(loadScreen);
 
 		manager = loadScreen.manager;
+        musicManager = new MusicManager(manager);
+        musicManager.setSound("title.ogg");
 
-		levelLine1 = 0; // created for managing levels
+        levelLine1 = 0; // created for managing levels
         levelLine2 = 0;
         levelLine3 = 0;
 		batch = new SpriteBatch();

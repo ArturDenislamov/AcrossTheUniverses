@@ -3,6 +3,7 @@ package com.practgame.game.Screens;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -61,6 +62,8 @@ public class PlayScreen implements Screen {
     ArrayList <Bullet> bulletsArray;
     ArrayList <Bullet> destroyBullets;
 
+    Sound gunShot;
+
     public PlayScreen(PractGame game){
         this.maingame = game;
         gamecam = new OrthographicCamera();
@@ -82,6 +85,8 @@ public class PlayScreen implements Screen {
         bulletsArray = new ArrayList<Bullet>();
         destroyBullets = new ArrayList<Bullet>(); // for destroying bullets after hit
 
+      //  gunShot = Gdx.audio.newSound(Gdx.files.internal("sound/pistol.wav"));
+        gunShot = maingame.manager.get("sound/pistol.wav"); // does this work ?
     }
 
     @Override
@@ -146,6 +151,7 @@ public class PlayScreen implements Screen {
             controller.bPressed  = false; // for one click - one shot
            // shotsMade++;
             hud.updateBullets(player.bulletsAmount - shotsMade);
+            gunShot.play(0.4f);
         }
 
 
@@ -166,7 +172,7 @@ public class PlayScreen implements Screen {
      //   LOGGER.info("bulletsArray size is :" + bulletsArray.size());
 
 
-       LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
+    //   LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
         // TODO maybe you should remove this Log
     }
 
@@ -293,5 +299,6 @@ public class PlayScreen implements Screen {
         renderer.dispose();
         world.dispose();
         b2dr.dispose();
+        gunShot.dispose();
     }
 }

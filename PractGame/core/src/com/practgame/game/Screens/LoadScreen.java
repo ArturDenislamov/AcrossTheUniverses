@@ -2,6 +2,8 @@ package com.practgame.game.Screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -81,9 +83,15 @@ public class LoadScreen implements Screen {
         manager.load("gc/bDark.png", Texture.class);
         manager.load("gc/bLight.png", Texture.class);
 
+        //music
+        manager.load("sound/pistol.wav", Sound.class);
+        manager.load("sound/title.ogg", Music.class);
+        manager.load("sound/switch1.wav", Sound.class);
+        manager.load("sound/switch2.wav", Sound.class);
+        manager.load("sound/world1.ogg", Music.class);
+
         manager.finishLoading();
         LOGGER.info("Loading finished");
-
     }
 
     @Override

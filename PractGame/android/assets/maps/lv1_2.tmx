@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="75" height="23" tilewidth="8" tileheight="8" infinite="0" nextlayerid="8" nextobjectid="26">
  <tileset firstgid="1" name="TileSetLv1_v_0_1" tilewidth="8" tileheight="8" tilecount="256" columns="16">
-  <image source="../../../../../../forGame/TileSetLv1_v_0_1.png" width="128" height="128"/>
+  <image source="tileset_lv1.png" width="128" height="128"/>
   <tile id="96">
    <animation>
     <frame tileid="148" duration="210"/>
