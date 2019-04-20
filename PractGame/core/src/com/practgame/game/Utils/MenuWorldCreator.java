@@ -10,14 +10,18 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.practgame.game.PractGame;
+import com.practgame.game.Screens.MenuLevel;
 import com.practgame.game.Sprites.ActionBrick;
 import com.practgame.game.Sprites.BlockTileObject;
 
 import jdk.nashorn.internal.ir.Block;
 
-public class B2WorldCreatorMenu {
+public class MenuWorldCreator {
+    // for creating Menu Level
 
-    public B2WorldCreatorMenu(World world, TiledMap map) {
+    public MenuWorldCreator(MenuLevel menuLevel) {
+        World world = menuLevel.getWorld();
+        TiledMap map = menuLevel.getMap();
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();

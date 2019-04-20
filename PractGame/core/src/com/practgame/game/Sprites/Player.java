@@ -34,6 +34,7 @@ public class Player extends Sprite {
 
     public int bulletsAmount;
 
+
     public Player (World world, MenuLevel level){
         super(level.getAtlas().findRegion("stand")); // TODO here you can change player's textures (without helmet) 04/08
         this.world = world;
@@ -78,7 +79,7 @@ public class Player extends Sprite {
         setBounds(0,0, 13 / PractGame.PPM,26 / PractGame.PPM);
         setRegion(playerStand);
 
-        gun = new Sprite(new Texture("Character/gun.png"), 0, 0, 5, 5);
+        gun = new Sprite(new Texture("Character/gun.png"), 0,0, 5, 5);
         gun.setBounds(0, 0, 5 / PractGame.PPM, 5 / PractGame.PPM );
 
         //TODO check  type of the gun
@@ -93,6 +94,8 @@ public class Player extends Sprite {
     public void update(float dt){
         setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight()*0.52f  ); // numbers are needed for correct image position 03/08
         setRegion(getFrame(dt));
+
+
         if(gun != null) {
             if(runningRight == true) {
                 gun.setPosition(b2body.getPosition().x + 0.06f, b2body.getPosition().y - 0.02f);
@@ -101,7 +104,9 @@ public class Player extends Sprite {
                 gun.setPosition(b2body.getPosition().x - 0.11f, b2body.getPosition().y - 0.02f);
             }
         }
+
     }
+
 
     public TextureRegion getFrame(float dt){
         currentState = getState();
@@ -116,6 +121,8 @@ public class Player extends Sprite {
                     region = playerStand;
                 break;
         }
+
+
             //flipping player horizontally if he is running left or right
         if((b2body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
             region.flip(true, false);
@@ -158,6 +165,9 @@ public class Player extends Sprite {
             Shape shape = new PolygonShape();
             ((PolygonShape) shape).setAsBox(4/PractGame.PPM, 12/PractGame.PPM);
            // shape.setRadius(6 / PractGame.PPM); // CircleShape changed to BoxShape
+            fdef.filter.categoryBits = PractGame.PLAYER_BIT; // it is defined as a player
+            fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.RECHARGE_BIT | PractGame.GUN_BIT | PractGame.ENEMY_BIT;
+
             fdef.shape = shape;
             b2body.createFixture(fdef).setUserData("player");
 
@@ -175,6 +185,6 @@ public class Player extends Sprite {
         super.draw(batch);
 
         if(gun != null)
-        gun.draw(batch);
+            gun.draw(batch);
     }
 }

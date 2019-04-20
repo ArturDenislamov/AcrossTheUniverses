@@ -23,6 +23,7 @@ import com.practgame.game.PractGame;
 import com.practgame.game.Scenes.Hud;
 import com.practgame.game.Scenes.WindowManager;
 import com.practgame.game.Sprites.Bullet;
+import com.practgame.game.Sprites.Invader;
 import com.practgame.game.Sprites.Player;
 import com.practgame.game.Utils.Controller;
 import com.practgame.game.Utils.LevelWorldCreator;
@@ -64,6 +65,9 @@ public class PlayScreen implements Screen {
 
     Sound gunShot;
 
+    //for test
+    private Invader invader;
+
     public PlayScreen(PractGame game){
         this.maingame = game;
         gamecam = new OrthographicCamera();
@@ -85,8 +89,7 @@ public class PlayScreen implements Screen {
         bulletsArray = new ArrayList<Bullet>();
         destroyBullets = new ArrayList<Bullet>(); // for destroying bullets after hit
 
-      //  gunShot = Gdx.audio.newSound(Gdx.files.internal("sound/pistol.wav"));
-        gunShot = maingame.manager.get("sound/pistol.wav"); // does this work ?
+        gunShot = maingame.manager.get("sound/pistol.wav");
     }
 
     @Override
@@ -110,7 +113,7 @@ public class PlayScreen implements Screen {
 
         map = mapLoader.load(mapWay);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
-        new LevelWorldCreator(world, map);
+        new LevelWorldCreator(this);
         controller = new Controller(maingame.manager);
         player.definePlayer();
 
@@ -125,6 +128,8 @@ public class PlayScreen implements Screen {
         mapPixelHeight = mapHeight * tilePixelHeight;
 
         b2dr = new Box2DDebugRenderer();
+
+        invader = new Invader(this, 64/PractGame.PPM, 64/PractGame.PPM);
     }
 
 
@@ -146,10 +151,10 @@ public class PlayScreen implements Screen {
             windowManager.hideMessage();
         }
 
-        if(controller.isBPressed() && windowManager.waitingForAnwser == "none" /*&& shotsMade < player.bulletsAmount*/){
+        if(controller.isBPressed() && windowManager.waitingForAnwser == "none" && shotsMade < player.bulletsAmount){
             bulletsArray.add(new Bullet(world, player, maingame.manager));
             controller.bPressed  = false; // for one click - one shot
-           // shotsMade++;
+          //  shotsMade++;
             hud.updateBullets(player.bulletsAmount - shotsMade);
             gunShot.play(0.4f);
         }
@@ -219,6 +224,8 @@ public class PlayScreen implements Screen {
             LOGGER.info("Level restart");
             maingame.changeScreen(maingame.worldType);
         }
+
+        invader.update(dt);
     }
 
 
@@ -236,6 +243,7 @@ public class PlayScreen implements Screen {
 
         maingame.batch.begin();
         player.draw(maingame.batch);
+        invader.draw(maingame.batch);
         maingame.batch.end();
 
         if(Gdx.app.getType() == Application.ApplicationType.Android)
@@ -277,6 +285,15 @@ public class PlayScreen implements Screen {
             bulletsArray.remove(bullet);
         }
     }
+
+    public TiledMap getMap(){
+        return map;
+    }
+
+    public World getWorld(){
+        return world;
+    }
+
 
     @Override
     public void pause() {

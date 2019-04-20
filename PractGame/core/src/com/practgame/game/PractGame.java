@@ -15,7 +15,15 @@ import com.practgame.game.Utils.MusicManager;
 import java.util.ArrayList;
 
 public class PractGame extends Game {
-	public static SpriteBatch batch;
+    public static final short DEFAULT_BIT = 1; // ground
+    public static final short PLAYER_BIT = 2; // player
+    public static final short RECHARGE_BIT = 4; // recharge - item
+    public static final short GUN_BIT = 8; // gun - item
+    public static final short DESTROYED_BIT = 16; // ?
+    public static final short ENEMY_BIT = 32;
+    // maybe you should add bullet bit
+
+    public static SpriteBatch batch;
 
 	public PlayScreen playScreen;
 	public StartScreen startScreen;
@@ -92,7 +100,7 @@ public class PractGame extends Game {
 	@Override
 	public void dispose() {
 		super.dispose();
-	//	manager.dispose();
+		manager.dispose();
 		batch.dispose();
 
 	}

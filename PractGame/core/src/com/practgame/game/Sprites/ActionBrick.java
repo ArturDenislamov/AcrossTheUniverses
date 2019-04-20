@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.practgame.game.PractGame;
+import com.practgame.game.Screens.PlayScreen;
 import com.practgame.game.Utils.Controller;
 
 import java.util.logging.Logger;

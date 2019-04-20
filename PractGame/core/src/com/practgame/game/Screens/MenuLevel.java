@@ -10,14 +10,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
 import com.practgame.game.Scenes.WindowManager;
 import com.practgame.game.Sprites.Player;
-import com.practgame.game.Utils.B2WorldCreatorMenu;
+import com.practgame.game.Utils.MenuWorldCreator;
 import com.practgame.game.Utils.Controller;
 import com.practgame.game.Utils.WorldContactListener;
 
@@ -56,7 +55,7 @@ public class MenuLevel implements Screen {
         player = new Player(world, this);
         controller = new Controller(mainGame.manager);
 
-        new B2WorldCreatorMenu(world, map);
+        new MenuWorldCreator(this);
 
         windowManager = new WindowManager(mainGame);
 
@@ -129,6 +128,15 @@ public class MenuLevel implements Screen {
         gamePort.update(width, height);
         controller.resize(width, height);
     }
+
+    public TiledMap getMap(){
+        return map;
+    }
+
+    public World getWorld(){
+        return world;
+    }
+
 
     @Override
     public void pause() {
