@@ -50,6 +50,7 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer b2dr;
     private Player player;
     Controller controller;
+    private LevelWorldCreator creator;
 
     public WindowManager windowManager;
 
@@ -65,13 +66,11 @@ public class PlayScreen implements Screen {
 
     Sound gunShot;
 
-    //for test
-    private Invader invader;
 
     public PlayScreen(PractGame game){
         this.maingame = game;
         gamecam = new OrthographicCamera();
-        gamePort = new FitViewport(SCREEN_W / PractGame.PPM, SCREEN_H / PractGame.PPM, gamecam); // TODO 03/24 remake this!
+        gamePort = new FitViewport(SCREEN_W / PractGame.PPM, SCREEN_H / PractGame.PPM, gamecam);
         world = new World(new Vector2(0, -10), true); // gravity vector
         mapLoader = new TmxMapLoader();
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM,SCREEN_H / 2 / PractGame.PPM,0);
@@ -100,6 +99,7 @@ public class PlayScreen implements Screen {
     public void setLevel(String mapWay){
          // TODO maybe you should remake this
 
+
         // deleting map objects
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
@@ -113,7 +113,7 @@ public class PlayScreen implements Screen {
 
         map = mapLoader.load(mapWay);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
-        new LevelWorldCreator(this);
+        creator = new LevelWorldCreator(this);
         controller = new Controller(maingame.manager);
         player.definePlayer();
 
@@ -129,7 +129,6 @@ public class PlayScreen implements Screen {
 
         b2dr = new Box2DDebugRenderer();
 
-        invader = new Invader(this, 64/PractGame.PPM, 64/PractGame.PPM);
     }
 
 
@@ -199,7 +198,7 @@ public class PlayScreen implements Screen {
         if(player.b2body.getPosition().x >= SCREEN_W/(2*PractGame.PPM) && player.b2body.getPosition().x <= (mapPixelWidth/PractGame.PPM - SCREEN_W/(2*PractGame.PPM))) // 0.40 == 40 pixels
             position.x += (player.b2body.getPosition().x - position.x) * lerp;
 
-        if(player.b2body.getPosition().y >= SCREEN_H/(2*PractGame.PPM) && player.b2body.getPosition().y <= (mapPixelHeight/PractGame.PPM - SCREEN_W/(2*PractGame.PPM) ) )// TODO so, this works, but it can be better 04/05
+        if(player.b2body.getPosition().y >= SCREEN_H/(2*PractGame.PPM) && player.b2body.getPosition().y <= (mapPixelHeight/PractGame.PPM - SCREEN_H/(2*PractGame.PPM) ) )// TODO so, this works, but it can be better 04/05
         position.y += (player.b2body.getPosition().y - position.y) * lerp;
 
         if(player.b2body.getPosition().y < SCREEN_H/(2*PractGame.PPM))
@@ -225,7 +224,12 @@ public class PlayScreen implements Screen {
             maingame.changeScreen(maingame.worldType);
         }
 
-        invader.update(dt);
+        for(Invader invader : creator.getInvaders()){
+            invader.update(dt);
+            if(invader.getX() - player.b2body.getPosition().x - 0.05f <= SCREEN_W/(2*PractGame.PPM) && Math.abs( player.b2body.getPosition().y - 0.125f - invader.getY() - 0.105f)< 0.13f  && invader.b2body != null)
+                invader.b2body.setActive(true);
+        }
+
     }
 
 
@@ -243,8 +247,11 @@ public class PlayScreen implements Screen {
 
         maingame.batch.begin();
         player.draw(maingame.batch);
-        invader.draw(maingame.batch);
+        for(Invader invader : creator.getInvaders()) {
+            invader.draw(maingame.batch);
+        }
         maingame.batch.end();
+
 
         if(Gdx.app.getType() == Application.ApplicationType.Android)
             controller.draw();
@@ -253,7 +260,7 @@ public class PlayScreen implements Screen {
 
             hud.stage.draw();
 
-      //    b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
+        //  b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
 
         maingame.batch.begin();
         maingame.batch.setProjectionMatrix(gamecam.combined);

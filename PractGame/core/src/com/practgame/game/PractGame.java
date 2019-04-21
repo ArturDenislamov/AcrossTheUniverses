@@ -21,6 +21,7 @@ public class PractGame extends Game {
     public static final short GUN_BIT = 8; // gun - item
     public static final short DESTROYED_BIT = 16; // ?
     public static final short ENEMY_BIT = 32;
+    public static final short BULLET_BIT = 64;
     // maybe you should add bullet bit
 
     public static SpriteBatch batch;
@@ -62,8 +63,8 @@ public class PractGame extends Game {
         musicManager = new MusicManager(manager);
         musicManager.setSound("title.ogg");
 
-        levelLine1 = 0; // created for managing levels
-        levelLine2 = 0;
+        levelLine1 = 2; // created for managing levels
+        levelLine2 = 0; // 2 - for test
         levelLine3 = 0;
 		batch = new SpriteBatch();
 		startScreen = new StartScreen(this);

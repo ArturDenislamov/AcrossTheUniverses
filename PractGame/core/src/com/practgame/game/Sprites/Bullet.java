@@ -51,6 +51,8 @@ public class Bullet extends Sprite{
         fdefB.shape = shape;
         bdefB.bullet = true;
         fdefB.isSensor = true;
+        fdefB.filter.categoryBits = PractGame.BULLET_BIT;
+        fdefB.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.ENEMY_BIT | PractGame.GUN_BIT | PractGame.RECHARGE_BIT;
 
         b2bullet = world.createBody(bdefB);
         b2bullet.setBullet(true);

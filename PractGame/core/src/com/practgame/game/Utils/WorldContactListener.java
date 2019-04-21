@@ -1,17 +1,21 @@
 package com.practgame.game.Utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.practgame.game.PractGame;
 import com.practgame.game.Scenes.WindowManager;
 import com.practgame.game.Screens.MenuLevel;
 import com.practgame.game.Screens.PlayScreen;
 import com.practgame.game.Sprites.ActionBrick;
 import com.practgame.game.Sprites.BlockTileObject;
 import com.practgame.game.Sprites.Bullet;
+import com.practgame.game.Sprites.Enemy;
+import com.practgame.game.Sprites.Invader;
 
 import java.util.logging.Logger;
 
@@ -22,6 +26,7 @@ public class WorldContactListener implements ContactListener {
     private boolean messageShown;
     private World world;
     private PlayScreen playScreen;
+
 
         public WorldContactListener(WindowManager wm, World world){
             windowManager = wm;
@@ -40,6 +45,35 @@ public class WorldContactListener implements ContactListener {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
+        int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
+
+        //TODO maybe you should rewrite upper if's too
+        switch (cDef){
+            case PractGame.ENEMY_BIT | PractGame.BULLET_BIT:
+                LOGGER.info("Enemy and Bullet collision");
+                if(fixA.getFilterData().categoryBits == PractGame.ENEMY_BIT)
+                    ((Invader)fixA.getUserData()).damage();
+                else
+                    ((Invader)fixB.getUserData()).damage();
+
+                break;
+
+            case PractGame.ENEMY_BIT | PractGame.DEFAULT_BIT:
+                if(fixA.getFilterData().categoryBits == PractGame.ENEMY_BIT)
+                    ((Invader)fixA.getUserData()).reverseVelocity(true, false);
+                else
+                    ((Invader)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+
+            case PractGame.PLAYER_BIT | PractGame.ENEMY_BIT:
+                break;
+
+            case PractGame.ENEMY_BIT | PractGame.ENEMY_BIT:
+                ((Invader)fixA.getUserData()).reverseVelocity(true, false);
+                ((Invader)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+        }
+
        //  TODO destroying bullet after hitting an object , first version 04/14
 
         LOGGER.info("On beginContact a : " + contact.getFixtureA().getUserData() + "  b : " + contact.getFixtureB().getUserData());
@@ -51,7 +85,7 @@ public class WorldContactListener implements ContactListener {
 
         if(("feet").equals(fixA.getUserData()) || ("feet").equals(fixB.getUserData())){
             windowManager.onGround = true;
-            LOGGER.info("Player is on Ground");
+        //    LOGGER.info("Player is on Ground");
         }
 
 
@@ -81,6 +115,7 @@ public class WorldContactListener implements ContactListener {
                 messageShown = true;
             }
         }
+
     }
 
 

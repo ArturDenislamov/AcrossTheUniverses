@@ -9,12 +9,20 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import com.practgame.game.PractGame;
 import com.practgame.game.Screens.PlayScreen;
 import com.practgame.game.Sprites.ActionBrick;
 import com.practgame.game.Sprites.BlockTileObject;
+import com.practgame.game.Sprites.Invader;
 
 
 public class LevelWorldCreator {
+    public Array<Invader> getInvaders() {
+        return invaders;
+    }
+
+    private Array <Invader> invaders;
 
     public LevelWorldCreator(PlayScreen playScreen) {
         TiledMap map = playScreen.getMap(); // this realization is here, in menu world creator - no
@@ -32,17 +40,17 @@ public class LevelWorldCreator {
             new BlockTileObject(world, map, rect); // creating object using class
         }
 
-
+        //creating all invaders
+        invaders = new Array<Invader>();
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // danger_blocks
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            new ActionBrick(world, map, rect, "kill");
+            invaders.add(new Invader(playScreen, rect.getX()/ PractGame.PPM, rect.getY()/ PractGame.PPM));
         }
 
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // collectibles
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            new ActionBrick(world, map, rect, "weapon");
+            new ActionBrick(world, map, rect, "ammo").setCategoryFilter(PractGame.RECHARGE_BIT);
         }
 
         for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) { // finish
@@ -56,6 +64,7 @@ public class LevelWorldCreator {
 
             new ActionBrick(world, map, rect, "extra");
         }
+
 
     }
 }

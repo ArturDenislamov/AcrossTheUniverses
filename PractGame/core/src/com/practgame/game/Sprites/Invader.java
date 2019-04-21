@@ -1,8 +1,10 @@
 package com.practgame.game.Sprites;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -20,6 +22,10 @@ public class Invader extends Enemy {
 
     float x;
     float y;
+
+    private boolean setToDestroy;
+    private boolean destroyed;
+
     //TODO join different atlases
     public Invader(PlayScreen screen, float x, float y) {
         super(screen, x, y);
@@ -32,31 +38,61 @@ public class Invader extends Enemy {
         }
         walkAnimation = new Animation(0.1f, frames);
         stateTime = 0;
+
+        setToDestroy = false;
+        destroyed = false;
+
+        velocity = new Vector2(-1, 0);
+        b2body.setActive(false);
     }
 
     public void update(float dt){
         stateTime +=dt;
-        setPosition(b2body.getPosition().x - getWidth()/2, b2body.getPosition().y - getHeight()*0.56f);
-        setRegion((TextureRegion) walkAnimation.getKeyFrame(stateTime, true));
-        setBounds(getX(),getY(),12/PractGame.PPM,21/PractGame.PPM);
+
+        if(setToDestroy && !destroyed){
+            world.destroyBody(b2body);
+            b2body.setUserData(null); // just to ensure ourselves
+            b2body = null;
+            destroyed = true;
+            setRegion(new TextureRegion(atlas.findRegion("invader_stand"), 0, 0, 12, 21));
+            stateTime = 0;
+        } else if(!destroyed) {
+            b2body.setLinearVelocity(velocity);
+            setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight()/2);
+            setRegion((TextureRegion) walkAnimation.getKeyFrame(stateTime, true));
+            setBounds(getX(), getY(), 12 / PractGame.PPM, 21 / PractGame.PPM);
+        }
+
+    }
+
+    @Override
+    public void draw(Batch batch) {
+        if(!destroyed || stateTime < 1){ // killed enemy disappears after a second
+            super.draw(batch);
+        }
     }
 
     @Override
     protected void defineEnemy() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set( 32/ PractGame.PPM, 32/ PractGame.PPM); // were 32 and 32 (it suited normally)
+        bdef.position.set( getX(), getY());
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         fdef.friction = 0; // player doesn't stick to the walls (can be changed)
         Shape shape = new PolygonShape();
-        ((PolygonShape) shape).setAsBox(6/PractGame.PPM, 10.5f/PractGame.PPM);
+        ((PolygonShape) shape).setAsBox(6/PractGame.PPM, 9.88f/PractGame.PPM);
         // shape.setRadius(6 / PractGame.PPM); // CircleShape changed to BoxShape
         fdef.shape = shape;
         fdef.filter.categoryBits = PractGame.ENEMY_BIT;
-        fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.PLAYER_BIT;
-        b2body.createFixture(fdef).setUserData("enemy");
+        fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.PLAYER_BIT | PractGame.BULLET_BIT;
+        b2body.createFixture(fdef).setUserData(this); // important to set userData
+        b2body.setGravityScale(12f); // falling faster
+    }
 
+    @Override
+    public void damage() {
+         setToDestroy = true;
     }
 }
