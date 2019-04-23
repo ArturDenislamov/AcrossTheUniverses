@@ -1,0 +1,26 @@
+
+invader.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+invader_right1
+  rotate: false
+  xy: 0, 0
+  size: 12, 21
+  orig: 12, 21
+  offset: 0, 0
+  index: -1
+invader_right2
+  rotate: false
+  xy: 12, 0
+  size: 12, 21
+  orig: 12, 21
+  offset: 0, 0
+  index: -1
+invader_stand
+  rotate: false
+  xy: 24, 0
+  size: 12, 21
+  orig: 12, 21
+  offset: 0, 0
+  index: -1
