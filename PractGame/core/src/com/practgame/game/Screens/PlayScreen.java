@@ -65,9 +65,12 @@ public class PlayScreen implements Screen {
     ArrayList <Bullet> destroyBullets;
 
     Sound gunShot;
+<<<<<<< HEAD
     Sound slideSound;
     Sound magSoung;
     Sound noAmmo;
+=======
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
 
 
     public PlayScreen(PractGame game){
@@ -92,9 +95,12 @@ public class PlayScreen implements Screen {
         destroyBullets = new ArrayList<Bullet>(); // for destroying bullets after hit
 
         gunShot = maingame.manager.get("sound/pistol.wav");
+<<<<<<< HEAD
         slideSound = maingame.manager.get("sound/slide.wav");
         noAmmo = maingame.manager.get("sound/noAmmo.wav");
         magSoung = maingame.manager.get("sound/reload.wav");
+=======
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 
     @Override
@@ -135,7 +141,10 @@ public class PlayScreen implements Screen {
 
         b2dr = new Box2DDebugRenderer();
 
+<<<<<<< HEAD
        slideSound.play(0.4f); // maybe you should remove this
+=======
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 
 
@@ -157,6 +166,7 @@ public class PlayScreen implements Screen {
             windowManager.hideMessage();
         }
 
+<<<<<<< HEAD
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none"){
             if(shotsMade < player.bulletsAmount) {
                 bulletsArray.add(new Bullet(world, player, maingame.manager));
@@ -174,6 +184,17 @@ public class PlayScreen implements Screen {
 
 
 
+=======
+        if(controller.isBPressed() && windowManager.waitingForAnwser == "none" && shotsMade < player.bulletsAmount){
+            bulletsArray.add(new Bullet(world, player, maingame.manager));
+            controller.bPressed  = false; // for one click - one shot
+          //  shotsMade++;
+            hud.updateBullets(player.bulletsAmount - shotsMade);
+            gunShot.play(0.4f);
+        }
+
+
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
         //TODO this time it works 04/13, preshow is soon
         for(int i = 0; i < bulletsArray.size(); i++){
             if(bulletsArray.get(i).b2bullet != null) {
@@ -239,6 +260,7 @@ public class PlayScreen implements Screen {
             maingame.changeScreen(maingame.worldType);
         }
 
+<<<<<<< HEAD
         for(Invader invader : creator.getInvaders()) {
             invader.update(dt);
             //activating enemies
@@ -247,6 +269,14 @@ public class PlayScreen implements Screen {
                     invader.velocity.set(-1, 0);
 
         }
+=======
+        for(Invader invader : creator.getInvaders()){
+            invader.update(dt);
+            if(invader.getX() - player.b2body.getPosition().x - 0.05f <= SCREEN_W/(2*PractGame.PPM) && Math.abs( player.b2body.getPosition().y - 0.125f - invader.getY() - 0.105f)< 0.13f  && invader.b2body != null)
+                invader.b2body.setActive(true);
+        }
+
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 
 
@@ -318,12 +348,16 @@ public class PlayScreen implements Screen {
         return world;
     }
 
+<<<<<<< HEAD
     public void reload(){
         shotsMade = 0;
         magSoung.stop();
         magSoung.play(1f);
         hud.updateBullets(player.bulletsAmount - shotsMade);
     }
+=======
+
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     @Override
     public void pause() {
 
@@ -346,8 +380,11 @@ public class PlayScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         gunShot.dispose();
+<<<<<<< HEAD
         noAmmo.dispose();
         slideSound.dispose();
         magSoung.dispose();
+=======
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 }

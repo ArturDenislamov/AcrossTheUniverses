@@ -89,9 +89,12 @@ public class LoadScreen implements Screen {
         manager.load("sound/switch1.wav", Sound.class);
         manager.load("sound/switch2.wav", Sound.class);
         manager.load("sound/world1.ogg", Music.class);
+<<<<<<< HEAD
         manager.load("sound/slide.wav", Sound.class);
         manager.load("sound/noAmmo.wav", Sound.class);
         manager.load("sound/reload.wav", Sound.class);
+=======
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
 
         manager.finishLoading();
         LOGGER.info("Loading finished");

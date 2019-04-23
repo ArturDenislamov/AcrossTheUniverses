@@ -16,7 +16,10 @@ import com.practgame.game.Sprites.BlockTileObject;
 import com.practgame.game.Sprites.Bullet;
 import com.practgame.game.Sprites.Enemy;
 import com.practgame.game.Sprites.Invader;
+<<<<<<< HEAD
 import com.practgame.game.Sprites.Player;
+=======
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
 
 import java.util.logging.Logger;
 
@@ -52,6 +55,7 @@ public class WorldContactListener implements ContactListener {
         switch (cDef){
             case PractGame.ENEMY_BIT | PractGame.BULLET_BIT:
                 LOGGER.info("Enemy and Bullet collision");
+<<<<<<< HEAD
                 if(fixA.getFilterData().categoryBits == PractGame.ENEMY_BIT) {
                     ((Invader) fixA.getUserData()).damage();
                     //if(gun is of this type)
@@ -61,6 +65,13 @@ public class WorldContactListener implements ContactListener {
                     ((Invader) fixB.getUserData()).damage();
                     playScreen.destroy((Bullet) fixA.getUserData());
                 }
+=======
+                if(fixA.getFilterData().categoryBits == PractGame.ENEMY_BIT)
+                    ((Invader)fixA.getUserData()).damage();
+                else
+                    ((Invader)fixB.getUserData()).damage();
+
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
                 break;
 
             case PractGame.ENEMY_BIT | PractGame.DEFAULT_BIT:
@@ -77,12 +88,15 @@ public class WorldContactListener implements ContactListener {
                 ((Invader)fixA.getUserData()).reverseVelocity(true, false);
                 ((Invader)fixB.getUserData()).reverseVelocity(true, false);
                 break;
+<<<<<<< HEAD
 
             case PractGame.PLAYER_BIT | PractGame.RECHARGE_BIT:
                 playScreen.reload();
                // messageShown = true;
                // windowManager.showMessage("reload");
                 break;
+=======
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
         }
 
        //  TODO destroying bullet after hitting an object , first version 04/14

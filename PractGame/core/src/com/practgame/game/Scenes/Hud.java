@@ -60,8 +60,11 @@ public class Hud implements Disposable {
             bulletsLabel.setColor(Color.valueOf("#0F52BA"));
             bulletsLabel.setText(Integer.toString(bulletsAmount));
         }
+<<<<<<< HEAD
         if(bulletsAmount > 0)
             bulletsLabel.setColor(Color.WHITE);
+=======
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
         bulletsLabel.setText(Integer.toString(bulletsAmount));
     }
 

@@ -70,11 +70,14 @@ public class WindowManager implements Disposable {
             LOGGER.info("next level message");
             messageLabel.setText("B - next level");
         }
+<<<<<<< HEAD
 
         if(tag.equals("reload")){
             messageLabel.setText("Reload");
         }
 
+=======
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 
     public void hideMessage(){
@@ -195,8 +198,11 @@ public class WindowManager implements Disposable {
 
             maingame.changeScreen(maingame.worldType);
         }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 
 

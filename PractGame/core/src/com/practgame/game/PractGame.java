@@ -63,7 +63,11 @@ public class PractGame extends Game {
         musicManager = new MusicManager(manager);
         musicManager.setSound("title.ogg");
 
+<<<<<<< HEAD
         levelLine1 = 0; // created for managing levels
+=======
+        levelLine1 = 2; // created for managing levels
+>>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
         levelLine2 = 0; // 2 - for test
         levelLine3 = 0;
 		batch = new SpriteBatch();
