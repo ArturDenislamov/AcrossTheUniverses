@@ -47,11 +47,7 @@ public class LevelWorldCreator {
             invaders.add(new Invader(playScreen, rect.getX()/ PractGame.PPM, rect.getY()/ PractGame.PPM));
         }
 
-<<<<<<< HEAD
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // collectibles, recharge
-=======
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // collectibles
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             new ActionBrick(world, map, rect, "ammo").setCategoryFilter(PractGame.RECHARGE_BIT);

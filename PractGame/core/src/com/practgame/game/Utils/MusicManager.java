@@ -25,8 +25,7 @@ public class MusicManager {
 
         String path = "sound/" + name;
         music = manager.get(path);
-     //   music = Gdx.audio.newMusic(Gdx.files.internal(path));
-        music.setVolume(0.85f);
+        music.setVolume(0.88f);
         music.setLooping(true);
         music.play();
     }

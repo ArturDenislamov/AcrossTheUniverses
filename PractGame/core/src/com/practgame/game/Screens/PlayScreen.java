@@ -1,7 +1,10 @@
 package com.practgame.game.Screens;
 
 import com.badlogic.gdx.Application;
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -65,12 +68,10 @@ public class PlayScreen implements Screen {
     ArrayList <Bullet> destroyBullets;
 
     Sound gunShot;
-<<<<<<< HEAD
     Sound slideSound;
     Sound magSoung;
     Sound noAmmo;
-=======
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
+
 
 
     public PlayScreen(PractGame game){
@@ -95,23 +96,20 @@ public class PlayScreen implements Screen {
         destroyBullets = new ArrayList<Bullet>(); // for destroying bullets after hit
 
         gunShot = maingame.manager.get("sound/pistol.wav");
-<<<<<<< HEAD
         slideSound = maingame.manager.get("sound/slide.wav");
         noAmmo = maingame.manager.get("sound/noAmmo.wav");
         magSoung = maingame.manager.get("sound/reload.wav");
-=======
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(controller.stage); // without this controller doesn't work
+        Gdx.input.setCatchMenuKey(true);
     }
 
+
+
     public void setLevel(String mapWay){
-         // TODO maybe you should remake this
-
-
         // deleting map objects
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
@@ -141,10 +139,7 @@ public class PlayScreen implements Screen {
 
         b2dr = new Box2DDebugRenderer();
 
-<<<<<<< HEAD
-       slideSound.play(0.4f); // maybe you should remove this
-=======
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
+       slideSound.play(0.7f); // maybe you should remove this
     }
 
 
@@ -166,35 +161,25 @@ public class PlayScreen implements Screen {
             windowManager.hideMessage();
         }
 
-<<<<<<< HEAD
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none"){
             if(shotsMade < player.bulletsAmount) {
                 bulletsArray.add(new Bullet(world, player, maingame.manager));
                 controller.bPressed = false; // for one click - one shot
                 shotsMade++;
                 hud.updateBullets(player.bulletsAmount - shotsMade);
-                gunShot.play(0.5f);
+                gunShot.play(0.7f);
+                Gdx.input.vibrate(150);
             }
         }
 
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none" && shotsMade == player.bulletsAmount){
             noAmmo.stop();
-            noAmmo.play(0.4f);
+            noAmmo.play(0.7f);
         }
 
 
 
-=======
-        if(controller.isBPressed() && windowManager.waitingForAnwser == "none" && shotsMade < player.bulletsAmount){
-            bulletsArray.add(new Bullet(world, player, maingame.manager));
-            controller.bPressed  = false; // for one click - one shot
-          //  shotsMade++;
-            hud.updateBullets(player.bulletsAmount - shotsMade);
-            gunShot.play(0.4f);
-        }
 
-
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
         //TODO this time it works 04/13, preshow is soon
         for(int i = 0; i < bulletsArray.size(); i++){
             if(bulletsArray.get(i).b2bullet != null) {
@@ -214,6 +199,11 @@ public class PlayScreen implements Screen {
 
     //   LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
         // TODO maybe you should remove this Log
+
+        if(Gdx.input.isKeyPressed(Input.Keys.MENU)){
+            LOGGER.info("Menu pressed");
+            maingame.setScreen(maingame.pauseScreen);
+        }
     }
 
     public void update(float dt) {
@@ -260,23 +250,18 @@ public class PlayScreen implements Screen {
             maingame.changeScreen(maingame.worldType);
         }
 
-<<<<<<< HEAD
         for(Invader invader : creator.getInvaders()) {
             invader.update(dt);
             //activating enemies
             if(invader.b2body != null)
-                if (Math.abs(invader.b2body.getPosition().x - player.b2body.getPosition().x - 0.05f) <= SCREEN_W / (2 * PractGame.PPM) && Math.abs(player.b2body.getPosition().y - (invader.b2body.getPosition().y + 0.0212)) <= 0.01 && invader.b2body != null)
-                    invader.velocity.set(-1, 0);
-
+                if (Math.abs(invader.b2body.getPosition().x - player.b2body.getPosition().x - 0.05f) <= SCREEN_W / (2 * PractGame.PPM)
+                        && Math.abs(player.b2body.getPosition().y - (invader.b2body.getPosition().y + 0.0212)) <= 0.01 && invader.b2body != null) {
+                    if(player.b2body.getPosition().x < invader.b2body.getPosition().x)
+                         invader.velocity.set(-1, 0);
+                    else
+                        invader.velocity.set(1, 0);
+                }
         }
-=======
-        for(Invader invader : creator.getInvaders()){
-            invader.update(dt);
-            if(invader.getX() - player.b2body.getPosition().x - 0.05f <= SCREEN_W/(2*PractGame.PPM) && Math.abs( player.b2body.getPosition().y - 0.125f - invader.getY() - 0.105f)< 0.13f  && invader.b2body != null)
-                invader.b2body.setActive(true);
-        }
-
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 
 
@@ -348,16 +333,13 @@ public class PlayScreen implements Screen {
         return world;
     }
 
-<<<<<<< HEAD
     public void reload(){
         shotsMade = 0;
         magSoung.stop();
-        magSoung.play(1f);
+        magSoung.play(0.7f);
         hud.updateBullets(player.bulletsAmount - shotsMade);
     }
-=======
 
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     @Override
     public void pause() {
 
@@ -380,11 +362,9 @@ public class PlayScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         gunShot.dispose();
-<<<<<<< HEAD
         noAmmo.dispose();
         slideSound.dispose();
         magSoung.dispose();
-=======
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
+
 }

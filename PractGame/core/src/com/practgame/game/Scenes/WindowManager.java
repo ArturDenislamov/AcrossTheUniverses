@@ -45,6 +45,8 @@ public class WindowManager implements Disposable {
         onGround = false;
     }
 
+
+
     public void showMessage(String tag){
         table = new Table();
         table.top();
@@ -70,14 +72,10 @@ public class WindowManager implements Disposable {
             LOGGER.info("next level message");
             messageLabel.setText("B - next level");
         }
-<<<<<<< HEAD
-
         if(tag.equals("reload")){
             messageLabel.setText("Reload");
         }
 
-=======
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 
     public void hideMessage(){
@@ -107,7 +105,8 @@ public class WindowManager implements Disposable {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     LOGGER.info("Button First World pressed");
-                        maingame.changeScreen(1);
+                    hideWindow(); // if it is located after line 111, controller doesn't work
+                    maingame.changeScreen(1); // interesting, but normal
                         maingame.musicManager.setSound("world1.ogg");
                         waitingForAnwser = "none";
                     return true;
@@ -198,11 +197,6 @@ public class WindowManager implements Disposable {
 
             maingame.changeScreen(maingame.worldType);
         }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 
 

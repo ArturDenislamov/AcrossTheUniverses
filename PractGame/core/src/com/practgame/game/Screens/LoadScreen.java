@@ -89,12 +89,14 @@ public class LoadScreen implements Screen {
         manager.load("sound/switch1.wav", Sound.class);
         manager.load("sound/switch2.wav", Sound.class);
         manager.load("sound/world1.ogg", Music.class);
-<<<<<<< HEAD
         manager.load("sound/slide.wav", Sound.class);
         manager.load("sound/noAmmo.wav", Sound.class);
         manager.load("sound/reload.wav", Sound.class);
-=======
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
+
+        //pause screen
+        manager.load("pause/pause_menu.png", Texture.class);
+        manager.load("pause/pause_play.png", Texture.class);
+        manager.load("pause/pause.png", Texture.class);
 
         manager.finishLoading();
         LOGGER.info("Loading finished");
@@ -111,7 +113,7 @@ public class LoadScreen implements Screen {
 
 
         //check if assets are loaded and time greater than 10 seconds
-        if(manager.update() && TimeUtils.timeSinceMillis(startTime) > 4000){ // 10 seconds is too long
+        if(manager.update() && TimeUtils.timeSinceMillis(startTime) > 2000){ // 10 seconds is too long
             LOGGER.info("Loading screen changed");
             maingame.setScreen(maingame.startScreen);
         }

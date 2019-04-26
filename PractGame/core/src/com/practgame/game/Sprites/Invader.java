@@ -42,12 +42,7 @@ public class Invader extends Enemy {
         setToDestroy = false;
         destroyed = false;
 
-<<<<<<< HEAD
         velocity = new Vector2(0, 0);
-=======
-        velocity = new Vector2(-1, 0);
-        b2body.setActive(false);
->>>>>>> 24a5a2400f5d1b6f65b743acc502174597eed379
     }
 
     public void update(float dt){

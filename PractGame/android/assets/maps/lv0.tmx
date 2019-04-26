@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="52" height="12" tilewidth="5" tileheight="5" infinite="0" nextlayerid="8" nextobjectid="44">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="52" height="12" tilewidth="5" tileheight="5" infinite="0" nextlayerid="10" nextobjectid="44">
+ <tileset firstgid="1" name="coffee" tilewidth="8" tileheight="8" tilecount="3" columns="3">
+  <image source="coffee.png" width="24" height="8"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="250"/>
+    <frame tileid="1" duration="250"/>
+    <frame tileid="2" duration="250"/>
+   </animation>
+  </tile>
+ </tileset>
  <imagelayer id="2" name="background">
   <image source="image_lv0.png" width="261" height="60"/>
  </imagelayer>
@@ -16,4 +26,9 @@
  <objectgroup id="7" name="guy">
   <object id="43" x="75" y="40" width="10" height="15"/>
  </objectgroup>
+ <layer id="9" name="graphics" width="52" height="12" offsetx="-0.25" offsety="2">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMBwB40A7YBSMglFAMwAADaAAAg==
+  </data>
+ </layer>
 </map>
