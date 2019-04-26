@@ -46,13 +46,13 @@ public class PauseScreen implements Screen {
     @Override
     public void show() {
             Gdx.input.setInputProcessor(stage);
-
             toGameButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2, Align.center);
             toMenuButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
 
         ClickListener playListener  = new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                maingame.musicManager.play();
                 maingame.setScreen(maingame.playScreen);
             }
         };
@@ -62,6 +62,7 @@ public class PauseScreen implements Screen {
         ClickListener menuListener  = new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                maingame.musicManager.setSound("title.ogg");
                 maingame.setScreen(maingame.menuLevel);
             }
         };

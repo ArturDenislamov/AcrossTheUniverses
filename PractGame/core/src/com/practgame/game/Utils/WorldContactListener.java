@@ -85,6 +85,7 @@ public class WorldContactListener implements ContactListener {
                // messageShown = true;
                // windowManager.showMessage("reload");
                 break;
+
         }
 
        //  TODO destroying bullet after hitting an object , first version 04/14

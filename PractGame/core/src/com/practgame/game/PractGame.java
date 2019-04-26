@@ -39,7 +39,6 @@ public class PractGame extends Game {
 	public int worldType;
 
 	public static float PPM = 100;
-	Controller controller;
 	public ArrayList <LevelInfo> levelList1;
     ArrayList <LevelInfo> levelList2;
     ArrayList <LevelInfo> levelList3;
@@ -106,7 +105,7 @@ public class PractGame extends Game {
 		super.dispose();
 		manager.dispose();
 		batch.dispose();
-
+		musicManager.dispose();
 	}
 
 	@Override

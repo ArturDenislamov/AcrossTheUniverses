@@ -1,14 +1,13 @@
 package com.practgame.game.Screens;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -19,6 +18,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -72,8 +74,6 @@ public class PlayScreen implements Screen {
     Sound magSoung;
     Sound noAmmo;
 
-
-
     public PlayScreen(PractGame game){
         this.maingame = game;
         gamecam = new OrthographicCamera();
@@ -85,6 +85,9 @@ public class PlayScreen implements Screen {
         map = new TiledMap();
         windowManager = new WindowManager(maingame);
         player = new Player(world, this);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
+        controller = new Controller(maingame.manager);
+
 
         hud = new Hud(game.batch);
         hud.updateBullets(player.bulletsAmount);
@@ -104,7 +107,7 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(controller.stage); // without this controller doesn't work
-        Gdx.input.setCatchMenuKey(true);
+        Gdx.input.setCatchBackKey(true);
     }
 
 
@@ -124,7 +127,6 @@ public class PlayScreen implements Screen {
         map = mapLoader.load(mapWay);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
         creator = new LevelWorldCreator(this);
-        controller = new Controller(maingame.manager);
         player.definePlayer();
 
         MapProperties prop = map.getProperties();
@@ -161,6 +163,7 @@ public class PlayScreen implements Screen {
             windowManager.hideMessage();
         }
 
+
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none"){
             if(shotsMade < player.bulletsAmount) {
                 bulletsArray.add(new Bullet(world, player, maingame.manager));
@@ -194,16 +197,17 @@ public class PlayScreen implements Screen {
 
 
         }
-     //   LOGGER.info("bulletsArray size is :" + bulletsArray.size());
 
 
     //   LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
         // TODO maybe you should remove this Log
 
-        if(Gdx.input.isKeyPressed(Input.Keys.MENU)){
-            LOGGER.info("Menu pressed");
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            maingame.musicManager.pause();
+            LOGGER.info("BACK_KEY pressed");
             maingame.setScreen(maingame.pauseScreen);
         }
+
     }
 
     public void update(float dt) {
@@ -245,8 +249,7 @@ public class PlayScreen implements Screen {
             }
         }
 
-        if(player.b2body.getPosition().y < -10){
-            LOGGER.info("Level restart");
+        if( player.b2body.getPosition().y < -10){
             maingame.changeScreen(maingame.worldType);
         }
 
@@ -262,7 +265,9 @@ public class PlayScreen implements Screen {
                         invader.velocity.set(1, 0);
                 }
         }
+
     }
+
 
 
     @Override
@@ -339,6 +344,8 @@ public class PlayScreen implements Screen {
         magSoung.play(0.7f);
         hud.updateBullets(player.bulletsAmount - shotsMade);
     }
+
+
 
     @Override
     public void pause() {

@@ -14,6 +14,7 @@ public class MusicManager {
 
     Music music;
 
+
     public MusicManager(AssetManager manager){
         this.manager = manager;
     }
@@ -31,12 +32,16 @@ public class MusicManager {
     }
 
     public void pause(){
-        music.pause();
+            music.pause();
+    }
+
+    public void play(){
+        music.play();
     }
 
     public void dispose(){
         music.dispose();
-
+        manager.dispose();
     }
 
 

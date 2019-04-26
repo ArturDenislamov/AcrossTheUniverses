@@ -58,6 +58,7 @@ public class WindowManager implements Disposable {
         table.add().expandX().padTop(10);
         stage.addActor(table);
 
+
         if(tag.equals("lobby")){
             LOGGER.info("in showMessage method -- Hello");
             messageLabel.setText("Hello, James!");
@@ -89,6 +90,7 @@ public class WindowManager implements Disposable {
         maingame.menuLevel.show();
     }
 
+    // this method also does actions, not only shows windows
     public void showWindow(String tag){
         if(tag.equals("lift")){
             levelTable = new Table();
@@ -197,6 +199,7 @@ public class WindowManager implements Disposable {
 
             maingame.changeScreen(maingame.worldType);
         }
+
     }
 
 
