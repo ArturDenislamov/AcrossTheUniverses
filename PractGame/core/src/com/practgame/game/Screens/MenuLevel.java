@@ -68,6 +68,7 @@ public class MenuLevel implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setCatchBackKey(false);
         Gdx.input.setInputProcessor(controller.stage); // without this controller doesn't work
         if(windowManager.waitingForAnwser != "none")
             Gdx.input.setInputProcessor(windowManager.stage);

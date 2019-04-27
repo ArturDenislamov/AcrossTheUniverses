@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -25,23 +28,33 @@ public class PauseScreen implements Screen {
     private Stage stage;
     private PractGame maingame;
 
-    private ImageButton toGameButton;
-    private ImageButton toMenuButton;
+    private TextButton toGameButton;
+    private TextButton toMenuButton;
 
     Texture toGameTexture;
     Texture toMenuTexture;
 
+    Skin skin;
+    float bsize = 5;
+
 
     public PauseScreen(PractGame game){
         maingame = game;
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        /*
         backgroundtexture = maingame.manager.get("pause/pause.png");
         toGameTexture = maingame.manager.get("pause/pause_play.png");
         toMenuTexture = maingame.manager.get("pause/pause_menu.png");
         toGameButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(toGameTexture)));
         toMenuButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(toMenuTexture)));
+        */
+        toGameButton = new TextButton("Play", skin);
+        toGameButton.setTransform(true);
+        toGameButton.scaleBy(2.5f);
+        toMenuButton = new TextButton("Menu", skin);
+        toMenuButton.setTransform(true);
+        toMenuButton.scaleBy(2.5f);
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
-        stage.addActor(new Image(backgroundtexture));
-
     }
     @Override
     public void show() {

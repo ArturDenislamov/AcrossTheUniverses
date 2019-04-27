@@ -30,6 +30,7 @@ import com.practgame.game.Scenes.WindowManager;
 import com.practgame.game.Sprites.Bullet;
 import com.practgame.game.Sprites.Invader;
 import com.practgame.game.Sprites.Player;
+import com.practgame.game.Utils.AppPreferences;
 import com.practgame.game.Utils.Controller;
 import com.practgame.game.Utils.LevelWorldCreator;
 import com.practgame.game.Utils.WorldContactListener;
@@ -74,6 +75,9 @@ public class PlayScreen implements Screen {
     Sound magSoung;
     Sound noAmmo;
 
+    public boolean killed;
+    private float soundVolume;
+
     public PlayScreen(PractGame game){
         this.maingame = game;
         gamecam = new OrthographicCamera();
@@ -85,8 +89,6 @@ public class PlayScreen implements Screen {
         map = new TiledMap();
         windowManager = new WindowManager(maingame);
         player = new Player(world, this);
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
-        controller = new Controller(maingame.manager);
 
 
         hud = new Hud(game.batch);
@@ -102,6 +104,8 @@ public class PlayScreen implements Screen {
         slideSound = maingame.manager.get("sound/slide.wav");
         noAmmo = maingame.manager.get("sound/noAmmo.wav");
         magSoung = maingame.manager.get("sound/reload.wav");
+
+        soundVolume = Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getFloat(AppPreferences.PREF_MUSIC_VOLUME);
     }
 
     @Override
@@ -128,7 +132,8 @@ public class PlayScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
         creator = new LevelWorldCreator(this);
         player.definePlayer();
-
+        controller = new Controller(maingame.manager);
+        // this line influences gun shot ( after going to the next level)
         MapProperties prop = map.getProperties();
 
         int mapWidth = prop.get("width", Integer.class);
@@ -141,7 +146,7 @@ public class PlayScreen implements Screen {
 
         b2dr = new Box2DDebugRenderer();
 
-       slideSound.play(0.7f); // maybe you should remove this
+       slideSound.play(soundVolume); // maybe you should remove this
     }
 
 
@@ -170,14 +175,14 @@ public class PlayScreen implements Screen {
                 controller.bPressed = false; // for one click - one shot
                 shotsMade++;
                 hud.updateBullets(player.bulletsAmount - shotsMade);
-                gunShot.play(0.7f);
+                gunShot.play(soundVolume);
                 Gdx.input.vibrate(150);
             }
         }
 
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none" && shotsMade == player.bulletsAmount){
             noAmmo.stop();
-            noAmmo.play(0.7f);
+            noAmmo.play(soundVolume);
         }
 
 
@@ -249,7 +254,8 @@ public class PlayScreen implements Screen {
             }
         }
 
-        if( player.b2body.getPosition().y < -10){
+        if( player.b2body.getPosition().y < -10 || killed){
+            killed = false;
             maingame.changeScreen(maingame.worldType);
         }
 
@@ -341,7 +347,7 @@ public class PlayScreen implements Screen {
     public void reload(){
         shotsMade = 0;
         magSoung.stop();
-        magSoung.play(0.7f);
+        magSoung.play(soundVolume);
         hud.updateBullets(player.bulletsAmount - shotsMade);
     }
 

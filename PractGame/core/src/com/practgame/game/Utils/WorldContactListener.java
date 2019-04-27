@@ -73,6 +73,7 @@ public class WorldContactListener implements ContactListener {
                 break;
 
             case PractGame.PLAYER_BIT | PractGame.ENEMY_BIT:
+                playScreen.killed = true;
                 break;
 
             case PractGame.ENEMY_BIT | PractGame.ENEMY_BIT:

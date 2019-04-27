@@ -64,7 +64,16 @@ public class StartScreen extends ScreenAdapter {
         settingsPressedTexture = maingame.manager.get("ui/settingsDown.png");
         settingsButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(settingsTexture)), new TextureRegionDrawable(new TextureRegion(settingsPressedTexture)));
         settingsButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
-       // ClickListener settingsListener
+        ClickListener settingsListener = new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                maingame.setScreen(maingame.settingsScreen);
+                String rand ="sound/switch" + Integer.toString((int)(Math.random()*2 + 1)) + ".wav";
+                clickSound = maingame.manager.get(rand);
+                clickSound.play();
+            }
+        };
+        settingsButton.addListener(settingsListener);
 
         stage.addActor(settingsButton);
     }

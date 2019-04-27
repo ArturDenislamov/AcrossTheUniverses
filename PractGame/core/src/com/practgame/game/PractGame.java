@@ -1,13 +1,17 @@
 package com.practgame.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.practgame.game.Screens.LoadScreen;
 import com.practgame.game.Screens.MenuLevel;
 import com.practgame.game.Screens.PauseScreen;
 import com.practgame.game.Screens.PlayScreen;
+import com.practgame.game.Screens.SettingsScreen;
 import com.practgame.game.Screens.StartScreen;
+import com.practgame.game.Utils.AppPreferences;
 import com.practgame.game.Utils.Controller;
 import com.practgame.game.Utils.LevelInfo;
 import com.practgame.game.Utils.Multilanguage;
@@ -32,6 +36,7 @@ public class PractGame extends Game {
 	public MenuLevel menuLevel;
 	private LoadScreen loadScreen;
 	public PauseScreen pauseScreen;
+	public SettingsScreen settingsScreen;
 
 	public  int levelLine1;
 	public int levelLine2;
@@ -48,6 +53,7 @@ public class PractGame extends Game {
 	public AssetManager manager;
 	public MusicManager musicManager;
 
+
     @Override
 	public void create() {
 		levelList1 = new ArrayList<LevelInfo>();
@@ -60,7 +66,7 @@ public class PractGame extends Game {
 		loadScreen = new LoadScreen(this);
 		setScreen(loadScreen);
 
-		manager = loadScreen.manager;
+		manager = loadScreen.manager;;
         musicManager = new MusicManager(manager);
         musicManager.setSound("title.ogg");
 
@@ -72,6 +78,7 @@ public class PractGame extends Game {
 		playScreen = new PlayScreen(this);
 		menuLevel = new MenuLevel(this);
 		pauseScreen = new PauseScreen(this);
+		settingsScreen = new SettingsScreen(this);
 
 		//TODO under construction
 		//Multilanguage.setLanguage("eng"); // TODO 02/04 it should be replaced
