@@ -11,38 +11,30 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.practgame.game.PractGame;
-import com.practgame.game.Screens.PlayScreen;
-import com.practgame.game.Utils.WorldContactListener;
+
 
 import java.util.logging.Logger;
 
 public class Bullet extends Sprite{
-
-    private Player player;
     private World world;
 
     public Body b2bullet;
 
-   // public Sprite bullet_sprite;
-
-    private  final static Logger LOGGER = Logger.getLogger(Bullet.class.getName());
-
     public Bullet(World world, Player player, AssetManager manager){
-        this.player = player;
+        Player player1 = player;
         this.world = world;
 
         BodyDef bdefB = new BodyDef();
         bdefB.type = BodyDef.BodyType.DynamicBody; // Kinematic bodies does not collide with static ones
 
         if(player.runningRight == true) {
-            bdefB.position.set(player.b2body.getPosition().x + 0.09f, player.b2body.getPosition().y + 0.01f );
+            bdefB.position.set(player1.b2body.getPosition().x + 0.09f, player1.b2body.getPosition().y + 0.01f );
             bdefB.linearVelocity.set(200/ PractGame.PPM, 0); // 200 for default gun
         }
         if(player.runningRight == false) {
-            bdefB.position.set(player.b2body.getPosition().x - 0.11f, player.b2body.getPosition().y + 0.01f);
+            bdefB.position.set(player1.b2body.getPosition().x - 0.11f, player1.b2body.getPosition().y + 0.01f);
             bdefB.linearVelocity.set(-200/ PractGame.PPM, 0);
         }
-
 
         FixtureDef fdefB = new FixtureDef();
         fdefB.friction = 0;
@@ -63,7 +55,6 @@ public class Bullet extends Sprite{
         setBounds(0,0, 2/PractGame.PPM, 2/PractGame.PPM);
     }
 
-
     public void dispose(){
         world.destroyBody(b2bullet);
         b2bullet.setUserData("null");
@@ -71,12 +62,10 @@ public class Bullet extends Sprite{
     }
 
     public void update(){
-        setPosition(b2bullet.getPosition().x - 0.01f, b2bullet.getPosition().y - 0.01f); // TODO changed for testing 04/13
-     //   LOGGER.info("Bullet position set is : " + b2bullet.getPosition().x + " " + b2bullet.getPosition().y );
+        setPosition(b2bullet.getPosition().x - 0.01f, b2bullet.getPosition().y - 0.01f);
     }
 
     public void drawBullet(SpriteBatch batch){
         super.draw(batch);
     }
-
 }

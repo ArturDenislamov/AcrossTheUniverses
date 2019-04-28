@@ -60,8 +60,6 @@ public class PlayScreen implements Screen {
     private float mapPixelWidth;
     private float mapPixelHeight;
 
-    private final static Logger LOGGER = Logger.getLogger(PlayScreen.class.getName());
-
     public int shotsMade;
 
     ArrayList <Bullet> bulletsArray;
@@ -96,7 +94,7 @@ public class PlayScreen implements Screen {
         world.setContactListener(new WorldContactListener(windowManager, world, this));
 
         shotsMade = 0;
-        bulletsArray = new ArrayList<Bullet>();
+        bulletsArray = new ArrayList<Bullet>(); // for active bullets
         destroyBullets = new ArrayList<Bullet>(); // for destroying bullets after hit
 
         gunShot = maingame.manager.get("sound/pistol.wav");
@@ -109,7 +107,7 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(controller.stage); // without this controller doesn't work
-        Gdx.input.setCatchBackKey(true);
+        Gdx.input.setCatchBackKey(true); // input with back key
     }
 
 
@@ -130,8 +128,8 @@ public class PlayScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
         creator = new LevelWorldCreator(this);
         player.definePlayer();
-        controller = new Controller(maingame.manager);
-        // this line influences gun shot ( after going to the next level)
+        controller = new Controller(maingame.manager); // this line influences gun shot ( after going to the next level)
+
         MapProperties prop = map.getProperties();
 
         int mapWidth = prop.get("width", Integer.class);
@@ -147,7 +145,6 @@ public class PlayScreen implements Screen {
 
        slideSound.play(soundVolume);
     }
-
 
     public void handleInput() {
         if(controller.isRightPressed())
@@ -167,7 +164,7 @@ public class PlayScreen implements Screen {
             windowManager.hideMessage();
         }
 
-
+            // in this case player shooting
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none"){
             if(shotsMade < player.bulletsAmount) {
                 bulletsArray.add(new Bullet(world, player, maingame.manager));
@@ -184,10 +181,6 @@ public class PlayScreen implements Screen {
             noAmmo.play(soundVolume);
         }
 
-
-
-
-        //TODO this time it works 04/13, preshow is soon
         for(int i = 0; i < bulletsArray.size(); i++){
             if(bulletsArray.get(i).b2bullet != null) {
                 if (bulletsArray.get(i).b2bullet.getPosition().x <= 0 || bulletsArray.get(i).b2bullet.getPosition().x >= (mapPixelWidth / PractGame.PPM)) {
@@ -202,13 +195,8 @@ public class PlayScreen implements Screen {
 
         }
 
-
-    //   LOGGER.info("player's position : " + player.b2body.getPosition().x + " " +player.b2body.getPosition().y);
-        // TODO maybe you should remove this Log
-
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
             maingame.musicManager.pause();
-            LOGGER.info("BACK_KEY pressed");
             maingame.setScreen(maingame.pauseScreen);
         }
 
@@ -216,18 +204,18 @@ public class PlayScreen implements Screen {
 
     public void update(float dt) {
         handleInput();
-        world.step(1 / 60f, 6, 2); // TODO get width, height by code
+        world.step(1 / 60f, 6, 2);
 
 
-        //destroying bodies, cleaning destroy array (doing this out of method step)
+        //destroying bodies, cleaning destroy array (doing this out of step method)
        for(int i = 0; i < destroyBullets.size(); i++){
            world.destroyBody(destroyBullets.get(i).b2bullet);
            destroyBullets.get(i).b2bullet = null;
        }
        destroyBullets.clear();
 
-
-        float lerp = 0.1f; // 0.1f
+        // smooth camera
+        float lerp = 0.1f;
         Vector3 position = gamecam.position;
         if(player.b2body.getPosition().x >= SCREEN_W/(2*PractGame.PPM) && player.b2body.getPosition().x <= (mapPixelWidth/PractGame.PPM - SCREEN_W/(2*PractGame.PPM))) // 0.40 == 40 pixels
             position.x += (player.b2body.getPosition().x - position.x) * lerp;
@@ -248,7 +236,7 @@ public class PlayScreen implements Screen {
             if(bulletsArray.get(i).b2bullet.getUserData() != "null") {
                 bulletsArray.get(i).update();
                 } else {
-                bulletsArray.get(i).dispose();      // TODO not sure
+                bulletsArray.get(i).dispose();
                 bulletsArray.remove(i);
             }
         }
@@ -284,7 +272,6 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-
         maingame.batch.setProjectionMatrix(gamecam.combined);
 
         maingame.batch.begin();
@@ -310,7 +297,7 @@ public class PlayScreen implements Screen {
             if(bulletsArray.get(i).b2bullet.getUserData() != "null") {
                 bulletsArray.get(i).drawBullet(maingame.batch);
             } else {
-                bulletsArray.get(i).dispose(); // TODO not sure
+                bulletsArray.get(i).dispose();
                 bulletsArray.remove(i);
             }
         }
@@ -360,24 +347,17 @@ public class PlayScreen implements Screen {
 
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
         map.dispose();
-        renderer.dispose();
         world.dispose();
        // b2dr.dispose();
         gunShot.dispose();
@@ -385,5 +365,4 @@ public class PlayScreen implements Screen {
         slideSound.dispose();
         magSoung.dispose();
     }
-
 }

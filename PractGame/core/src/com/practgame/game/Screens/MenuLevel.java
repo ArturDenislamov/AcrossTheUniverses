@@ -72,6 +72,8 @@ public class MenuLevel implements Screen {
         Gdx.input.setInputProcessor(controller.stage); // without this controller doesn't respond
         if(windowManager.waitingForAnwser != "none")
             Gdx.input.setInputProcessor(windowManager.stage);
+
+        controller.bPressed = false;
     }
 
     public void handleInput() {
@@ -157,6 +159,6 @@ public class MenuLevel implements Screen {
         renderer.dispose();
         world.dispose();
         atlas.dispose();
-        map.dispose();
+        windowManager.dispose();
     }
 }

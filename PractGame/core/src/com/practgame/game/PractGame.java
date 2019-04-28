@@ -48,7 +48,7 @@ public class PractGame extends Game {
 	public MusicManager musicManager;
 
 	private Preferences prefs;
-
+	private boolean toMenu;
 
     @Override
 	public void create() {
@@ -74,6 +74,7 @@ public class PractGame extends Game {
 		menuLevel = new MenuLevel(this);
 		pauseScreen = new PauseScreen(this);
 		settingsScreen = new SettingsScreen(this);
+		toMenu = false;
 
 		// under construction
 		//Multilanguage.setLanguage("eng");
@@ -84,13 +85,21 @@ public class PractGame extends Game {
     public void changeScreen(int worldType){
             switch (worldType){
                 case 1:
-					prefs.putInteger(AppPreferences.PREF_WORLD_1, levelLine1);
-					prefs.flush();
-					prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
-					prefs.flush();
-
-                    playScreen.setLevel(levelList1.get(levelLine1).mapInfo);
-                    this.worldType = 1;
+					if(levelLine1 == levelList1.size()){
+                        levelLine1 = 0;
+                        prefs.putInteger(AppPreferences.PREF_WORLD_1, 0);
+                        prefs.flush();
+                        toMenu = true;
+                        musicManager.setSound("title.ogg");
+                        this.setScreen(menuLevel);
+                    } else {
+                        prefs.putInteger(AppPreferences.PREF_WORLD_1, levelLine1);
+                        prefs.flush();
+                        prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
+                        prefs.flush();
+                        playScreen.setLevel(levelList1.get(levelLine1).mapInfo);
+                        this.worldType = 1;
+                    }
                     break;
 
                 case 2:
@@ -102,7 +111,10 @@ public class PractGame extends Game {
 					this.worldType = 3;
                     break;
             }
-            setScreen(playScreen);
+            if(!toMenu)
+                setScreen(playScreen);
+            else
+                toMenu = false;
     }
 
 	private Preferences getPrefs(){
@@ -118,11 +130,16 @@ public class PractGame extends Game {
 		manager.dispose();
 		batch.dispose();
 		musicManager.dispose();
+		menuLevel.dispose();
+		playScreen.dispose();
+		settingsScreen.dispose();
+		pauseScreen.dispose();
+		startScreen.dispose();
+		loadScreen.dispose();
 	}
 
 	@Override
 	public void render() {
 		super.render();
 	}
-
 }

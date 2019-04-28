@@ -9,12 +9,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.practgame.game.PractGame;
 import com.practgame.game.Screens.MenuLevel;
 import com.practgame.game.Sprites.ActionBrick;
 import com.practgame.game.Sprites.BlockTileObject;
 
-import jdk.nashorn.internal.ir.Block;
 
 public class MenuWorldCreator {
     // for creating Menu Level
@@ -22,34 +20,29 @@ public class MenuWorldCreator {
     public MenuWorldCreator(MenuLevel menuLevel) {
         World world = menuLevel.getWorld();
         TiledMap map = menuLevel.getMap();
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
-        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) { //TODO maybe(!) you should make this class universal and change menu tmx
+
+        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             new BlockTileObject(world, map, rect); // creating object using class
         }
 
-        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) { // in menu - lift
+        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) { //lift
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             new ActionBrick(world, map, rect, "lift");
         }
 
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // in menu - will be soon
+        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // unavailable content
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
              new BlockTileObject(world, map, rect);
         }
 
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // in menu - guy
+        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // lobby
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
            new ActionBrick(world, map, rect, "lobby");
-
-    }
-
+        }
     }
 }

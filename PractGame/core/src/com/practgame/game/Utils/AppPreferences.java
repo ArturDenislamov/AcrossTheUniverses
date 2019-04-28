@@ -20,10 +20,6 @@ public final class AppPreferences {
 
     private static final Logger LOGGER  = Logger.getLogger(AppPreferences.class.getName());
 
-   /* protected Preferences getPrefs() {
-        return Gdx.app.getPreferences(PREFS_NAME);
-    } */
-
     public boolean isSoundEffectsEnabled() {
         return prefsObject.getBoolean(PREF_SOUND_ENABLED, true);
     }

@@ -20,7 +20,7 @@ import com.practgame.game.Screens.PlayScreen;
 
 
 public class Player extends Sprite {
-    public enum State {FALLING , JUMPING , STANDING, RUNNING};
+    public enum State {STANDING, RUNNING};
     public State currentState;
     public State previousState;
     public World world;

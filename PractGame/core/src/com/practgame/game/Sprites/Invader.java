@@ -14,7 +14,6 @@ import com.practgame.game.PractGame;
 import com.practgame.game.Screens.PlayScreen;
 
 public class Invader extends Enemy {
-
     private float stateTime;
     private Animation walkAnimation;
     private Array<TextureRegion> frames;
@@ -26,7 +25,6 @@ public class Invader extends Enemy {
     private boolean setToDestroy;
     private boolean destroyed;
 
-    //TODO join different atlases
     public Invader(PlayScreen screen, float x, float y) {
         super(screen, x, y);
         this.x = x;
@@ -61,7 +59,6 @@ public class Invader extends Enemy {
             setRegion((TextureRegion) walkAnimation.getKeyFrame(stateTime, true));
             setBounds(getX(), getY(), 12 / PractGame.PPM, 21 / PractGame.PPM);
         }
-
     }
 
     @Override
@@ -82,7 +79,6 @@ public class Invader extends Enemy {
         fdef.friction = 0; // player doesn't stick to the walls (can be changed)
         Shape shape = new PolygonShape();
         ((PolygonShape) shape).setAsBox(6/PractGame.PPM, 9.88f/PractGame.PPM);
-        // shape.setRadius(6 / PractGame.PPM); // CircleShape changed to BoxShape
         fdef.shape = shape;
         fdef.filter.categoryBits = PractGame.ENEMY_BIT;
         fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.PLAYER_BIT | PractGame.BULLET_BIT;

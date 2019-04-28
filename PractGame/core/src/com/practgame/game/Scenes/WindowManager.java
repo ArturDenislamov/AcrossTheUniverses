@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -34,18 +33,12 @@ public class WindowManager implements Disposable {
 
     private PractGame maingame;
 
-    private final static Logger LOGGER = Logger.getLogger(WindowManager.class.getName());
-
     public WindowManager(PractGame maingame){
         this.maingame = maingame;
-
-        viewport = new FitViewport(320, 180, new OrthographicCamera()); // remember 16/9! 02/11
+        viewport = new FitViewport(320, 180, new OrthographicCamera());
         stage = new Stage(viewport, maingame.batch);
-
         onGround = false;
     }
-
-
 
     public void showMessage(String tag){
         table = new Table();
@@ -60,17 +53,14 @@ public class WindowManager implements Disposable {
 
 
         if(tag.equals("lobby")){
-            LOGGER.info("in showMessage method -- Hello");
             messageLabel.setText("Hello, James!");
         }
 
         if(tag.equals("lift")){
-            LOGGER.info("lift message appears");
             messageLabel.setText("B - go to lift");
         }
 
         if(tag.equals("next_level")){
-            LOGGER.info("next level message");
             messageLabel.setText("B - next level");
         }
         if(tag.equals("reload")){
@@ -84,8 +74,7 @@ public class WindowManager implements Disposable {
     }
 
     public void hideWindow(){
-        LOGGER.info("hideWindow activated");
-        stage.clear(); // ok, (stage.clear();)it partially works 03/23
+        stage.clear();
         waitingForAnwser = "none";
         maingame.menuLevel.show();
     }
@@ -106,18 +95,15 @@ public class WindowManager implements Disposable {
             firstW.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    LOGGER.info("Button First World pressed");
-                    hideWindow(); // if it is located after line 111, controller doesn't work
-                    maingame.changeScreen(1); // interesting, but normal
-                        maingame.musicManager.setSound("world1.ogg");
-                        waitingForAnwser = "none";
+                    hideWindow(); // if it is located after line 101, controller doesn't work
+                    maingame.changeScreen(1);
+                    maingame.musicManager.setSound("world1.ogg");
+                    waitingForAnwser = "none";
                     return true;
                 }
 
                 @Override
-                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                         //   waitingForAnwser = "none";
-                }
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {}
             });
 
             secondW = new ImageButton(new TextureRegionDrawable(new TextureRegion(second)));
@@ -166,16 +152,13 @@ public class WindowManager implements Disposable {
             backW.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    LOGGER.info("Exit level selection pressed");
                     hideWindow();
                     waitingForAnwser = "none";
                     return true;
                 }
 
                 @Override
-                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    //   waitingForAnwser = "none";
-                }
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {}
             });
 
 
@@ -186,7 +169,6 @@ public class WindowManager implements Disposable {
             levelTable.add(backW).size(bsize, bsize).padTop(10);
             levelTable.pack();
             stage.addActor(levelTable);
-            LOGGER.info("Level table added");
         }
 
         if(tag.equals("next_level")){
@@ -199,14 +181,10 @@ public class WindowManager implements Disposable {
 
             maingame.changeScreen(maingame.worldType);
         }
-
     }
-
-
 
     @Override
     public void dispose() {
         stage.dispose();
-
     }
 }

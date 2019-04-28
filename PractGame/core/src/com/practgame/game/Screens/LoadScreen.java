@@ -5,28 +5,19 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.practgame.game.PractGame;
 import com.practgame.game.Utils.LevelInfo;
 
-import java.util.logging.Logger;
-
 
 public class LoadScreen implements Screen {
-
     public AssetManager manager;
     private long startTime;
     private PractGame maingame;
 
-    private Animation <Texture> loadingAnimation;
     private Stage stage;
-
-    private final Logger LOGGER = Logger.getLogger(LoadScreen.class.getName());
 
     public LoadScreen(PractGame practGame){
         maingame = practGame;
@@ -37,12 +28,6 @@ public class LoadScreen implements Screen {
         stage = new Stage();
 
         loadAssets();
-
-            // Loading animation or picture
-       // Array<Texture> frames = new Array <Texture>();
-     //   frames.add(new Texture("loading.gif"));
-      //  loadingAnimation = new Animation<Texture>(1.0f, frames);
-     //   frames.clear();
 
         stage.addActor(new Image(new Texture("loading.gif")));
     }
@@ -68,10 +53,6 @@ public class LoadScreen implements Screen {
 
         //Character
         manager.load("Character/bullet_texture.png", Texture.class);
-       // manager.load("Character/Character.pack", TextureAtlas.class);
-       // manager.load("Character/Character.png", Texture.class); //TODO commented because of the game realization
-       // manager.load("Character/gun.png", Texture.class);
-     //   manager.load("Character/gun_redline.png", Texture.class);
 
         //game controls
         manager.load("gc/aDark.png", Texture.class);
@@ -99,49 +80,38 @@ public class LoadScreen implements Screen {
         manager.load("pause/pause.png", Texture.class);
 
         manager.finishLoading();
-        LOGGER.info("Loading finished");
     }
 
     @Override
-    public void show() {
-    }
+    public void show(){}
 
     @Override
     public void render(float delta){
         //code to render splash here
         stage.draw();
 
-
-        //check if assets are loaded and time greater than 10 seconds
-        if(manager.update() && TimeUtils.timeSinceMillis(startTime) > 2000){ // 10 seconds is too long
-            LOGGER.info("Loading screen changed");
+        //check if assets are loaded and time greater than 2 seconds
+        if(manager.update() && TimeUtils.timeSinceMillis(startTime) > 2000){
             maingame.setScreen(maingame.startScreen);
         }
     }
 
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) {}
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        manager.dispose();
     }
 }

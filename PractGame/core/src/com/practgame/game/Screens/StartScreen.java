@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import  com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.practgame.game.PractGame;
 
-
 public class StartScreen extends ScreenAdapter {
 
     private static final float WORLD_WIDTH = 1280;
@@ -33,7 +32,6 @@ public class StartScreen extends ScreenAdapter {
    public  StartScreen(PractGame practGame){
         maingame = practGame;
     }
-
 
     @Override
     public void show() {
@@ -92,6 +90,7 @@ public class StartScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         super.dispose();
-        clickSound.dispose();
+        stage.dispose();
+        backgroundtexture.dispose();
     }
 }

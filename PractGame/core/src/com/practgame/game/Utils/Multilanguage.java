@@ -2,9 +2,9 @@ package com.practgame.game.Utils;
 
 
 import java.util.HashMap;
-//TODO under construction 03/13
+
 public class Multilanguage {
-    // 02/03 under construction, it is needed for multilanguage support
+    // under construction, it is needed for multilanguage support
     private static HashMap < String, HashMap <String, String> > data;
 
     private static String language;

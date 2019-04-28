@@ -11,13 +11,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.practgame.game.PractGame;
-import com.practgame.game.Screens.PlayScreen;
 
 public abstract class InteractiveTileObject {
 
     protected World world;
     protected TiledMap map;
-    protected TiledMapTile tile;
     protected Rectangle bounds;
     protected Body body;
 
@@ -43,10 +41,10 @@ public abstract class InteractiveTileObject {
         fdef.isSensor = isSensor; // if true, object is "transparent"
        fixture =  body.createFixture(fdef);
     }
+
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
         fixture.setFilterData(filter);
     }
-
 }

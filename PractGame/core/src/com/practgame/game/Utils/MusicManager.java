@@ -1,11 +1,9 @@
 package com.practgame.game.Utils;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 
 
 public class MusicManager {
@@ -14,7 +12,6 @@ public class MusicManager {
     AssetManager manager;
     final Preferences preferences = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
     Music music;
-
 
     public MusicManager(AssetManager manager){
         this.manager = manager;
@@ -32,7 +29,6 @@ public class MusicManager {
             music.setVolume(preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME, 0.8f));
         else
             music.setVolume(0);
-
 
         music.setLooping(true);
         music.play();
@@ -58,5 +54,4 @@ public class MusicManager {
         music.dispose();
         manager.dispose();
     }
-
 }

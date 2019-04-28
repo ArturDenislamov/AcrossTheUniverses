@@ -38,8 +38,6 @@ public class SettingsScreen implements Screen {
     private final Preferences preferences = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
     public boolean fromPause;
 
-    private static final Logger LOGGER = Logger.getLogger(SettingsScreen.class.getName());
-
     public SettingsScreen(PractGame game){
         maingame = game;
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -166,22 +164,17 @@ public class SettingsScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
     }
 }

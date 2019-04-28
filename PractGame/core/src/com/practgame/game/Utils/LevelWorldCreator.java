@@ -25,14 +25,8 @@ public class LevelWorldCreator {
     private Array <Invader> invaders;
 
     public LevelWorldCreator(PlayScreen playScreen) {
-        TiledMap map = playScreen.getMap(); // this realization is here, in menu world creator - no
+        TiledMap map = playScreen.getMap();
         World world = playScreen.getWorld();
-
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
-
 
         for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) { // ground
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -42,12 +36,12 @@ public class LevelWorldCreator {
 
         //creating all invaders
         invaders = new Array<Invader>();
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // danger_blocks
+        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // invaders spawns
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             invaders.add(new Invader(playScreen, rect.getX()/ PractGame.PPM, rect.getY()/ PractGame.PPM));
         }
 
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // collectibles, recharge
+        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // reload blocks
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             new ActionBrick(world, map, rect, "ammo").setCategoryFilter(PractGame.RECHARGE_BIT);
@@ -64,7 +58,5 @@ public class LevelWorldCreator {
 
             new ActionBrick(world, map, rect, "extra");
         }
-
-
     }
 }

@@ -14,7 +14,6 @@ import com.practgame.game.PractGame;
 
 
 public class PauseScreen implements Screen {
-
     private static final float WORLD_WIDTH = 1280;
     private static final float WORLD_HEIGHT = 720; // using 16/9 ( 1280X720, 1920X1080 )
 
@@ -25,10 +24,8 @@ public class PauseScreen implements Screen {
     private TextButton toMenuButton;
     private TextButton toSettingsButton;
 
-
     Skin skin;
     private final float scale = 2.5f;
-
 
     public PauseScreen(PractGame game){
         maingame = game;
@@ -45,7 +42,6 @@ public class PauseScreen implements Screen {
         toSettingsButton = new TextButton("Settings", skin);
         toSettingsButton.setTransform(true);
         toSettingsButton.scaleBy(scale);
-
 
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
     }
@@ -94,26 +90,20 @@ public class PauseScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-    }
+    public void resize(int width, int height) {}
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
             stage.dispose();
+            skin.dispose();
     }
 }
