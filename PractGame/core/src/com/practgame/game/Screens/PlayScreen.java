@@ -104,8 +104,7 @@ public class PlayScreen implements Screen {
         slideSound = maingame.manager.get("sound/slide.wav");
         noAmmo = maingame.manager.get("sound/noAmmo.wav");
         magSoung = maingame.manager.get("sound/reload.wav");
-
-        soundVolume = Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getFloat(AppPreferences.PREF_MUSIC_VOLUME);
+        updateSoundVolume();
     }
 
     @Override
@@ -349,6 +348,13 @@ public class PlayScreen implements Screen {
         magSoung.stop();
         magSoung.play(soundVolume);
         hud.updateBullets(player.bulletsAmount - shotsMade);
+    }
+
+    public void updateSoundVolume(){
+        if(Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getBoolean(AppPreferences.PREF_SOUND_ENABLED))
+            soundVolume = Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getFloat(AppPreferences.PREF_SOUND_VOL);
+        else
+            soundVolume = 0;
     }
 
 

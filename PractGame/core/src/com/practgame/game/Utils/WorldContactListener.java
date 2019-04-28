@@ -49,7 +49,7 @@ public class WorldContactListener implements ContactListener {
 
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
-        //TODO maybe you should rewrite upper if's too
+        //TODO maybe you should rewrite ifs too
         switch (cDef){
             case PractGame.ENEMY_BIT | PractGame.BULLET_BIT:
                 LOGGER.info("Enemy and Bullet collision");
@@ -136,7 +136,7 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void endContact(Contact contact){
-            if(messageShown) {
+            if(messageShown && (("player").equals(contact.getFixtureA().getUserData()) || ("player").equals(contact.getFixtureB().getUserData()))) {
                 messageShown = false;
                 windowManager.hideMessage();
             }

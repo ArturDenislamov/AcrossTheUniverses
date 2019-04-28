@@ -2,65 +2,59 @@ package com.practgame.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.practgame.game.PractGame;
 
 
+
 public class PauseScreen implements Screen {
 
     private static final float WORLD_WIDTH = 1280;
-    private static final float WORLD_HEIGHT = 720; // using 16/9 ( 1280X20, 1920X1080 )
+    private static final float WORLD_HEIGHT = 720; // using 16/9 ( 1280X720, 1920X1080 )
 
-    Texture backgroundtexture;
     private Stage stage;
     private PractGame maingame;
 
     private TextButton toGameButton;
     private TextButton toMenuButton;
+    private TextButton toSettingsButton;
 
-    Texture toGameTexture;
-    Texture toMenuTexture;
 
     Skin skin;
-    float bsize = 5;
+    private final float scale = 2.5f;
 
 
     public PauseScreen(PractGame game){
         maingame = game;
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        /*
-        backgroundtexture = maingame.manager.get("pause/pause.png");
-        toGameTexture = maingame.manager.get("pause/pause_play.png");
-        toMenuTexture = maingame.manager.get("pause/pause_menu.png");
-        toGameButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(toGameTexture)));
-        toMenuButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(toMenuTexture)));
-        */
+
         toGameButton = new TextButton("Play", skin);
         toGameButton.setTransform(true);
-        toGameButton.scaleBy(2.5f);
+        toGameButton.scaleBy(scale);
+
         toMenuButton = new TextButton("Menu", skin);
         toMenuButton.setTransform(true);
-        toMenuButton.scaleBy(2.5f);
+        toMenuButton.scaleBy(scale);
+
+        toSettingsButton = new TextButton("Settings", skin);
+        toSettingsButton.setTransform(true);
+        toSettingsButton.scaleBy(scale);
+
+
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
     }
     @Override
     public void show() {
             Gdx.input.setInputProcessor(stage);
-            toGameButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2, Align.center);
-            toMenuButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
+            toGameButton.setPosition(WORLD_WIDTH/2 - toGameButton.getWidth(), WORLD_HEIGHT/2, Align.center);
+            toMenuButton.setPosition(WORLD_WIDTH/2  - toMenuButton.getWidth(), WORLD_HEIGHT/2 - WORLD_HEIGHT/3, Align.center);
+            toSettingsButton.setPosition(WORLD_WIDTH/2 - toSettingsButton.getWidth(), WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
 
         ClickListener playListener  = new ClickListener(){
             @Override
@@ -81,6 +75,17 @@ public class PauseScreen implements Screen {
         };
         toMenuButton.addListener(menuListener);
         stage.addActor(toMenuButton);
+
+        ClickListener settingsListener  = new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                maingame.musicManager.pause();
+                maingame.settingsScreen.fromPause = true;
+                maingame.setScreen(maingame.settingsScreen);
+            }
+        };
+        toSettingsButton.addListener(settingsListener);
+        stage.addActor(toSettingsButton);
     }
 
     @Override
@@ -109,9 +114,6 @@ public class PauseScreen implements Screen {
 
     @Override
     public void dispose() {
-            toMenuTexture.dispose();
-            toGameTexture.dispose();
-            backgroundtexture.dispose();
             stage.dispose();
     }
 }

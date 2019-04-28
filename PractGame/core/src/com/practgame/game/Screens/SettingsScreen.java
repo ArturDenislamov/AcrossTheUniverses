@@ -36,6 +36,7 @@ public class SettingsScreen implements Screen {
     private Label soundOnOffLabel;
 
     private final Preferences preferences = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
+    public boolean fromPause;
 
     private static final Logger LOGGER = Logger.getLogger(SettingsScreen.class.getName());
 
@@ -44,6 +45,7 @@ public class SettingsScreen implements Screen {
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         table = new Table();
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
+        fromPause = false;
 
         //volume
         final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin);
@@ -81,20 +83,40 @@ public class SettingsScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 maingame.musicManager.setVolume(preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME));
+                if(fromPause) {
+                    fromPause = false;
+                    maingame.setScreen(maingame.pauseScreen);
+                }
+                else
                 maingame.setScreen(maingame.startScreen);
             }
         });
 
+        //sound
         final CheckBox soundCheckbox = new CheckBox(null, skin);
-        musicCheckbox.setTransform(true);
-        musicCheckbox.scaleBy(2f);
-        musicCheckbox.setChecked(preferences.getBoolean(AppPreferences.PREF_SOUND_ENABLED) );
-        musicCheckbox.addListener( new EventListener() {
+        soundCheckbox.setTransform(true);
+        soundCheckbox.scaleBy(2f);
+        soundCheckbox.setChecked(preferences.getBoolean(AppPreferences.PREF_SOUND_ENABLED, true) );
+        soundCheckbox.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
-                boolean enabled = musicCheckbox.isChecked();
+                boolean enabled = soundCheckbox.isChecked();
                 preferences.putBoolean(AppPreferences.PREF_SOUND_ENABLED, enabled);
                 preferences.flush();
+                maingame.playScreen.updateSoundVolume();
+                return false;
+            }
+        });
+
+        //sound slider
+        final Slider soundSlider = new Slider( 0f, 1f, 0.1f,false, skin);
+        soundSlider.setValue( preferences.getFloat(AppPreferences.PREF_SOUND_VOL, 0.7f) );
+        soundSlider.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                preferences.putFloat(AppPreferences.PREF_SOUND_VOL, soundSlider.getValue());
+                preferences.flush();
+                maingame.playScreen.updateSoundVolume();
                 return false;
             }
         });
@@ -116,10 +138,10 @@ public class SettingsScreen implements Screen {
         table.add(musicCheckbox);
         table.row().pad(15, 0, 0, 10);
         table.add(volumeSoundLabel);
-        //  table.add(soundMusicSlider);
+        table.add(soundSlider);
         table.row().pad(30, 0, 0, 10);
         table.add(soundOnOffLabel);
-        // table.add(soundEffectsCheckbox);
+        table.add(soundCheckbox);
         table.row().pad(10, 0, 0, 10);
         table.add(backButton);
 
