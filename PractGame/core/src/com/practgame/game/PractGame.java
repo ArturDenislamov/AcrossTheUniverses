@@ -18,6 +18,7 @@ import com.practgame.game.Utils.Multilanguage;
 import com.practgame.game.Utils.MusicManager;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class PractGame extends Game {
     public static final short DEFAULT_BIT = 1; // ground
@@ -38,9 +39,9 @@ public class PractGame extends Game {
 	public PauseScreen pauseScreen;
 	public SettingsScreen settingsScreen;
 
-	public  int levelLine1;
-	public int levelLine2;
-	public int levelLine3;
+	public  Integer levelLine1;
+	public Integer levelLine2;
+	public Integer levelLine3;
 	public int worldType;
 
 	public static float PPM = 100;
@@ -53,6 +54,11 @@ public class PractGame extends Game {
 	public AssetManager manager;
 	public MusicManager musicManager;
 
+	private Preferences prefs;
+
+
+    private static final Logger LOGGER = Logger.getLogger(PractGame.class.getName());
+
 
     @Override
 	public void create() {
@@ -60,6 +66,7 @@ public class PractGame extends Game {
 		levelList2 = new ArrayList<LevelInfo>();
 		levelList3 = new ArrayList<LevelInfo>();
 
+		getPrefs();
 
 		// TODO add if(save exists) 02/15
 
@@ -70,8 +77,10 @@ public class PractGame extends Game {
         musicManager = new MusicManager(manager);
         musicManager.setSound("title.ogg");
 
-        levelLine1 = 0; // created for managing levels
-        levelLine2 = 0; // 2 - for test
+        // created for managing levels
+        LOGGER.info("safed line 1 : " + prefs.getInteger(AppPreferences.PREF_WORLD_1, 0));
+        levelLine1 = prefs.getInteger(AppPreferences.PREF_WORLD_1, 0);
+        levelLine2 = 0;
         levelLine3 = 0;
 		batch = new SpriteBatch();
 		startScreen = new StartScreen(this);
@@ -90,6 +99,10 @@ public class PractGame extends Game {
     public void changeScreen(int worldType){
             switch (worldType){
                 case 1:
+                    LOGGER.info("line 1 : " + levelLine1);
+                    prefs.putInteger(AppPreferences.PREF_WORLD_1, levelLine1);
+                    prefs.flush();
+                    LOGGER.info("line 1 safed : " + prefs.getInteger(AppPreferences.PREF_WORLD_1));
                     playScreen.setLevel(levelList1.get(levelLine1).mapInfo);
                     this.worldType = 1;
                     break;
@@ -104,6 +117,12 @@ public class PractGame extends Game {
                     break;
             }
             setScreen(playScreen);
+    }
+
+    private Preferences getPrefs(){
+        if (prefs == null)
+            prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
+        return prefs;
     }
 
 

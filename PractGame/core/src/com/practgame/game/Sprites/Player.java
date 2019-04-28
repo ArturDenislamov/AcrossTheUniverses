@@ -34,6 +34,8 @@ public class Player extends Sprite {
 
     public int bulletsAmount;
 
+    private String levelType;
+
 
     public Player (World world, MenuLevel level){
         super(level.getAtlas().findRegion("stand")); // TODO here you can change player's textures (without helmet) 04/08
@@ -42,6 +44,8 @@ public class Player extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
+
+        levelType = "menu";
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
         // for(int i = 2; i <=3; i++) // TODO remake this 03/09
@@ -65,6 +69,8 @@ public class Player extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
+
+        levelType = "play";
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
         // for(int i = 2; i <=3; i++) // TODO remake this 03/09
@@ -156,7 +162,11 @@ public class Player extends Sprite {
 
     public void definePlayer(){
                 BodyDef bdef = new BodyDef();
-                bdef.position.set( 32/ PractGame.PPM, 32/ PractGame.PPM); // were 32 and 32 (it suited normally)
+                if(levelType.equals("menu"))
+                    bdef.position.set( 32/ PractGame.PPM, 64/ PractGame.PPM + 0.14f);
+                else
+                    bdef.position.set( 32/ PractGame.PPM, 32/ PractGame.PPM); // were 32 and 32 (it suited normally)
+
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
 

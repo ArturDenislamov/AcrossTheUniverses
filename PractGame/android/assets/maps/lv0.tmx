@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="52" height="12" tilewidth="5" tileheight="5" infinite="0" nextlayerid="10" nextobjectid="44">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="52" height="24" tilewidth="5" tileheight="5" infinite="0" nextlayerid="15" nextobjectid="55">
  <tileset firstgid="1" name="coffee" tilewidth="8" tileheight="8" tilecount="3" columns="3">
   <image source="coffee.png" width="24" height="8"/>
   <tile id="0">
@@ -10,15 +10,48 @@
    </animation>
   </tile>
  </tileset>
+ <tileset firstgid="4" name="bash" tilewidth="17" tileheight="22" tilecount="2" columns="2">
+  <image source="bash.png" trans="000000" width="34" height="22"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="320"/>
+    <frame tileid="1" duration="320"/>
+   </animation>
+  </tile>
+ </tileset>
+ <tileset firstgid="6" name="gun" tilewidth="18" tileheight="19" tilecount="2" columns="2">
+  <image source="gun.png" trans="000000" width="36" height="19"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="340"/>
+    <frame tileid="1" duration="340"/>
+   </animation>
+  </tile>
+ </tileset>
+ <tileset firstgid="8" name="portal" tilewidth="28" tileheight="28" tilecount="2" columns="2">
+  <image source="portal.png" trans="000000" width="56" height="28"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="340"/>
+    <frame tileid="1" duration="340"/>
+   </animation>
+  </tile>
+ </tileset>
  <imagelayer id="2" name="background">
   <image source="image_lv0.png" width="261" height="60"/>
  </imagelayer>
  <objectgroup id="3" name="floor">
   <object id="3" x="0" y="55" width="260" height="5"/>
   <object id="29" x="0" y="24.25" width="5" height="30.75"/>
+  <object id="44" x="0" y="80" width="5" height="35"/>
+  <object id="45" x="0" y="115" width="260" height="5"/>
+  <object id="46" x="255" y="80" width="5" height="35"/>
  </objectgroup>
  <objectgroup id="4" name="lift">
   <object id="4" x="200" y="30" width="15" height="25"/>
+  <object id="47" x="200" y="90" width="15" height="25"/>
+  <object id="49" x="200" y="90" width="15" height="25"/>
+  <object id="52" x="200" y="90" width="15" height="25"/>
  </objectgroup>
  <objectgroup id="5" name="willbesoon">
   <object id="6" x="250" y="25" width="10" height="30"/>
@@ -26,9 +59,24 @@
  <objectgroup id="7" name="guy">
   <object id="43" x="75" y="40" width="10" height="15"/>
  </objectgroup>
- <layer id="9" name="graphics" width="52" height="12" offsetx="-0.25" offsety="2">
+ <objectgroup id="12" name="gun">
+  <object id="54" x="145" y="90" width="20" height="15"/>
+ </objectgroup>
+ <objectgroup id="13" name="portal">
+  <object id="48" x="132.667" y="103.667"/>
+  <object id="53" x="45" y="90" width="25" height="25"/>
+ </objectgroup>
+ <layer id="11" name="graphics" width="52" height="24" offsetx="-0.25" offsety="2">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMBwB40A7YBSMglFAMwAADaAAAg==
+   eJztzjEJAAAIADC97N/YEAqCbAkWAcBHeR0AAIChug7AkgY0tAAJ
+  </data>
+ </layer>
+ <imagelayer id="10" name="secondFloor" offsetx="0" offsety="60">
+  <image source="secondFloor.png" width="261" height="60"/>
+ </imagelayer>
+ <layer id="14" name="graphics2" width="52" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzrENACAIAEEKEt1/YlawMRC9q7/4CAAAAIB5VvfAQ/ZBk9cv/lU4hAAU
   </data>
  </layer>
 </map>

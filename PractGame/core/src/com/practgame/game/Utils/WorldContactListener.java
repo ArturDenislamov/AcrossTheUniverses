@@ -118,15 +118,27 @@ public class WorldContactListener implements ContactListener {
                 messageShown = true;
             }
 
-            if(("lift").equals(object.getUserData())){
-                windowManager.showMessage("lift");
-                windowManager.waitingForAnwser = "lift";
+            if(("portal").equals(object.getUserData())){
+                windowManager.showMessage("portal");
+                windowManager.waitingForAnwser = "portal";
                 messageShown = true;
             }
 
             if(("next_level".equals(object.getUserData()))){
                 windowManager.showMessage("next_level");
                 windowManager.waitingForAnwser = "next_level";
+                messageShown = true;
+            }
+
+            if(("gun").equals(object.getUserData())){
+                windowManager.showMessage("gun");
+                windowManager.waitingForAnwser = "gun";
+                messageShown = true;
+            }
+
+            if(("lift").equals(object.getUserData())){
+                windowManager.showMessage("lift");
+                windowManager.waitingForAnwser = "lift";
                 messageShown = true;
             }
         }

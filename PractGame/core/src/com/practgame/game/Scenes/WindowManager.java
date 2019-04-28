@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
+import com.practgame.game.Sprites.Player;
 
 import java.util.logging.Logger;
 
@@ -32,6 +33,8 @@ public class WindowManager implements Disposable {
 
     public boolean onGround;
 
+    private String floor;
+
     private PractGame maingame;
 
     private final static Logger LOGGER = Logger.getLogger(WindowManager.class.getName());
@@ -43,6 +46,7 @@ public class WindowManager implements Disposable {
         stage = new Stage(viewport, maingame.batch);
 
         onGround = false;
+        floor = "first";
     }
 
 
@@ -64,9 +68,9 @@ public class WindowManager implements Disposable {
             messageLabel.setText("Hello, James!");
         }
 
-        if(tag.equals("lift")){
-            LOGGER.info("lift message appears");
-            messageLabel.setText("B - go to lift");
+        if(tag.equals("portal")){
+            LOGGER.info("portal message appears");
+            messageLabel.setText("B - go to mission");
         }
 
         if(tag.equals("next_level")){
@@ -75,6 +79,15 @@ public class WindowManager implements Disposable {
         }
         if(tag.equals("reload")){
             messageLabel.setText("Reload");
+        }
+
+        if(tag.equals("gun")){
+            messageLabel.setText("B - change gun");
+        }
+
+        if(tag.equals("lift")){
+            messageLabel.setText("B - go to lift");
+
         }
 
     }
@@ -92,7 +105,7 @@ public class WindowManager implements Disposable {
 
     // this method also does actions, not only shows windows
     public void showWindow(String tag){
-        if(tag.equals("lift")){
+        if(tag.equals("portal")){
             levelTable = new Table();
             messageLabel.setText("");
             levelTable.setFillParent(true);
@@ -198,6 +211,26 @@ public class WindowManager implements Disposable {
                 maingame.levelLine3++;
 
             maingame.changeScreen(maingame.worldType);
+        }
+
+        if(tag.equals("lift")){
+            maingame.menuLevel.controller.bPressed = false;
+            Player player = maingame.menuLevel.player;
+            LOGGER.info("Lift activated");
+            if(floor.equals("first")){
+                player.b2body.setTransform(player.b2body.getPosition().x, player.b2body.getPosition().y / 2, 0);
+                maingame.menuLevel.gamecam.position.y = 45 / 3 / PractGame.PPM + 0.06f;
+                floor = "second";
+            } else if(floor.equals("second")){
+                player.b2body.setTransform(player.b2body.getPosition().x, player.b2body.getPosition().y * 2 + 0.3f, 0);
+                maingame.menuLevel.gamecam.position.y = player.b2body.getPosition().y + 0.1f;
+                floor = "first";
+            }
+           // player.b2body.getPosition().set(player.b2body.getPosition().x, player.b2body.getPosition().y/2);
+        }
+
+        if(tag.equals("gun")){
+         //   maingame.setScreen(GunScreen);
         }
 
     }

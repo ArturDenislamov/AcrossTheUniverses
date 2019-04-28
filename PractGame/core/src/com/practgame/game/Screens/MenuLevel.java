@@ -22,7 +22,7 @@ import com.practgame.game.Utils.WorldContactListener;
 
 
 public class MenuLevel implements Screen {
-    private OrthographicCamera gamecam;
+    public OrthographicCamera gamecam;
     private Viewport gamePort;
     private float SCREEN_W = 80;
     private float SCREEN_H = 45;
@@ -33,8 +33,8 @@ public class MenuLevel implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
-    private Player player;
-    Controller controller;
+    public Player player;
+    public Controller controller;
 
    public WindowManager windowManager;
 
@@ -53,6 +53,8 @@ public class MenuLevel implements Screen {
 
         world = new World(new Vector2(0, -10), true); // gravity vector
         player = new Player(world, this);
+       // gamecam.position.y = (24*8 - );
+      //  player.b2body.getPosition().set(player.b2body.getPosition().x, player.b2body.getPosition().y * 2);
         controller = new Controller(mainGame.manager);
 
         new MenuWorldCreator(this);
@@ -96,6 +98,7 @@ public class MenuLevel implements Screen {
         world.step(1 / 60f, 6, 2);
         if(player.b2body.getPosition().x >= 0.40 && player.b2body.getPosition().x <= 2.20) // 0.40 == 40 pixels
          gamecam.position.x = player.b2body.getPosition().x;
+
 
         gamecam.update();
         // tell our renderer to draw only what our camera see in game world

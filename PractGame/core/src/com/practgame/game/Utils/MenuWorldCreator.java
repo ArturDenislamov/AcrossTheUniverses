@@ -26,7 +26,7 @@ public class MenuWorldCreator {
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
         Body body;
-        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) { //TODO maybe(!) you should make this class universal and change menu tmx
+        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) { //floor
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             new BlockTileObject(world, map, rect); // creating object using class
@@ -50,6 +50,20 @@ public class MenuWorldCreator {
            new ActionBrick(world, map, rect, "lobby");
 
     }
+
+        for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) { // gun
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new ActionBrick(world, map, rect, "gun");
+
+        }
+
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) { // in menu - guy
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new ActionBrick(world, map, rect, "portal");
+
+        }
 
     }
 }

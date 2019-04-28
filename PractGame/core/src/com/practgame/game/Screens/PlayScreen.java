@@ -145,7 +145,7 @@ public class PlayScreen implements Screen {
 
         b2dr = new Box2DDebugRenderer();
 
-       slideSound.play(soundVolume); // maybe you should remove this
+       slideSound.play(soundVolume);
     }
 
 

@@ -13,7 +13,12 @@ public final class AppPreferences {
     public static final String PREFS_NAME = "b2dpref";
     public static final String PREF_VIBRATION_ENABLED = "vibration.enabled";
 
-    private final Preferences prefsObject = Gdx.app.getPreferences(PREFS_NAME);
+    public static final String PREF_WORLD_1 = "world1";
+    public static final String PREF_WORLD_2 = "world2";
+    public static final String PREF_WORLD_3 = "world3";
+
+
+    public final Preferences prefsObject = Gdx.app.getPreferences(PREFS_NAME);
 
     private static final Logger LOGGER  = Logger.getLogger(AppPreferences.class.getName());
 
