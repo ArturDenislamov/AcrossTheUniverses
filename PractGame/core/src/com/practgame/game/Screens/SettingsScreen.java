@@ -49,7 +49,7 @@ public class SettingsScreen implements Screen {
 
         //volume
         final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin);
-        volumeMusicSlider.setValue( preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME) );
+        volumeMusicSlider.setValue( preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME, 0.8f) );
         volumeMusicSlider.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -65,7 +65,7 @@ public class SettingsScreen implements Screen {
         final CheckBox musicCheckbox = new CheckBox(null, skin);
         musicCheckbox.setTransform(true);
         musicCheckbox.scaleBy(2f);
-        musicCheckbox.setChecked(preferences.getBoolean(AppPreferences.PREF_MUSIC_ENABLED) );
+        musicCheckbox.setChecked(preferences.getBoolean(AppPreferences.PREF_MUSIC_ENABLED, true) );
         musicCheckbox.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -82,7 +82,7 @@ public class SettingsScreen implements Screen {
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                maingame.musicManager.setVolume(preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME));
+                maingame.musicManager.setVolume(preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME, 0.8f));
                 if(fromPause) {
                     fromPause = false;
                     maingame.setScreen(maingame.pauseScreen);

@@ -3,11 +3,11 @@ package com.practgame.game.Screens;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -18,9 +18,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -53,7 +50,7 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
-    private Box2DDebugRenderer b2dr;
+   // private Box2DDebugRenderer b2dr;
     private Player player;
     Controller controller;
     private LevelWorldCreator creator;
@@ -77,6 +74,8 @@ public class PlayScreen implements Screen {
 
     public boolean killed;
     private float soundVolume;
+
+    final Preferences prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
 
     public PlayScreen(PractGame game){
         this.maingame = game;
@@ -143,9 +142,10 @@ public class PlayScreen implements Screen {
         mapPixelWidth = mapWidth * tilePixelWidth;
         mapPixelHeight = mapHeight * tilePixelHeight;
 
-        b2dr = new Box2DDebugRenderer();
+       // b2dr = new Box2DDebugRenderer();
+        shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
 
-       slideSound.play(soundVolume); // maybe you should remove this
+       slideSound.play(soundVolume);
     }
 
 
@@ -351,8 +351,8 @@ public class PlayScreen implements Screen {
     }
 
     public void updateSoundVolume(){
-        if(Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getBoolean(AppPreferences.PREF_SOUND_ENABLED))
-            soundVolume = Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getFloat(AppPreferences.PREF_SOUND_VOL);
+        if(prefs.getBoolean(AppPreferences.PREF_SOUND_ENABLED, true))
+            soundVolume = prefs.getFloat(AppPreferences.PREF_SOUND_VOL, 0.7f);
         else
             soundVolume = 0;
     }
@@ -379,7 +379,7 @@ public class PlayScreen implements Screen {
         map.dispose();
         renderer.dispose();
         world.dispose();
-        b2dr.dispose();
+       // b2dr.dispose();
         gunShot.dispose();
         noAmmo.dispose();
         slideSound.dispose();

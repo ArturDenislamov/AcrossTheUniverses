@@ -28,8 +28,8 @@ public class MusicManager {
         String path = "sound/" + name;
         music = manager.get(path);
 
-        if(preferences.getBoolean(AppPreferences.PREF_MUSIC_ENABLED))
-            music.setVolume(preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME));
+        if(preferences.getBoolean(AppPreferences.PREF_MUSIC_ENABLED, true))
+            music.setVolume(preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME, 0.8f));
         else
             music.setVolume(0);
 
@@ -48,17 +48,15 @@ public class MusicManager {
 
 
     public void setVolume(float volume){
-        if(preferences.getBoolean(AppPreferences.PREF_MUSIC_ENABLED))
-            music.setVolume(preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME));
+        if(preferences.getBoolean(AppPreferences.PREF_MUSIC_ENABLED, true))
+            music.setVolume(preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME, 0.8f));
         else
             music.setVolume(0);
     }
-
 
     public void dispose(){
         music.dispose();
         manager.dispose();
     }
-
 
 }

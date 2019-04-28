@@ -44,9 +44,7 @@ public class Player extends Sprite {
         runningRight = true;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        // for(int i = 2; i <=3; i++) // TODO remake this 03/09
-        //   frames.add(new TextureRegion(getTexture(), i*13, 0, 13,26));
-        frames.add(new TextureRegion(getTexture(), 27, 0, 13, 26)); // TODO Remake this! 03/08 (maybe not )
+        frames.add(new TextureRegion(getTexture(), 27, 0, 13, 26));
         frames.add(new TextureRegion(getTexture(), 41, 0, 13, 26));
         playerRun = new Animation <TextureRegion> (0.14f, frames); // 0.14f is suitable
         frames.clear();
@@ -67,9 +65,7 @@ public class Player extends Sprite {
         runningRight = true;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        // for(int i = 2; i <=3; i++) // TODO remake this 03/09
-        //   frames.add(new TextureRegion(getTexture(), i*13, 0, 13,26));
-        frames.add(new TextureRegion(getTexture(), 27, 0, 13, 26)); // Remake this! 03/08
+        frames.add(new TextureRegion(getTexture(), 27, 0, 13, 26));
         frames.add(new TextureRegion(getTexture(), 41, 0, 13, 26));
         playerRun = new Animation <TextureRegion> (0.14f, frames); // 0.14f is suitable
         frames.clear();
@@ -82,7 +78,6 @@ public class Player extends Sprite {
         gun = new Sprite(new Texture("Character/gun.png"), 0,0, 5, 5);
         gun.setBounds(0, 0, 5 / PractGame.PPM, 5 / PractGame.PPM );
 
-        //TODO check  type of the gun
         bulletsAmount = 5;
 
     }
@@ -94,7 +89,6 @@ public class Player extends Sprite {
     public void update(float dt){
         setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight()*0.52f  ); // numbers are needed for correct image position 03/08
         setRegion(getFrame(dt));
-
 
         if(gun != null) {
             if(runningRight == true) {
@@ -123,7 +117,7 @@ public class Player extends Sprite {
         }
 
 
-            //flipping player horizontally if he is running left or right
+        // flipping player horizontally if he is running left or right
         if((b2body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
             region.flip(true, false);
 
@@ -164,7 +158,6 @@ public class Player extends Sprite {
             fdef.friction = 0; // player doesn't stick to the walls (can be changed)
             Shape shape = new PolygonShape();
             ((PolygonShape) shape).setAsBox(4/PractGame.PPM, 12/PractGame.PPM);
-           // shape.setRadius(6 / PractGame.PPM); // CircleShape changed to BoxShape
             fdef.filter.categoryBits = PractGame.PLAYER_BIT; // it is defined as a player
             fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.RECHARGE_BIT | PractGame.GUN_BIT | PractGame.ENEMY_BIT;
 

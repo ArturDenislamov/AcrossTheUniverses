@@ -69,7 +69,7 @@ public class MenuLevel implements Screen {
     @Override
     public void show() {
         Gdx.input.setCatchBackKey(false);
-        Gdx.input.setInputProcessor(controller.stage); // without this controller doesn't work
+        Gdx.input.setInputProcessor(controller.stage); // without this controller doesn't respond
         if(windowManager.waitingForAnwser != "none")
             Gdx.input.setInputProcessor(windowManager.stage);
     }
@@ -85,7 +85,7 @@ public class MenuLevel implements Screen {
         if(controller.isUpPressed() && player.b2body.getLinearVelocity().y == 0)
             player.b2body.applyLinearImpulse(new Vector2(0, 2.5f), player.b2body.getWorldCenter(), true);
 
-        if(controller.isBPressed() && windowManager.waitingForAnwser != "none"){
+        if(controller.isBPressed() && windowManager.waitingForAnwser != "none"){ // in case than message is shown
             windowManager.showWindow(windowManager.waitingForAnwser);
         }
     }
@@ -141,17 +141,14 @@ public class MenuLevel implements Screen {
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
@@ -159,5 +156,7 @@ public class MenuLevel implements Screen {
         map.dispose();
         renderer.dispose();
         world.dispose();
+        atlas.dispose();
+        map.dispose();
     }
 }
