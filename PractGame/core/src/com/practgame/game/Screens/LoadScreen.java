@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.practgame.game.PractGame;
+import com.practgame.game.Sprites.Gun;
 import com.practgame.game.Utils.LevelInfo;
 
 
@@ -64,12 +65,12 @@ public class LoadScreen implements Screen {
         manager.load("gc/bDark.png", Texture.class);
         manager.load("gc/bLight.png", Texture.class);
 
-        //music
-        manager.load("sound/pistol.wav", Sound.class);
-        manager.load("sound/title.ogg", Music.class);
+        //music and sound
+        manager.load("sound/acr130.wav", Sound.class);
+        manager.load("music/title.ogg", Music.class);
         manager.load("sound/switch1.wav", Sound.class);
         manager.load("sound/switch2.wav", Sound.class);
-        manager.load("sound/world1.ogg", Music.class);
+        manager.load("music/world1.ogg", Music.class);
         manager.load("sound/slide.wav", Sound.class);
         manager.load("sound/noAmmo.wav", Sound.class);
         manager.load("sound/reload.wav", Sound.class);
@@ -78,6 +79,11 @@ public class LoadScreen implements Screen {
         manager.load("pause/pause_menu.png", Texture.class);
         manager.load("pause/pause_play.png", Texture.class);
         manager.load("pause/pause.png", Texture.class);
+
+        //guns
+        maingame.gunMap.put("acr130", new Gun("acr130"));
+        maingame.gunMap.get("acr130").unlock();
+        maingame.gunMap.put("redLine", new Gun("redLine"));
 
         manager.finishLoading();
     }

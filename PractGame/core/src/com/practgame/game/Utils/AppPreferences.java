@@ -12,57 +12,13 @@ public final class AppPreferences {
     public static final String PREF_SOUND_VOL = "sound";
     public static final String PREFS_NAME = "b2dpref";
     public static final String PREF_VIBRATION_ENABLED = "vibration.enabled";
+    public static final String PREFS_GUN = "gun";
 
     public static final String PREF_WORLD_1 = "world1";
+    public static final String PREF_WORLD_2 = "world2";
+    public static final String PREF_WORLD_3 = "world3";
+
     public static final String PREF_SHOTS = "shots";
 
-    private final Preferences prefsObject = Gdx.app.getPreferences(PREFS_NAME);
-
-    private static final Logger LOGGER  = Logger.getLogger(AppPreferences.class.getName());
-
-    public boolean isSoundEffectsEnabled() {
-        return prefsObject.getBoolean(PREF_SOUND_ENABLED, true);
-    }
-
-    public void setSoundEffectsEnabled(boolean soundEffectsEnabled) {
-        prefsObject.putBoolean(PREF_SOUND_ENABLED, soundEffectsEnabled);
-        prefsObject.flush();
-    }
-
-    public boolean isMusicEnabled() {
-        return prefsObject.getBoolean(PREF_MUSIC_ENABLED, true);
-    }
-
-    public void setMusicEnabled(boolean musicEnabled) {
-        prefsObject.putBoolean(PREF_MUSIC_ENABLED, musicEnabled);
-        prefsObject.flush();
-    }
-
-    public float getMusicVolume() {
-        return prefsObject.getFloat(PREF_MUSIC_VOLUME, 0.8f);
-    }
-
-    public void setMusicVolume(float volume) {
-        prefsObject.putFloat(PREF_MUSIC_VOLUME, volume);
-        prefsObject.flush();
-        LOGGER.info("Volume set : " + getMusicVolume());
-    }
-
-    public float getSoundVolume() {
-        return prefsObject.getFloat(PREF_SOUND_VOL, 0.7f);
-    }
-
-    public void setSoundVolume(float volume) {
-        prefsObject.putFloat(PREF_SOUND_VOL, volume);
-        prefsObject.flush();
-    }
-
-    public boolean isVibrationEnabled(){
-        return prefsObject.getBoolean(PREF_VIBRATION_ENABLED, true);
-    }
-    public void setVibrationEnabled(boolean vibrationEnabled) {
-        prefsObject.putBoolean(PREF_VIBRATION_ENABLED, vibrationEnabled);
-        prefsObject.flush();
-    }
 }
 

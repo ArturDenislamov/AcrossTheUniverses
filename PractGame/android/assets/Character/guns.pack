@@ -1,19 +1,19 @@
 
-redLine.png
+guns.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-gun_redLine_after
+redLine
   rotate: false
-  xy: 0, 7
-  size: 8, 5
-  orig: 8, 5
-  offset: 0, 0
-  index: -1
-gun_redLine
-  rotate: false
-  xy: 0, 0
+  xy: 2, 9
   size: 7, 5
   orig: 7, 5
+  offset: 0, 0
+  index: -1
+acr130
+  rotate: false
+  xy: 2, 2
+  size: 5, 5
+  orig: 5, 5
   offset: 0, 0
   index: -1

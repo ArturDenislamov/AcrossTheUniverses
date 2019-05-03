@@ -18,6 +18,7 @@ public class WorldContactListener implements ContactListener {
     private boolean messageShown;
     private World world;
     private PlayScreen playScreen;
+    private PractGame maingame;
 
 
         public WorldContactListener(WindowManager wm, World world){
@@ -25,9 +26,10 @@ public class WorldContactListener implements ContactListener {
             this.world = world;
         }
 
-    public WorldContactListener(WindowManager wm, World world,PlayScreen playScreen ){
+    public WorldContactListener(WindowManager wm, World world, PractGame game, PlayScreen playScreen){
         windowManager = wm;
         this.world = world;
+        maingame = game;
         this.playScreen = playScreen;
     }
 
@@ -69,6 +71,13 @@ public class WorldContactListener implements ContactListener {
 
             case PractGame.PLAYER_BIT | PractGame.RECHARGE_BIT:
                 playScreen.reload();
+                break;
+
+            case PractGame.PLAYER_BIT | PractGame.GUN_BIT:
+                String name = playScreen.getMap().getLayers().get(6).getName();
+                maingame.gunMap.get(name).unlock();
+                windowManager.showMessage("gun");
+                messageShown = true;
                 break;
 
         }

@@ -4,18 +4,24 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.I18NBundle;
+import com.practgame.game.Screens.GunScreen;
 import com.practgame.game.Screens.LoadScreen;
 import com.practgame.game.Screens.MenuLevel;
 import com.practgame.game.Screens.PauseScreen;
 import com.practgame.game.Screens.PlayScreen;
 import com.practgame.game.Screens.SettingsScreen;
 import com.practgame.game.Screens.StartScreen;
+import com.practgame.game.Sprites.Gun;
 import com.practgame.game.Utils.AppPreferences;
 import com.practgame.game.Utils.LevelInfo;
 import com.practgame.game.Utils.MusicManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class PractGame extends Game {
     public static final short DEFAULT_BIT = 1; // ground
@@ -33,6 +39,7 @@ public class PractGame extends Game {
 	private LoadScreen loadScreen;
 	public PauseScreen pauseScreen;
 	public SettingsScreen settingsScreen;
+	public GunScreen gunScreen;
 
 	public  Integer levelLine1;
 	public Integer levelLine2;
@@ -50,11 +57,16 @@ public class PractGame extends Game {
 	private Preferences prefs;
 	private boolean toMenu;
 
-    @Override
+	 private I18NBundle i18NBundle;
+
+	 public HashMap <String, Gun> gunMap;
+
+	@Override
 	public void create() {
 		levelList1 = new ArrayList<LevelInfo>();
 		levelList2 = new ArrayList<LevelInfo>();
 		levelList3 = new ArrayList<LevelInfo>();
+		gunMap = new HashMap<String, Gun>();
 
 		getPrefs();
 
@@ -74,10 +86,15 @@ public class PractGame extends Game {
 		menuLevel = new MenuLevel(this);
 		pauseScreen = new PauseScreen(this);
 		settingsScreen = new SettingsScreen(this);
+		gunScreen = new GunScreen(gunMap);
 		toMenu = false;
 
-		// under construction
-		//Multilanguage.setLanguage("eng");
+		//localization
+		FileHandle baseFileHandle = Gdx.files.internal("i18n/strings");
+		//java.util.Locale.getDefault().toString();
+		Locale locale = new Locale("en");
+		i18NBundle = I18NBundle.createBundle(baseFileHandle, locale);
+
 
 		//adding maps in ArrayLists in LoadScreen class
     }
@@ -95,7 +112,12 @@ public class PractGame extends Game {
                     } else {
                         prefs.putInteger(AppPreferences.PREF_WORLD_1, levelLine1);
                         prefs.flush();
+
+                        if(levelLine1 == 0)
+                            playScreen.shotsMade = 0;
+
                         prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
+                        Gdx.app.log("Ammo", Integer.toString(playScreen.shotsMade));
                         prefs.flush();
                         playScreen.setLevel(levelList1.get(levelLine1).mapInfo);
                         this.worldType = 1;
@@ -121,6 +143,10 @@ public class PractGame extends Game {
 		if (prefs == null)
 			prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
 		return prefs;
+	}
+
+	public I18NBundle getBundle(){
+		return i18NBundle;
 	}
 
 

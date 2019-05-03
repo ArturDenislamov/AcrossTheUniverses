@@ -16,7 +16,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -33,17 +32,17 @@ import com.practgame.game.Utils.LevelWorldCreator;
 import com.practgame.game.Utils.WorldContactListener;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 
 public class PlayScreen implements Screen {
     private OrthographicCamera gamecam;
     private Viewport gamePort;
-    private PractGame maingame;
+    public PractGame maingame;
     private Hud hud;
     private final float SCREEN_W = 160;
     private final float SCREEN_H = 90;
     private TextureAtlas atlas;
+    private TextureAtlas gunAtlas;
 
     private TmxMapLoader mapLoader;
     private TiledMap map;
@@ -52,18 +51,18 @@ public class PlayScreen implements Screen {
     private World world;
    // private Box2DDebugRenderer b2dr;
     private Player player;
-    Controller controller;
+    private Controller controller;
     private LevelWorldCreator creator;
 
-    public WindowManager windowManager;
+    private WindowManager windowManager;
 
     private float mapPixelWidth;
     private float mapPixelHeight;
 
     public int shotsMade;
 
-    ArrayList <Bullet> bulletsArray;
-    ArrayList <Bullet> destroyBullets;
+    private ArrayList <Bullet> bulletsArray;
+    private ArrayList <Bullet> destroyBullets;
 
     Sound gunShot;
     Sound slideSound;
@@ -73,7 +72,7 @@ public class PlayScreen implements Screen {
     public boolean killed;
     private float soundVolume;
 
-    final Preferences prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
+    private final Preferences prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
 
     public PlayScreen(PractGame game){
         this.maingame = game;
@@ -83,6 +82,7 @@ public class PlayScreen implements Screen {
         mapLoader = new TmxMapLoader();
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM,SCREEN_H / 2 / PractGame.PPM,0);
         atlas  = new TextureAtlas("Character/Character.pack");
+        gunAtlas = new TextureAtlas("Character/guns.pack");
         map = new TiledMap();
         windowManager = new WindowManager(maingame);
         player = new Player(world, this);
@@ -91,13 +91,12 @@ public class PlayScreen implements Screen {
         hud = new Hud(game.batch);
         hud.updateBullets(player.bulletsAmount);
 
-        world.setContactListener(new WorldContactListener(windowManager, world, this));
+        world.setContactListener(new WorldContactListener(windowManager, world, maingame, this));
 
-        shotsMade = 0;
+        shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS, 0);
         bulletsArray = new ArrayList<Bullet>(); // for active bullets
         destroyBullets = new ArrayList<Bullet>(); // for destroying bullets after hit
 
-        gunShot = maingame.manager.get("sound/pistol.wav");
         slideSound = maingame.manager.get("sound/slide.wav");
         noAmmo = maingame.manager.get("sound/noAmmo.wav");
         magSoung = maingame.manager.get("sound/reload.wav");
@@ -140,9 +139,12 @@ public class PlayScreen implements Screen {
         mapPixelWidth = mapWidth * tilePixelWidth;
         mapPixelHeight = mapHeight * tilePixelHeight;
 
-       // b2dr = new Box2DDebugRenderer();
+        if(maingame.worldType == 1)
         shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
 
+        hud.updateBullets(5 - shotsMade);
+
+        gunShot = maingame.manager.get("sound/"+player.gun.name+".wav");
        slideSound.play(soundVolume);
     }
 
@@ -220,7 +222,7 @@ public class PlayScreen implements Screen {
         if(player.b2body.getPosition().x >= SCREEN_W/(2*PractGame.PPM) && player.b2body.getPosition().x <= (mapPixelWidth/PractGame.PPM - SCREEN_W/(2*PractGame.PPM))) // 0.40 == 40 pixels
             position.x += (player.b2body.getPosition().x - position.x) * lerp;
 
-        if(player.b2body.getPosition().y >= SCREEN_H/(2*PractGame.PPM) && player.b2body.getPosition().y <= (mapPixelHeight/PractGame.PPM - SCREEN_H/(2*PractGame.PPM) ) )// TODO so, this works, but it can be better 04/05
+        if(player.b2body.getPosition().y >= SCREEN_H/(2*PractGame.PPM) && player.b2body.getPosition().y <= (mapPixelHeight/PractGame.PPM - SCREEN_H/(2*PractGame.PPM) ) )
         position.y += (player.b2body.getPosition().y - position.y) * lerp;
 
         if(player.b2body.getPosition().y < SCREEN_H/(2*PractGame.PPM))
@@ -305,9 +307,8 @@ public class PlayScreen implements Screen {
     }
 
 
-    public TextureAtlas getAtlas(){
-        return atlas;
-    }
+    public TextureAtlas getAtlas(){return atlas;}
+    public TextureAtlas getGunAtlas(){return gunAtlas;}
 
     @Override
     public void resize(int width, int height) {
@@ -360,7 +361,7 @@ public class PlayScreen implements Screen {
         map.dispose();
         world.dispose();
        // b2dr.dispose();
-        gunShot.dispose();
+      //  gunShot.dispose(); TODO just commented
         noAmmo.dispose();
         slideSound.dispose();
         magSoung.dispose();

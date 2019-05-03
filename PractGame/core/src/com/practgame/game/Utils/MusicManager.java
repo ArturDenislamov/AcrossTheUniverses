@@ -22,7 +22,7 @@ public class MusicManager {
         if(music.isPlaying())
             music.stop();
 
-        String path = "sound/" + name;
+        String path = "music/" + name;
         music = manager.get(path);
 
         if(preferences.getBoolean(AppPreferences.PREF_MUSIC_ENABLED, true))

@@ -69,7 +69,7 @@
  <objectgroup id="6" name="finish">
   <object id="60" x="680" y="33.75" width="8" height="22.25"/>
  </objectgroup>
- <objectgroup id="7" name="extra">
+ <objectgroup id="7" name="redLine">
   <object id="55" x="616" y="176" width="8" height="8"/>
  </objectgroup>
  <imagelayer id="8" name="scientist" offsetx="679" offsety="34">

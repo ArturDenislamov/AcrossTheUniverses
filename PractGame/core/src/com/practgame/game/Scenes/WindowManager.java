@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.PropertiesUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
@@ -38,9 +39,7 @@ public class WindowManager implements Disposable {
         viewport = new FitViewport(320, 180, new OrthographicCamera());
         stage = new Stage(viewport, maingame.batch);
         onGround = false;
-    }
 
-    public void showMessage(String tag){
         table = new Table();
         table.top();
         table.setFillParent(true);
@@ -50,27 +49,29 @@ public class WindowManager implements Disposable {
         table.add(messageLabel).expandX().padTop(10);
         table.add().expandX().padTop(10);
         stage.addActor(table);
+    }
 
-
+    public void showMessage(String tag){
         if(tag.equals("lobby")){
-            messageLabel.setText("Hello, James!");
-        }
-
-        if(tag.equals("lift")){
+            String str1 = "lobby" + (int)(Math.random()* 11);
+            String str2 = maingame.getBundle().get(str1);
+            messageLabel.setText(str2);
+        }else if(tag.equals("lift")){
             messageLabel.setText("B - go to lift");
-        }
-
-        if(tag.equals("next_level")){
+        }else if(tag.equals("next_level")){
             messageLabel.setText("B - next level");
-        }
-        if(tag.equals("reload")){
+        }else if(tag.equals("reload")){
             messageLabel.setText("Reload");
+        }else if(tag.equals("gun")){
+            messageLabel.setColor(Color.BLUE);
+            messageLabel.setText("Gun Unlocked");
         }
 
     }
 
     public void hideMessage(){
         messageLabel.setText("");
+        messageLabel.setColor(Color.WHITE);
     }
 
     public void hideWindow(){
@@ -108,22 +109,20 @@ public class WindowManager implements Disposable {
 
             secondW = new ImageButton(new TextureRegionDrawable(new TextureRegion(second)));
 
-            /*
+
             secondW.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    LOGGER.info("Exit level selection pressed");
                     hideWindow();
+                    maingame.setScreen(maingame.gunScreen);
                     waitingForAnwser = "none";
                     return true;
                 }
 
                 @Override
-                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    //   waitingForAnwser = "none";
-                }
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {}
             });
-            */
+
 
 
             thirdW = new ImageButton(new TextureRegionDrawable(new TextureRegion(third)));

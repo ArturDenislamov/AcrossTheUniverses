@@ -1,5 +1,6 @@
 package com.practgame.game.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -17,12 +18,14 @@ import com.badlogic.gdx.utils.Array;
 import com.practgame.game.PractGame;
 import com.practgame.game.Screens.MenuLevel;
 import com.practgame.game.Screens.PlayScreen;
+import com.practgame.game.Utils.AppPreferences;
 
 
 public class Player extends Sprite {
     public enum State {STANDING, RUNNING};
     public State currentState;
     public State previousState;
+    private PlayScreen playScreen;
     public World world;
     public Body b2body;
     private TextureRegion playerStand;
@@ -30,7 +33,10 @@ public class Player extends Sprite {
     private float stateTimer;
     public boolean runningRight;
 
-    private Sprite gun;
+    private Sprite gunSprite;
+
+    public Gun gun;
+    private String gunName;
 
     public int bulletsAmount;
 
@@ -63,6 +69,7 @@ public class Player extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
+        playScreen = level;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(getTexture(), 27, 0, 13, 26));
@@ -75,10 +82,12 @@ public class Player extends Sprite {
         setBounds(0,0, 13 / PractGame.PPM,26 / PractGame.PPM);
         setRegion(playerStand);
 
-        gun = new Sprite(new Texture("Character/gun.png"), 0,0, 5, 5);
-        gun.setBounds(0, 0, 5 / PractGame.PPM, 5 / PractGame.PPM );
+        gunName = Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getString(AppPreferences.PREFS_GUN, "acr130");
+        gun = playScreen.maingame.gunMap.get(gunName);
+        gunSprite = new Sprite(level.getGunAtlas().findRegion(gunName));
+        gunSprite.setBounds(0, 0, gunSprite.getWidth() / PractGame.PPM, gunSprite.getHeight() / PractGame.PPM );
 
-        bulletsAmount = 5;
+        bulletsAmount = gun.bulletsAmount;
 
     }
 
@@ -90,12 +99,12 @@ public class Player extends Sprite {
         setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight()*0.52f  ); // numbers are needed for correct image position 03/08
         setRegion(getFrame(dt));
 
-        if(gun != null) {
+        if(gunSprite != null) {
             if(runningRight == true) {
-                gun.setPosition(b2body.getPosition().x + 0.06f, b2body.getPosition().y - 0.02f);
+                gunSprite.setPosition(b2body.getPosition().x + 0.06f, b2body.getPosition().y - 0.02f);
             }
             if(runningRight == false) {
-                gun.setPosition(b2body.getPosition().x - 0.11f, b2body.getPosition().y - 0.02f);
+                gunSprite.setPosition(b2body.getPosition().x - 0.11f, b2body.getPosition().y - 0.02f);
             }
         }
 
@@ -121,18 +130,18 @@ public class Player extends Sprite {
         if((b2body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
             region.flip(true, false);
 
-            if(gun != null)
-            if(!gun.isFlipX())
-            gun.flip(true, false);
+            if(gunSprite != null)
+            if(!gunSprite.isFlipX())
+            gunSprite.flip(true, false);
 
             runningRight = false;
         }
         else if((b2body.getLinearVelocity().x > 0 || runningRight) && region.isFlipX() ) {
             region.flip(true, false);
 
-            if(gun != null)
-            if(gun.isFlipX())
-            gun.flip(true, false);
+            if(gunSprite != null)
+            if(gunSprite.isFlipX())
+            gunSprite.flip(true, false);
 
             runningRight = true;
         }
@@ -173,11 +182,17 @@ public class Player extends Sprite {
         b2body.createFixture(fdef).setUserData("feet");
     }
 
+    public void updateGun(){
+        gunName = Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getString(AppPreferences.PREFS_GUN);
+        gun = playScreen.maingame.gunMap.get(gunName);
+        bulletsAmount = gun.bulletsAmount;
+    }
+
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
 
-        if(gun != null)
-            gun.draw(batch);
+        if(gunSprite != null)
+            gunSprite.draw(batch);
     }
 }

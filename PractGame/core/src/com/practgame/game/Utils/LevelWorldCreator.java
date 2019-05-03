@@ -53,10 +53,10 @@ public class LevelWorldCreator {
             new ActionBrick(world, map, rect, "next_level");
         }
 
-        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) { // extra
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) { // extra, guns
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            new ActionBrick(world, map, rect, "extra");
+            new ActionBrick(world, map, rect, map.getLayers().get(6).getName()).setCategoryFilter(PractGame.GUN_BIT);
         }
     }
 }
