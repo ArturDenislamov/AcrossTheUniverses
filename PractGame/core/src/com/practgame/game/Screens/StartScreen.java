@@ -52,7 +52,7 @@ public class StartScreen extends ScreenAdapter {
                 maingame.setScreen(maingame.menuLevel);
                 String rand ="sound/switch" + Integer.toString((int)(Math.random()*2 + 1)) + ".wav";
                 clickSound = maingame.manager.get(rand);
-                clickSound.play();
+                clickSound.play(maingame.playScreen.soundVolume); // TODO check for error (and below)
             }
         };
         playButton.addListener(playListener);
@@ -60,7 +60,9 @@ public class StartScreen extends ScreenAdapter {
 
         settingsTexture = maingame.manager.get("ui/settings.png");
         settingsPressedTexture = maingame.manager.get("ui/settingsDown.png");
-        settingsButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(settingsTexture)), new TextureRegionDrawable(new TextureRegion(settingsPressedTexture)));
+        settingsButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(settingsTexture)),
+                new TextureRegionDrawable(new TextureRegion(settingsPressedTexture)));
+
         settingsButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
         ClickListener settingsListener = new ClickListener(){
             @Override
@@ -68,7 +70,7 @@ public class StartScreen extends ScreenAdapter {
                 maingame.setScreen(maingame.settingsScreen);
                 String rand ="sound/switch" + Integer.toString((int)(Math.random()*2 + 1)) + ".wav";
                 clickSound = maingame.manager.get(rand);
-                clickSound.play();
+                clickSound.play(maingame.playScreen.soundVolume);
             }
         };
         settingsButton.addListener(settingsListener);

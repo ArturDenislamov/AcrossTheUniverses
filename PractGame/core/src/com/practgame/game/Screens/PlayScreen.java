@@ -70,7 +70,7 @@ public class PlayScreen implements Screen {
     Sound noAmmo;
 
     public boolean killed;
-    private float soundVolume;
+    public float soundVolume;
 
     private final Preferences prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
 

@@ -81,12 +81,12 @@ public class PractGame extends Game {
         levelLine2 = 0;
         levelLine3 = 0;
 		batch = new SpriteBatch();
-		startScreen = new StartScreen(this);
 		playScreen = new PlayScreen(this);
+		startScreen = new StartScreen(this);
 		menuLevel = new MenuLevel(this);
 		pauseScreen = new PauseScreen(this);
 		settingsScreen = new SettingsScreen(this);
-		gunScreen = new GunScreen(gunMap);
+		gunScreen = new GunScreen(gunMap, this);
 		toMenu = false;
 
 		//localization

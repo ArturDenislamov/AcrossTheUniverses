@@ -74,6 +74,8 @@ public class LoadScreen implements Screen {
         manager.load("sound/slide.wav", Sound.class);
         manager.load("sound/noAmmo.wav", Sound.class);
         manager.load("sound/reload.wav", Sound.class);
+        manager.load("sound/redLine.wav", Sound.class);
+        manager.load("sound/err.wav", Sound.class);
 
         //pause screen
         manager.load("pause/pause_menu.png", Texture.class);

@@ -60,3 +60,5 @@ public class LevelWorldCreator {
         }
     }
 }
+
+//TODO maybe you should add 2 classes for 2 different worlds (in total 3)
