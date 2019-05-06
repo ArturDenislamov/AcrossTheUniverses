@@ -76,7 +76,9 @@ public class GunScreen implements Screen {
                     prefs.putString(AppPreferences.PREFS_GUN, "acr130");
                     prefs.flush();
                     pickSound.play(soundVolume);
-                    maingame.setScreen(maingame.menuLevel); // TODO add upadting the player's gun; here is error
+                    maingame.playScreen.player.updateGun();
+                    maingame.setScreen(maingame.menuLevel);
+                    // TODO add upadting the player's gun; here is error
                 }
             }
         });
@@ -89,6 +91,7 @@ public class GunScreen implements Screen {
                     prefs.putString(AppPreferences.PREFS_GUN, "redLine");
                     prefs.flush();
                     pickSound.play(soundVolume);
+                    maingame.playScreen.player.updateGun();
                     maingame.setScreen(maingame.menuLevel);
                 } else {
                     errSound.play(soundVolume);

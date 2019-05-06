@@ -186,6 +186,8 @@ public class Player extends Sprite {
         gunName = Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getString(AppPreferences.PREFS_GUN);
         gun = playScreen.maingame.gunMap.get(gunName);
         bulletsAmount = gun.bulletsAmount;
+        gunSprite.setRegion(playScreen.getGunAtlas().findRegion(gunName));
+        gunSprite.setBounds(0, 0, gunSprite.getWidth() / PractGame.PPM, gunSprite.getHeight() / PractGame.PPM );
     }
 
     @Override

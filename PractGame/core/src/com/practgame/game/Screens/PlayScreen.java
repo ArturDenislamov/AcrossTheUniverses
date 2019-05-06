@@ -50,7 +50,7 @@ public class PlayScreen implements Screen {
 
     private World world;
    // private Box2DDebugRenderer b2dr;
-    private Player player;
+    public Player player;
     private Controller controller;
     private LevelWorldCreator creator;
 
@@ -142,7 +142,8 @@ public class PlayScreen implements Screen {
         if(maingame.worldType == 1)
         shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
 
-        hud.updateBullets(5 - shotsMade);
+        player.updateGun(); // hesitate that it is good
+        hud.updateBullets(player.gun.bulletsAmount - shotsMade);
 
         gunShot = maingame.manager.get("sound/"+player.gun.name+".wav");
        slideSound.play(soundVolume);
