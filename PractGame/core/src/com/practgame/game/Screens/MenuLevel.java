@@ -2,6 +2,7 @@ package com.practgame.game.Screens;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -68,7 +69,7 @@ public class MenuLevel implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setCatchBackKey(false);
+        Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(controller.stage); // without this controller doesn't respond
         if(windowManager.waitingForAnwser != "none")
             Gdx.input.setInputProcessor(windowManager.stage);
@@ -89,6 +90,10 @@ public class MenuLevel implements Screen {
 
         if(controller.isBPressed() && windowManager.waitingForAnwser != "none"){ // in case than message is shown
             windowManager.showWindow(windowManager.waitingForAnwser);
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            mainGame.setScreen(mainGame.startScreen);
         }
     }
 

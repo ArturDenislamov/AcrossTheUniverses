@@ -26,9 +26,7 @@ public class Gun extends Sprite {
         locked = false;
     }
 
-    public boolean isLocked(){
-        return locked;
-    }
+    public boolean isLocked(){ return locked; }
 
     public enum Guns{
         ACR130, REDLINE

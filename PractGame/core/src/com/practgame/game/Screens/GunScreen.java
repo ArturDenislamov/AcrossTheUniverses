@@ -1,6 +1,7 @@
 package com.practgame.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -110,6 +111,7 @@ public class GunScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
         soundVolume = maingame.playScreen.soundVolume;
     }
 
@@ -117,6 +119,10 @@ public class GunScreen implements Screen {
     public void render(float delta) {
        // stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            maingame.setScreen(maingame.menuLevel);
+        }
     }
 
     @Override

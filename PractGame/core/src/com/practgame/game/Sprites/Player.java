@@ -84,8 +84,9 @@ public class Player extends Sprite {
 
         gunName = Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getString(AppPreferences.PREFS_GUN, "acr130");
         gun = playScreen.maingame.gunMap.get(gunName);
-        gunSprite = new Sprite(level.getGunAtlas().findRegion(gunName));
-        gunSprite.setBounds(0, 0, gunSprite.getWidth() / PractGame.PPM, gunSprite.getHeight() / PractGame.PPM );
+        gunSprite = new Sprite();
+        gunSprite.setRegion(playScreen.getGunAtlas().findRegion(gunName));
+        gunSprite.setBounds(0, 0, gunSprite.getRegionWidth() / PractGame.PPM, gunSprite.getRegionHeight() / PractGame.PPM );
 
         bulletsAmount = gun.bulletsAmount;
 
@@ -187,7 +188,7 @@ public class Player extends Sprite {
         gun = playScreen.maingame.gunMap.get(gunName);
         bulletsAmount = gun.bulletsAmount;
         gunSprite.setRegion(playScreen.getGunAtlas().findRegion(gunName));
-        gunSprite.setBounds(0, 0, gunSprite.getWidth() / PractGame.PPM, gunSprite.getHeight() / PractGame.PPM );
+        gunSprite.setBounds(0, 0, gunSprite.getRegionWidth() / PractGame.PPM, gunSprite.getRegionHeight() / PractGame.PPM );
     }
 
     @Override

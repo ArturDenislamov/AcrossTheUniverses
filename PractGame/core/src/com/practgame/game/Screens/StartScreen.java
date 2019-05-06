@@ -37,6 +37,7 @@ public class StartScreen extends ScreenAdapter {
     public void show() {
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(false);
         backgroundtexture = maingame.manager.get("mainMenuWall_hdpi_2.png");
         Image background = new Image(backgroundtexture);
         stage.addActor(background);

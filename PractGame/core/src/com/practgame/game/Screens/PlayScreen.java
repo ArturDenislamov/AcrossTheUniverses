@@ -142,7 +142,6 @@ public class PlayScreen implements Screen {
         if(maingame.worldType == 1)
         shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
 
-        player.updateGun(); // hesitate that it is good
         hud.updateBullets(player.gun.bulletsAmount - shotsMade);
 
         gunShot = maingame.manager.get("sound/"+player.gun.name+".wav");
