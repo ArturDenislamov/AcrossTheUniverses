@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -25,10 +26,11 @@ import com.practgame.game.Scenes.Hud;
 import com.practgame.game.Scenes.WindowManager;
 import com.practgame.game.Sprites.Bullet;
 import com.practgame.game.Sprites.Invader;
+import com.practgame.game.Sprites.MovingBlock;
 import com.practgame.game.Sprites.Player;
 import com.practgame.game.Utils.AppPreferences;
 import com.practgame.game.Utils.Controller;
-import com.practgame.game.Utils.LevelWorldCreator;
+import com.practgame.game.Utils.LevelWorldCreator1;
 import com.practgame.game.Utils.WorldContactListener;
 
 import java.util.ArrayList;
@@ -49,10 +51,10 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
-   // private Box2DDebugRenderer b2dr;
+    private Box2DDebugRenderer b2dr;
     public Player player;
     private Controller controller;
-    private LevelWorldCreator creator;
+    private LevelWorldCreator1 creator;
 
     private WindowManager windowManager;
 
@@ -86,7 +88,7 @@ public class PlayScreen implements Screen {
         map = new TiledMap();
         windowManager = new WindowManager(maingame);
         player = new Player(world, this);
-
+        b2dr = new Box2DDebugRenderer();
 
         hud = new Hud(game.batch);
         hud.updateBullets(player.bulletsAmount);
@@ -125,7 +127,7 @@ public class PlayScreen implements Screen {
 
         map = mapLoader.load(mapWay);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
-        creator = new LevelWorldCreator(this);
+        creator = new LevelWorldCreator1(this);
         player.definePlayer();
         controller = new Controller(maingame.manager); // this line influences gun shot ( after going to the next level)
 
@@ -140,7 +142,8 @@ public class PlayScreen implements Screen {
         mapPixelHeight = mapHeight * tilePixelHeight;
 
         if(maingame.worldType == 1)
-        shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
+            shotsMade = 0;
+      //  shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
 
         hud.updateBullets(player.gun.bulletsAmount - shotsMade);
 
@@ -260,7 +263,6 @@ public class PlayScreen implements Screen {
                         invader.velocity.set(1, 0);
                 }
         }
-
     }
 
 
@@ -277,9 +279,14 @@ public class PlayScreen implements Screen {
         maingame.batch.setProjectionMatrix(gamecam.combined);
 
         maingame.batch.begin();
+
         player.draw(maingame.batch);
         for(Invader invader : creator.getInvaders()) {
             invader.draw(maingame.batch);
+        }
+
+        for(MovingBlock block : creator.getMovingBlocks()){
+            block.draw(maingame.batch);
         }
         maingame.batch.end();
 
@@ -291,7 +298,7 @@ public class PlayScreen implements Screen {
 
             hud.stage.draw();
 
-        //  b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
+       //   b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
 
         maingame.batch.begin();
         maingame.batch.setProjectionMatrix(gamecam.combined);

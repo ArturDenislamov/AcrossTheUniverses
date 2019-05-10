@@ -7,7 +7,7 @@ import com.practgame.game.PractGame;
 
 public class BlockTileObject extends InteractiveTileObject {
     public BlockTileObject(World world,TiledMap map, Rectangle bounds) {
-        super(world, map, bounds, false);
+        super(world, map, bounds, false, false);
         setCategoryFilter(PractGame.DEFAULT_BIT);
     }
 }

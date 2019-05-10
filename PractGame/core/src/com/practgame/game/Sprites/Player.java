@@ -101,10 +101,10 @@ public class Player extends Sprite {
         setRegion(getFrame(dt));
 
         if(gunSprite != null) {
-            if(runningRight == true) {
+            if(runningRight) {
                 gunSprite.setPosition(this.getX() + this.getRegionWidth()/PractGame.PPM - 0.01f, b2body.getPosition().y - 0.02f);
             }
-            if(runningRight == false) {
+            if(!runningRight) {
                 gunSprite.setPosition(this.getX() - gunSprite.getRegionWidth()/PractGame.PPM + 0.01f, b2body.getPosition().y - 0.02f);
             }
         }

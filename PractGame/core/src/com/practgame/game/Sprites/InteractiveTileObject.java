@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.practgame.game.PractGame;
@@ -22,7 +23,7 @@ public abstract class InteractiveTileObject {
     protected Fixture fixture;
 
 
-    public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, boolean isSensor){
+    public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, boolean isSensor, boolean isDynamic){
         this.world = world;
         this.map = map;
         this.bounds = bounds;
@@ -31,9 +32,14 @@ public abstract class InteractiveTileObject {
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        bdef.type = BodyDef.BodyType.StaticBody; // static bodies require less computing power
-        bdef.position.set((bounds.getX() + bounds.getWidth() / 2) / PractGame.PPM, (bounds.getY() + bounds.getHeight() / 2) / PractGame.PPM);
+        if(isDynamic) {
+            bdef.type = BodyDef.BodyType.DynamicBody;
+            bdef.angularDamping = 1.25f;
+        }
+        else
+            bdef.type = BodyDef.BodyType.StaticBody; // static bodies require less computing power
 
+        bdef.position.set((bounds.getX() + bounds.getWidth() / 2) / PractGame.PPM, (bounds.getY() + bounds.getHeight() / 2) / PractGame.PPM);
         body = world.createBody(bdef);
 
         shape.setAsBox(bounds.getWidth() / 2 / PractGame.PPM, bounds.getHeight() / 2 / PractGame.PPM);
@@ -46,5 +52,9 @@ public abstract class InteractiveTileObject {
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
         fixture.setFilterData(filter);
+    }
+
+    public Body getBody(){
+        return body;
     }
 }

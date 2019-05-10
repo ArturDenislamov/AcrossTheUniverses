@@ -15,16 +15,19 @@ import com.practgame.game.Screens.PlayScreen;
 import com.practgame.game.Sprites.ActionBrick;
 import com.practgame.game.Sprites.BlockTileObject;
 import com.practgame.game.Sprites.Invader;
+import com.practgame.game.Sprites.MovingBlock;
 
 
-public class LevelWorldCreator {
+public class LevelWorldCreator1 {
     public Array<Invader> getInvaders() {
         return invaders;
     }
+    public Array<MovingBlock> getMovingBlocks(){return movingBlocks;}
 
     private Array <Invader> invaders;
+    private Array<MovingBlock> movingBlocks;
 
-    public LevelWorldCreator(PlayScreen playScreen) {
+    public LevelWorldCreator1(PlayScreen playScreen) {
         TiledMap map = playScreen.getMap();
         World world = playScreen.getWorld();
 
@@ -57,6 +60,12 @@ public class LevelWorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             new ActionBrick(world, map, rect, map.getLayers().get(6).getName()).setCategoryFilter(PractGame.GUN_BIT);
+        }
+
+        movingBlocks = new Array<MovingBlock>();
+        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) { // moving blocks
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            movingBlocks.add(new MovingBlock(world, map, rect));
         }
     }
 }

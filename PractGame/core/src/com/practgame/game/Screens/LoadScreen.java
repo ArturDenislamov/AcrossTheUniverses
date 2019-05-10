@@ -50,6 +50,7 @@ public class LoadScreen implements Screen {
         maingame.levelList1.add(new LevelInfo("maps/lv1_1.tmx"));
         maingame.levelList1.add(new LevelInfo("maps/lv1_2.tmx"));
         maingame.levelList1.add(new LevelInfo("maps/lv1_3.tmx"));
+        maingame.levelList1.add(new LevelInfo("maps/lv1_4.tmx"));
         //maingame.levelList3.add(new LevelInfo("maps/lv1_1.tmx"));
 
         //Character
