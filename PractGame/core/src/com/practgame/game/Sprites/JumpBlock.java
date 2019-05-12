@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.practgame.game.PractGame;
 
-public class BlockTileObject extends InteractiveTileObject {
-    public BlockTileObject(World world,TiledMap map, Rectangle bounds) {
-        super(world, map, bounds, false, "default");
+public class JumpBlock extends InteractiveTileObject {
+    public JumpBlock(World world, TiledMap map, Rectangle bounds) {
+        super(world, map, bounds, false, "jumpingBlock");
         setCategoryFilter(PractGame.DEFAULT_BIT);
     }
 }

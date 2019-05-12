@@ -30,7 +30,7 @@ import com.practgame.game.Sprites.MovingBlock;
 import com.practgame.game.Sprites.Player;
 import com.practgame.game.Utils.AppPreferences;
 import com.practgame.game.Utils.Controller;
-import com.practgame.game.Utils.LevelWorldCreator1;
+import com.practgame.game.Utils.LevelWorldCreator;
 import com.practgame.game.Utils.WorldContactListener;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer b2dr;
     public Player player;
     private Controller controller;
-    private LevelWorldCreator1 creator;
+    private LevelWorldCreator creator;
 
     private WindowManager windowManager;
 
@@ -86,9 +86,10 @@ public class PlayScreen implements Screen {
         atlas  = new TextureAtlas("Character/Character.pack");
         gunAtlas = new TextureAtlas("Character/guns.pack");
         map = new TiledMap();
+        creator = new LevelWorldCreator(this);
         windowManager = new WindowManager(maingame);
         player = new Player(world, this);
-        b2dr = new Box2DDebugRenderer();
+    //    b2dr = new Box2DDebugRenderer();
 
         hud = new Hud(game.batch);
         hud.updateBullets(player.bulletsAmount);
@@ -127,7 +128,23 @@ public class PlayScreen implements Screen {
 
         map = mapLoader.load(mapWay);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
-        creator = new LevelWorldCreator1(this);
+
+       switch (maingame.worldType){
+           case 1:
+                creator.createWorld1();
+                world.setGravity(new Vector2(0, -10));
+                Gdx.app.log("PlayScreen", "World 1 Created");
+                break;
+
+           case 2:
+               creator.createWorld2();
+               world.setGravity(new Vector2(0, -8)); // check this value
+               break;
+
+           case 3:
+               creator.createWorld3();
+               break;
+       }
         player.definePlayer();
         controller = new Controller(maingame.manager); // this line influences gun shot ( after going to the next level)
 

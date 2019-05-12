@@ -1,5 +1,6 @@
 package com.practgame.game.Utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -15,10 +16,11 @@ import com.practgame.game.Screens.PlayScreen;
 import com.practgame.game.Sprites.ActionBrick;
 import com.practgame.game.Sprites.BlockTileObject;
 import com.practgame.game.Sprites.Invader;
+import com.practgame.game.Sprites.JumpBlock;
 import com.practgame.game.Sprites.MovingBlock;
 
 
-public class LevelWorldCreator1 {
+public class LevelWorldCreator {
     public Array<Invader> getInvaders() {
         return invaders;
     }
@@ -27,9 +29,19 @@ public class LevelWorldCreator1 {
     private Array <Invader> invaders;
     private Array<MovingBlock> movingBlocks;
 
-    public LevelWorldCreator1(PlayScreen playScreen) {
-        TiledMap map = playScreen.getMap();
-        World world = playScreen.getWorld();
+    TiledMap map;
+    World world;
+    PlayScreen playScreen;
+
+    public LevelWorldCreator(PlayScreen playScreen) {
+        this.playScreen = playScreen;
+        invaders = new Array<Invader>();
+        movingBlocks = new Array<MovingBlock>();
+    }
+
+    public void createWorld1(){
+        map = playScreen.getMap();
+        world = playScreen.getWorld();
 
         for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) { // ground
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -38,7 +50,8 @@ public class LevelWorldCreator1 {
         }
 
         //creating all invaders
-        invaders = new Array<Invader>();
+        invaders.clear();
+        Gdx.app.log("LevelCreator", "Invaders array created");
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // invaders spawns
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             invaders.add(new Invader(playScreen, rect.getX()/ PractGame.PPM, rect.getY()/ PractGame.PPM));
@@ -62,12 +75,61 @@ public class LevelWorldCreator1 {
             new ActionBrick(world, map, rect, map.getLayers().get(6).getName()).setCategoryFilter(PractGame.GUN_BIT);
         }
 
-        movingBlocks = new Array<MovingBlock>();
+        movingBlocks.clear();
         for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) { // moving blocks
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             movingBlocks.add(new MovingBlock(world, map, rect));
         }
     }
+
+
+    public void createWorld2(){
+        map = playScreen.getMap();
+        world = playScreen.getWorld();
+        invaders.clear();
+        movingBlocks.clear();
+
+        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) { // ground
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new BlockTileObject(world, map, rect); // creating object using class
+        }
+
+        //TODO Under construction
+        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // invaders spawns
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        //    invaders.add(new Invader(playScreen, rect.getX()/ PractGame.PPM, rect.getY()/ PractGame.PPM));
+        }
+
+        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // reload blocks
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new ActionBrick(world, map, rect, "ammo").setCategoryFilter(PractGame.RECHARGE_BIT);
+        }
+
+        for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) { // finish
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new ActionBrick(world, map, rect, "next_level");
+        }
+
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) { // extra, guns
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new ActionBrick(world, map, rect, map.getLayers().get(6).getName()).setCategoryFilter(PractGame.GUN_BIT);
+        }
+
+        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) { // jumping block
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new JumpBlock(world, map, rect);
+        }
+    }
+
+    public void createWorld3(){
+
+    }
+
 }
 
 //TODO maybe you should add 2 classes for 2 different worlds (in total 3)

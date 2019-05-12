@@ -15,7 +15,7 @@ public class MovingBlock extends InteractiveTileObject {
     private Body body;
 
     public MovingBlock(World world, TiledMap map, Rectangle bounds){
-        super(world, map, bounds, false, true);
+        super(world, map, bounds, false, "movingBlock");
         setCategoryFilter(PractGame.DEFAULT_BIT);
         sprite = new Sprite(new Texture("maps/movingBlock.png"));
         sprite.setBounds(0,0, 8 / PractGame.PPM,8 / PractGame.PPM);

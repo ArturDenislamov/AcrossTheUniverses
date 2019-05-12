@@ -113,8 +113,9 @@ public class WindowManager implements Disposable {
             secondW.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    hideWindow();
-                    maingame.setScreen(maingame.gunScreen);
+                    hideWindow(); // if it is located after line 101, controller doesn't work
+                    maingame.changeScreen(2);
+                    maingame.musicManager.setSound("world1.ogg");
                     waitingForAnwser = "none";
                     return true;
                 }
@@ -127,13 +128,13 @@ public class WindowManager implements Disposable {
 
             thirdW = new ImageButton(new TextureRegionDrawable(new TextureRegion(third)));
 
-            /*
+
             thirdW.addListener(new InputListener(){
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    LOGGER.info("Button Third World pressed");
-                    maingame.changeScreen(3);
+                    hideWindow();
+                    maingame.setScreen(maingame.gunScreen);
                     waitingForAnwser = "none";
                     return true;
                 }
@@ -143,7 +144,7 @@ public class WindowManager implements Disposable {
 
                 }
             });
-            */
+
 
             backW = new ImageButton(new TextureRegionDrawable(new TextureRegion(back)));
 

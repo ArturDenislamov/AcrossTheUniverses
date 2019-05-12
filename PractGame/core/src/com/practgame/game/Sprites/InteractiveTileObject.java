@@ -23,7 +23,11 @@ public abstract class InteractiveTileObject {
     protected Fixture fixture;
 
 
-    public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, boolean isSensor, boolean isDynamic){
+    public enum BlockType{
+        JUMP_BlOCK, MOVING_BLOCK, DEFAULT
+    };
+
+    public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, boolean isSensor, String type){
         this.world = world;
         this.map = map;
         this.bounds = bounds;
@@ -32,9 +36,11 @@ public abstract class InteractiveTileObject {
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        if(isDynamic) {
+        if(type.equals("movingBlock")) {
             bdef.type = BodyDef.BodyType.DynamicBody;
-            bdef.angularDamping = 1.25f;
+            bdef.linearDamping = 1f;
+        }else if(type.equals("jumpingBlock")){
+            fdef.restitution = 1.45f;
         }
         else
             bdef.type = BodyDef.BodyType.StaticBody; // static bodies require less computing power
