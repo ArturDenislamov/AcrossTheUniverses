@@ -115,7 +115,7 @@ public class WindowManager implements Disposable {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     hideWindow(); // if it is located after line 101, controller doesn't work
                     maingame.changeScreen(2);
-                    maingame.musicManager.setSound("world1.ogg");
+                    maingame.musicManager.setSound("world2.ogg");
                     waitingForAnwser = "none";
                     return true;
                 }
