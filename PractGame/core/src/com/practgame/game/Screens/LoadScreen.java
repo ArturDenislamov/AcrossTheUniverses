@@ -68,7 +68,7 @@ public class LoadScreen implements Screen {
         manager.load("gc/bLight.png", Texture.class);
 
         //music and sound
-        manager.load("sound/acr130.wav", Sound.class);
+        manager.load("sound/acr130.ogg", Sound.class);
         manager.load("music/title.ogg", Music.class);
         manager.load("sound/switch1.wav", Sound.class);
         manager.load("sound/switch2.wav", Sound.class);
@@ -76,7 +76,7 @@ public class LoadScreen implements Screen {
         manager.load("sound/slide.wav", Sound.class);
         manager.load("sound/noAmmo.wav", Sound.class);
         manager.load("sound/reload.wav", Sound.class);
-        manager.load("sound/redLine.wav", Sound.class);
+        manager.load("sound/redLine.ogg", Sound.class);
         manager.load("sound/err.wav", Sound.class);
         manager.load("music/world2.ogg", Music.class);
 

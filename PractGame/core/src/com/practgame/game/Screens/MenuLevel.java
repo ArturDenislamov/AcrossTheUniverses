@@ -35,7 +35,7 @@ public class MenuLevel implements Screen {
 
     private World world;
     private Player player;
-    Controller controller;
+    public Controller controller;
 
    public WindowManager windowManager;
 
@@ -74,7 +74,7 @@ public class MenuLevel implements Screen {
         if(windowManager.waitingForAnwser != "none")
             Gdx.input.setInputProcessor(windowManager.stage);
 
-        controller.bPressed = false;
+     //   controller.touchUpAll();
     }
 
     public void handleInput() {
@@ -89,6 +89,7 @@ public class MenuLevel implements Screen {
             player.b2body.applyLinearImpulse(new Vector2(0, 2.5f), player.b2body.getWorldCenter(), true);
 
         if(controller.isBPressed() && windowManager.waitingForAnwser != "none"){ // in case than message is shown
+            controller.touchUpAll();
             windowManager.showWindow(windowManager.waitingForAnwser);
         }
 

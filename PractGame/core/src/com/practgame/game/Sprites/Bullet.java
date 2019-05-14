@@ -20,7 +20,7 @@ public class Bullet extends Sprite{
 
     public Body b2bullet;
 
-    public Bullet(World world, Player player, AssetManager manager){
+    public Bullet(World world, Player player, AssetManager manager, float bulletVelocity){
         Player player1 = player;
         this.world = world;
 
@@ -29,11 +29,11 @@ public class Bullet extends Sprite{
 
         if(player.runningRight == true) {
             bdefB.position.set(player1.b2body.getPosition().x + 0.09f, player1.b2body.getPosition().y + 0.01f );
-            bdefB.linearVelocity.set(200/ PractGame.PPM, 0); // 200 for default gun
+            bdefB.linearVelocity.set(bulletVelocity/ PractGame.PPM, 0); // 200 for default gun
         }
         if(player.runningRight == false) {
             bdefB.position.set(player1.b2body.getPosition().x - 0.11f, player1.b2body.getPosition().y + 0.01f);
-            bdefB.linearVelocity.set(-200/ PractGame.PPM, 0);
+            bdefB.linearVelocity.set(-bulletVelocity/ PractGame.PPM, 0);
         }
 
         FixtureDef fdefB = new FixtureDef();

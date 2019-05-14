@@ -39,6 +39,7 @@ public class WindowManager implements Disposable {
         viewport = new FitViewport(320, 180, new OrthographicCamera());
         stage = new Stage(viewport, maingame.batch);
         onGround = false;
+        levelTable = new Table();
 
         table = new Table();
         table.top();
@@ -75,7 +76,8 @@ public class WindowManager implements Disposable {
     }
 
     public void hideWindow(){
-        stage.clear();
+       // stage.clear();
+        levelTable.clearChildren();
         waitingForAnwser = "none";
         maingame.menuLevel.show();
     }
@@ -83,7 +85,6 @@ public class WindowManager implements Disposable {
     // this method also does actions, not only shows windows
     public void showWindow(String tag){
         if(tag.equals("lift")){
-            levelTable = new Table();
             messageLabel.setText("");
             levelTable.setFillParent(true);
             levelTable.center();
@@ -96,7 +97,7 @@ public class WindowManager implements Disposable {
             firstW.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    hideWindow(); // if it is located after line 101, controller doesn't work
+                    hideWindow(); // if it is located after line 101, controller doesn't work, it's understandable
                     maingame.changeScreen(1);
                     maingame.musicManager.setSound("world1.ogg");
                     waitingForAnwser = "none";

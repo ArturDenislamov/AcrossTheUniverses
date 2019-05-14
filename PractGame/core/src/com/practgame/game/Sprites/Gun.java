@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Gun extends Sprite {
     public String name;
+    public float bulletVelocity;
 
     public int bulletsAmount;
     private boolean locked;
@@ -15,9 +16,11 @@ public class Gun extends Sprite {
         switch (Guns.valueOf(name.toUpperCase())){
             case ACR130:
                 bulletsAmount = 5;
+                bulletVelocity = 200;
                 break;
             case REDLINE:
                 bulletsAmount = 15;
+                bulletVelocity = 250;
                 break;
         }
     }

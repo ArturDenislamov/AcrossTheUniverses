@@ -149,6 +149,18 @@ public class Controller {
         stage.draw();
     }
 
+    public void touchUpAll(){
+        bPressed = false;
+        upPressed = false;
+        leftPressed = false;
+        rightPressed = false;
+
+        bButton.getClickListener().cancel();
+        aButton.getClickListener().cancel();
+        leftButton.getClickListener().cancel();
+        rightButton.getClickListener().cancel();
+    }
+
     public void resize(int width, int height){
         viewport.update(width , height);
     }

@@ -164,7 +164,7 @@ public class PlayScreen implements Screen {
 
         hud.updateBullets(player.gun.bulletsAmount - shotsMade);
 
-        gunShot = maingame.manager.get("sound/"+player.gun.name+".wav");
+        gunShot = maingame.manager.get("sound/"+player.gun.name+".ogg");
        slideSound.play(soundVolume);
     }
 
@@ -182,6 +182,7 @@ public class PlayScreen implements Screen {
         }
 
         if(controller.isBPressed() && windowManager.waitingForAnwser != "none"){
+            Gdx.app.log("PlayScreen", "Window shown");
             windowManager.showWindow(windowManager.waitingForAnwser);
             windowManager.hideMessage();
         }
@@ -189,7 +190,7 @@ public class PlayScreen implements Screen {
             // in this case player shooting
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none"){
             if(shotsMade < player.bulletsAmount) {
-                bulletsArray.add(new Bullet(world, player, maingame.manager));
+                bulletsArray.add(new Bullet(world, player, maingame.manager, player.gun.bulletVelocity));
                 controller.bPressed = false; // for one click - one shot
                 shotsMade++;
                 hud.updateBullets(player.bulletsAmount - shotsMade);
