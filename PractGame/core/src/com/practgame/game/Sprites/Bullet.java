@@ -41,13 +41,13 @@ public class Bullet extends Sprite{
         Shape shape = new PolygonShape();
         ((PolygonShape) shape).setAsBox(1/PractGame.PPM, 1/PractGame.PPM);
         fdefB.shape = shape;
-      //  bdefB.bullet = true; // prevents body from tunneling
+        bdefB.bullet = true; // prevents body from tunneling
         fdefB.isSensor = true;
         fdefB.filter.categoryBits = PractGame.BULLET_BIT;
         fdefB.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.ENEMY_BIT | PractGame.GUN_BIT | PractGame.RECHARGE_BIT;
 
         b2bullet = world.createBody(bdefB);
-      //  b2bullet.setBullet(true);
+        b2bullet.setBullet(true);
         b2bullet.setGravityScale(0); // bullets are not affected by gravity
         b2bullet.createFixture(fdefB).setUserData(this); // needed for destroying object
 

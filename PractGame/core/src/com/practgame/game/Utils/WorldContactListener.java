@@ -86,6 +86,11 @@ public class WorldContactListener implements ContactListener {
         if (contact.getFixtureB().getUserData() instanceof Bullet && contact.getFixtureA().getUserData() != "next_level") {
             playScreen.destroy((Bullet) contact.getFixtureB().getUserData());
         }
+        // needed for correct bullet collision control
+        if (contact.getFixtureA().getUserData() instanceof Bullet && contact.getFixtureB().getUserData() != "next_level") {
+            playScreen.destroy((Bullet) contact.getFixtureA().getUserData());
+        }
+
 
         if(("feet").equals(fixA.getUserData()) || ("feet").equals(fixB.getUserData())){
             windowManager.onGround = true;

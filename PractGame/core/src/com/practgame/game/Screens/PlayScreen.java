@@ -89,7 +89,7 @@ public class PlayScreen implements Screen {
         creator = new LevelWorldCreator(this);
         windowManager = new WindowManager(maingame);
         player = new Player(world, this);
-    //    b2dr = new Box2DDebugRenderer();
+        b2dr = new Box2DDebugRenderer();
 
         hud = new Hud(game.batch);
         hud.updateBullets(player.bulletsAmount);
@@ -316,7 +316,7 @@ public class PlayScreen implements Screen {
 
             hud.stage.draw();
 
-       //   b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
+          b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
 
         maingame.batch.begin();
         maingame.batch.setProjectionMatrix(gamecam.combined);
