@@ -12,7 +12,9 @@ public final class AppPreferences {
     public static final String PREF_SOUND_VOL = "sound";
     public static final String PREFS_NAME = "b2dpref";
     public static final String PREF_VIBRATION_ENABLED = "vibration.enabled";
+
     public static final String PREFS_GUN = "gun";
+    public static final String PREFS_IS_REDLINE_UNLOCKED = "PREFS_IS_REDLINE_UNLOCKED";
 
     public static final String PREF_WORLD_1 = "world1";
     public static final String PREF_WORLD_2 = "world2";

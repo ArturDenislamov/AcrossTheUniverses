@@ -1,5 +1,7 @@
 package com.practgame.game.Screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -10,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.practgame.game.PractGame;
 import com.practgame.game.Sprites.Gun;
+import com.practgame.game.Utils.AppPreferences;
 import com.practgame.game.Utils.LevelInfo;
 
 
@@ -89,6 +92,10 @@ public class LoadScreen implements Screen {
         maingame.gunMap.put("acr130", new Gun("acr130"));
         maingame.gunMap.get("acr130").unlock();
         maingame.gunMap.put("redLine", new Gun("redLine"));
+
+        if(Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getBoolean(AppPreferences.PREFS_IS_REDLINE_UNLOCKED, false)){
+            maingame.gunMap.get("redLine").unlock();
+        } 
 
         manager.finishLoading();
     }

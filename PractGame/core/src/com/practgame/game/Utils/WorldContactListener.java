@@ -1,6 +1,7 @@
 package com.practgame.game.Utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -20,6 +21,8 @@ public class WorldContactListener implements ContactListener {
     private World world;
     private PlayScreen playScreen;
     private PractGame maingame;
+
+    private static final Preferences prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
 
 
         public WorldContactListener(WindowManager wm, World world){
@@ -76,7 +79,17 @@ public class WorldContactListener implements ContactListener {
 
             case PractGame.PLAYER_BIT | PractGame.GUN_BIT:
                 String name = playScreen.getMap().getLayers().get(6).getName();
+                if(!maingame.gunMap.get(name).isLocked()) {
+                    Gdx.app.log("WorldContactListener", "RedLine already unlocked");
+                    break;
+                }
+
                 maingame.gunMap.get(name).unlock();
+                // getting corresponding preferences key to gun
+                String tmp = "PREFS_IS_" + name.toUpperCase() + "_UNLOCKED";
+                prefs.putBoolean(tmp, true);
+                prefs.flush();
+
                 windowManager.showMessage("gun");
                 messageShown = true;
                 break;

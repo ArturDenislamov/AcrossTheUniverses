@@ -95,7 +95,6 @@ public class PractGame extends Game {
 		Locale locale = new Locale("en");
 		i18NBundle = I18NBundle.createBundle(baseFileHandle, locale);
 
-
 		//adding maps in ArrayLists in LoadScreen class
     }
 
