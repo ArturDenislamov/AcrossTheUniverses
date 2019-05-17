@@ -142,7 +142,9 @@ public class PlayScreen implements Screen {
                break;
 
            case 3:
-               creator.createWorld3();
+               creator.createWorld1();
+               world.setGravity(new Vector2(0, -8));
+
                break;
        }
         player.definePlayer();
@@ -316,7 +318,7 @@ public class PlayScreen implements Screen {
 
             hud.stage.draw();
 
-          b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
+        //  b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
 
         maingame.batch.begin();
         maingame.batch.setProjectionMatrix(gamecam.combined);

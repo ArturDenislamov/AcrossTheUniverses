@@ -1,7 +1,6 @@
 package com.practgame.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -12,28 +11,35 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.practgame.game.PractGame;
 import com.practgame.game.Sprites.Gun;
+import com.practgame.game.Tween.ImageAccessor;
 import com.practgame.game.Utils.AppPreferences;
 import com.practgame.game.Utils.LevelInfo;
+
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 
 
 public class LoadScreen implements Screen {
     public AssetManager manager;
     private long startTime;
     private PractGame maingame;
+    private Image background;
 
     private Stage stage;
+    private TweenManager tweenManager;
 
     public LoadScreen(PractGame practGame){
         maingame = practGame;
         maingame.setScreen(this);
         startTime = TimeUtils.millis();
         manager = new AssetManager();
-
         stage = new Stage();
 
         loadAssets();
 
-        stage.addActor(new Image(new Texture("loading.gif")));
+        background = new Image(new Texture("loading.gif"));
+        background.setColor(background.getColor().r, background.getColor().g, background.getColor().b, 0);
+        stage.addActor(background);
     }
 
     public void loadAssets(){
@@ -55,7 +61,7 @@ public class LoadScreen implements Screen {
         maingame.levelList1.add(new LevelInfo("maps/lv1_3.tmx"));
         maingame.levelList1.add(new LevelInfo("maps/lv1_4.tmx"));
         maingame.levelList2.add(new LevelInfo("maps/lv2_1.tmx"));
-        //maingame.levelList3.add(new LevelInfo("maps/lv3_1.tmx"));
+        maingame.levelList3.add(new LevelInfo("maps/lv1_1.tmx"));
 
         //Character
         manager.load("Character/bullet_texture.png", Texture.class);
@@ -95,21 +101,27 @@ public class LoadScreen implements Screen {
 
         if(Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getBoolean(AppPreferences.PREFS_IS_REDLINE_UNLOCKED, false)){
             maingame.gunMap.get("redLine").unlock();
-        } 
+        }
 
         manager.finishLoading();
     }
 
     @Override
-    public void show(){}
+    public void show(){
+        tweenManager = new TweenManager();
+        Tween.registerAccessor(Image.class, new ImageAccessor());
+        Tween.set(background, ImageAccessor.ALPHA).target(0).start(tweenManager);
+        Tween.to(background, ImageAccessor.ALPHA, 2).target(1).start(tweenManager);
+    }
 
     @Override
     public void render(float delta){
         //code to render splash here
         stage.draw();
+        tweenManager.update(delta);
 
         //check if assets are loaded and time greater than 2 seconds
-        if(manager.update() && TimeUtils.timeSinceMillis(startTime) > 2000){
+        if(manager.update() && TimeUtils.timeSinceMillis(startTime) > 3000){
             maingame.setScreen(maingame.startScreen);
         }
     }

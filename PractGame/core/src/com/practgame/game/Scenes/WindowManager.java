@@ -110,7 +110,7 @@ public class WindowManager implements Disposable {
 
             secondW = new ImageButton(new TextureRegionDrawable(new TextureRegion(second)));
 
-
+            /*
             secondW.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -124,6 +124,7 @@ public class WindowManager implements Disposable {
                 @Override
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {}
             });
+            */
 
 
 

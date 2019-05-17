@@ -49,7 +49,7 @@ public class PractGame extends Game {
 	public static float PPM = 100;
 	public ArrayList <LevelInfo> levelList1;
     public ArrayList <LevelInfo> levelList2;
-    ArrayList <LevelInfo> levelList3;
+    public ArrayList <LevelInfo> levelList3;
 
 	public AssetManager manager;
 	public MusicManager musicManager;
@@ -77,9 +77,9 @@ public class PractGame extends Game {
         musicManager = new MusicManager(manager);
         musicManager.setSound("title.ogg");
 
-        levelLine1 = prefs.getInteger(AppPreferences.PREF_WORLD_1); // saving progress
+        levelLine1 = prefs.getInteger(AppPreferences.PREF_WORLD_1); // saving progress //TODO check here for defValue 0
         levelLine2 = prefs.getInteger(AppPreferences.PREF_WORLD_2, 0);
-        levelLine3 = 0;
+        levelLine3 = prefs.getInteger(AppPreferences.PREF_WORLD_3, 0);
 		batch = new SpriteBatch();
 		playScreen = new PlayScreen(this);
 		startScreen = new StartScreen(this);
@@ -146,9 +146,28 @@ public class PractGame extends Game {
 					}
                     break;
                 case 3:
-                    this.worldType = 3;
-                    playScreen.setLevel(levelList3.get(levelLine3).mapInfo);
+                    if(levelLine3 == levelList3.size()){
+                        levelLine3 = 0;
+                        prefs.putInteger(AppPreferences.PREF_WORLD_3, 0);
+                        prefs.flush();
+                        toMenu = true;
+                        musicManager.setSound("title.ogg");
+                        this.setScreen(menuLevel);
+                    } else {
+                        prefs.putInteger(AppPreferences.PREF_WORLD_3, levelLine3);
+                        prefs.flush();
+
+                        if(levelLine3 == 0)
+                            playScreen.shotsMade = 0;
+
+                        prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
+                        Gdx.app.log("Ammo : ", Integer.toString(playScreen.shotsMade));
+                        prefs.flush();
+                        this.worldType = 3;
+                        playScreen.setLevel(levelList3.get(levelLine3).mapInfo);
+                    }
                     break;
+
             }
             if(!toMenu)
                 setScreen(playScreen);
