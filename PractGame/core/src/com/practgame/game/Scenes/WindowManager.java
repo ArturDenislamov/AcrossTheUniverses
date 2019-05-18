@@ -135,8 +135,15 @@ public class WindowManager implements Disposable {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    hideWindow();
+                    //for gunScreen
+
+                   /* hideWindow();
                     maingame.setScreen(maingame.gunScreen);
+                    waitingForAnwser = "none";
+                    return true; */
+                    hideWindow();
+                    maingame.changeScreen(3);
+                    maingame.musicManager.setSound("world2.ogg");
                     waitingForAnwser = "none";
                     return true;
                 }

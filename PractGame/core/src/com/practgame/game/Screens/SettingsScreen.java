@@ -1,6 +1,7 @@
 package com.practgame.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -150,12 +151,23 @@ public class SettingsScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
     }
 
     @Override
     public void render(float delta) {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            maingame.musicManager.setVolume(preferences.getFloat(AppPreferences.PREF_MUSIC_VOLUME, 0.8f));
+            if(fromPause) {
+                fromPause = false;
+                maingame.setScreen(maingame.pauseScreen);
+            }
+            else
+                maingame.setScreen(maingame.startScreen);
+        }
     }
 
     @Override

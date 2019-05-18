@@ -110,7 +110,7 @@ public class LoadScreen implements Screen {
     public void show(){
         tweenManager = new TweenManager();
         Tween.registerAccessor(Image.class, new ImageAccessor());
-        Tween.set(background, ImageAccessor.ALPHA).target(0).start(tweenManager);
+      //  Tween.set(background, ImageAccessor.ALPHA).target(0).start(tweenManager);
         Tween.to(background, ImageAccessor.ALPHA, 2).target(1).start(tweenManager);
     }
 
@@ -121,7 +121,7 @@ public class LoadScreen implements Screen {
         tweenManager.update(delta);
 
         //check if assets are loaded and time greater than 2 seconds
-        if(manager.update() && TimeUtils.timeSinceMillis(startTime) > 3000){
+        if(manager.update() && TimeUtils.timeSinceMillis(startTime) > 2000){
             maingame.setScreen(maingame.startScreen);
         }
     }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -34,6 +35,11 @@ import com.practgame.game.Utils.LevelWorldCreator;
 import com.practgame.game.Utils.WorldContactListener;
 
 import java.util.ArrayList;
+
+import box2dLight.ConeLight;
+import box2dLight.Light;
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 
 
 public class PlayScreen implements Screen {
@@ -73,6 +79,9 @@ public class PlayScreen implements Screen {
 
     public boolean killed;
     public float soundVolume;
+
+    private RayHandler rayHandler;
+    private Light light;
 
     private final Preferences prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
 
@@ -134,17 +143,25 @@ public class PlayScreen implements Screen {
                 creator.createWorld1();
                 world.setGravity(new Vector2(0, -10));
                 Gdx.app.log("PlayScreen", "World 1 Created");
+                rayHandler = null;
+                light = null;
                 break;
 
            case 2:
                creator.createWorld2();
                world.setGravity(new Vector2(0, -8)); // check this value
+               rayHandler=  null;
+               light = null;
                break;
 
            case 3:
                creator.createWorld1();
                world.setGravity(new Vector2(0, -8));
-
+               rayHandler = new RayHandler(world);
+             //  rayHandler.setAmbientLight(0.05f, 0.05f, 0.05f, 0.05f);
+               light = new PointLight(rayHandler, 5);
+               light.setDistance(1);
+              // light.setContactFilter();
                break;
        }
         player.definePlayer();
@@ -283,6 +300,10 @@ public class PlayScreen implements Screen {
                         invader.velocity.set(1, 0);
                 }
         }
+
+        if(light != null){
+           light.setPosition(player.getX() + player.getWidth()/2, player.getY() + player.getHeight());
+        }
     }
 
 
@@ -319,6 +340,11 @@ public class PlayScreen implements Screen {
             hud.stage.draw();
 
         //  b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
+
+        if(rayHandler != null) {
+            rayHandler.setCombinedMatrix(gamecam.combined);
+            rayHandler.updateAndRender();
+        }
 
         maingame.batch.begin();
         maingame.batch.setProjectionMatrix(gamecam.combined);
@@ -392,5 +418,6 @@ public class PlayScreen implements Screen {
         noAmmo.dispose();
         slideSound.dispose();
         magSoung.dispose();
+        rayHandler.dispose();
     }
 }

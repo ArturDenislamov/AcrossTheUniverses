@@ -14,6 +14,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import  com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.practgame.game.PractGame;
+import com.practgame.game.Tween.ImageAccessor;
+import com.practgame.game.Tween.ImageButtonAccessor;
+
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 
 public class StartScreen extends ScreenAdapter {
 
@@ -27,10 +32,13 @@ public class StartScreen extends ScreenAdapter {
     private ImageButton playButton, settingsButton;
     private PractGame maingame;
 
+    private TweenManager tweenManager;
+
     private Sound clickSound;
 
    public  StartScreen(PractGame practGame){
         maingame = practGame;
+        tweenManager = new TweenManager();
     }
 
     @Override
@@ -40,10 +48,12 @@ public class StartScreen extends ScreenAdapter {
         Gdx.input.setCatchBackKey(false);
         backgroundtexture = maingame.manager.get("mainMenuWall_hdpi_2.png");
         Image background = new Image(backgroundtexture);
+        background.getColor().a = 0;
         stage.addActor(background);
         playTexture = maingame.manager.get("ui/play.png");
         playPressedTexture = maingame.manager.get("ui/playDown.png");
         playButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(playPressedTexture)), new TextureRegionDrawable(new TextureRegion(playTexture)));
+        playButton.getColor().a = 0;
 
         playButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2, Align.center);
 
@@ -63,6 +73,7 @@ public class StartScreen extends ScreenAdapter {
         settingsPressedTexture = maingame.manager.get("ui/settingsDown.png");
         settingsButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(settingsTexture)),
                 new TextureRegionDrawable(new TextureRegion(settingsPressedTexture)));
+        settingsButton.getColor().a = 0;
 
         settingsButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
         ClickListener settingsListener = new ClickListener(){
@@ -77,6 +88,19 @@ public class StartScreen extends ScreenAdapter {
         settingsButton.addListener(settingsListener);
 
         stage.addActor(settingsButton);
+
+
+        Tween.registerAccessor(Image.class, new ImageAccessor());
+       Tween.registerAccessor(ImageButton.class, new ImageButtonAccessor());
+
+       // Tween.set(background, ImageAccessor.ALPHA).target(0).start(tweenManager);
+        Tween.to(background, ImageAccessor.ALPHA, 1).target(1).start(tweenManager);
+
+       // Tween.set(playButton, ImageAccessor.ALPHA).target(0).start(tweenManager);
+        Tween.to(playButton, ImageAccessor.ALPHA, 1).target(1).start(tweenManager);
+
+       // Tween.set(settingsButton, ImageAccessor.ALPHA).target(0).start(tweenManager);
+        Tween.to(settingsButton, ImageAccessor.ALPHA, 1).target(1).start(tweenManager);
     }
 
     @Override
@@ -88,6 +112,8 @@ public class StartScreen extends ScreenAdapter {
     public void render(float delta) {
         stage.act(delta);
         stage.draw();
+
+        tweenManager.update(delta);
     }
 
     @Override
