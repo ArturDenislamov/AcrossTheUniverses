@@ -158,10 +158,11 @@ public class PlayScreen implements Screen {
                creator.createWorld1();
                world.setGravity(new Vector2(0, -8));
                rayHandler = new RayHandler(world);
-             //  rayHandler.setAmbientLight(0.05f, 0.05f, 0.05f, 0.05f);
-               light = new PointLight(rayHandler, 5);
-               light.setDistance(1);
-              // light.setContactFilter();
+               //  rayHandler.setAmbientLight(0.05f, 0.05f, 0.05f, 0.05f);
+                   light = new PointLight(rayHandler, 21);
+                   light.setDistance(0.67f);
+                   light.setSoftnessLength(0.3f);
+                   light.setContactFilter(PractGame.LIGHT_BIT, PractGame.LIGHT_GROUP, PractGame.MASK_LIGHT);
                break;
        }
         player.definePlayer();
@@ -332,19 +333,21 @@ public class PlayScreen implements Screen {
         maingame.batch.end();
 
 
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+       // windowManager.stage.draw();
+       //     hud.stage.draw();
 
-        windowManager.stage.draw();
-
-            hud.stage.draw();
-
-        //  b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
+       //  b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
 
         if(rayHandler != null) {
             rayHandler.setCombinedMatrix(gamecam.combined);
             rayHandler.updateAndRender();
         }
+
+         windowManager.stage.draw();
+             hud.stage.draw();
+
+        if(Gdx.app.getType() == Application.ApplicationType.Android)
+            controller.draw();
 
         maingame.batch.begin();
         maingame.batch.setProjectionMatrix(gamecam.combined);
@@ -418,6 +421,8 @@ public class PlayScreen implements Screen {
         noAmmo.dispose();
         slideSound.dispose();
         magSoung.dispose();
+
+        if(rayHandler != null)
         rayHandler.dispose();
     }
 }

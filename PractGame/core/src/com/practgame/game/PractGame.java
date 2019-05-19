@@ -30,8 +30,13 @@ public class PractGame extends Game {
     public static final short GUN_BIT = 8; // gun - item
     public static final short ENEMY_BIT = 32;
     public static final short BULLET_BIT = 64;
+    public static final short LIGHT_BIT = 16;
+    public final static short MASK_LIGHT = DEFAULT_BIT;
+	public final static short LIGHT_GROUP = 3;
 
-    public static SpriteBatch batch;
+
+
+	public static SpriteBatch batch;
 
 	public PlayScreen playScreen;
 	public StartScreen startScreen;
