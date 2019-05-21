@@ -9,9 +9,9 @@ public final class AppPreferences {
     public static final String PREF_MUSIC_VOLUME = "volume";
     public static final String PREF_MUSIC_ENABLED = "music.enabled";
     public static final String PREF_SOUND_ENABLED = "sound.enabled";
+    public static final String PREF_VIBRATION_ENABLED = "vibration.enabled";
     public static final String PREF_SOUND_VOL = "sound";
     public static final String PREFS_NAME = "b2dpref";
-    public static final String PREF_VIBRATION_ENABLED = "vibration.enabled";
 
     public static final String PREFS_GUN = "gun";
     public static final String PREFS_IS_REDLINE_UNLOCKED = "PREFS_IS_REDLINE_UNLOCKED";

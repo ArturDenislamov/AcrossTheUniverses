@@ -35,6 +35,7 @@ public class SettingsScreen implements Screen {
     private Label volumeSoundLabel;
     private Label musicOnOffLabel;
     private Label soundOnOffLabel;
+    private Label vibrationOnOffLabel;
 
     private final Preferences preferences = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
     public boolean fromPause;
@@ -120,12 +121,28 @@ public class SettingsScreen implements Screen {
             }
         });
 
+        //vibration
+        final CheckBox vibrationCheckbox = new CheckBox(null, skin);
+        vibrationCheckbox.setTransform(true);
+        vibrationCheckbox.scaleBy(2f);
+        vibrationCheckbox.setChecked(preferences.getBoolean(AppPreferences.PREF_VIBRATION_ENABLED, true) );
+        vibrationCheckbox.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                boolean enabled = vibrationCheckbox.isChecked();
+                preferences.putBoolean(AppPreferences.PREF_VIBRATION_ENABLED, enabled);
+                preferences.flush();
+                return false;
+            }
+        });
+
 
         titleLabel = new Label( "Preferences", skin, "title");
         volumeMusicLabel = new Label( "Music", skin );
         volumeSoundLabel = new Label( "Sounds", skin );
         musicOnOffLabel = new Label( "Music on/off", skin );
         soundOnOffLabel = new Label( "Sounds on/off", skin );
+        vibrationOnOffLabel = new Label("Vibration on/off", skin);
 
         table.setFillParent(true);
         table.add(titleLabel);
@@ -141,6 +158,9 @@ public class SettingsScreen implements Screen {
         table.row().pad(30, 0, 0, 10);
         table.add(soundOnOffLabel);
         table.add(soundCheckbox);
+        table.row().pad(25, 0, 0, 10); // double click on row() to analyze code easily
+        table.add(vibrationOnOffLabel);
+        table.add(vibrationCheckbox);
         table.row().pad(10, 0, 0, 10);
         table.add(backButton);
 

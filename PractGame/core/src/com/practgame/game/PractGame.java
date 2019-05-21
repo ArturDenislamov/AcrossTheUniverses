@@ -34,8 +34,6 @@ public class PractGame extends Game {
     public final static short MASK_LIGHT = DEFAULT_BIT;
 	public final static short LIGHT_GROUP = 3;
 
-
-
 	public static SpriteBatch batch;
 
 	public PlayScreen playScreen;
@@ -184,6 +182,20 @@ public class PractGame extends Game {
 		if (prefs == null)
 			prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
 		return prefs;
+	}
+
+	public void cleanSafeData(){
+		prefs.putInteger(AppPreferences.PREF_WORLD_1, 0);
+        prefs.putInteger(AppPreferences.PREF_WORLD_2, 0);
+        prefs.putInteger(AppPreferences.PREF_WORLD_3, 0);
+		prefs.putBoolean(AppPreferences.PREFS_IS_REDLINE_UNLOCKED, false);
+		prefs.putString(AppPreferences.PREFS_GUN, "acr130");
+		prefs.flush(); // yes, one flush() is enough for all put()'s
+
+        playScreen.player.updateGun();
+        levelLine1 = 0;
+        levelLine2 = 0;
+        levelLine3 = 0;
 	}
 
 	public I18NBundle getBundle(){

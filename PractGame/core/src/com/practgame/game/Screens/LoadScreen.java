@@ -18,7 +18,6 @@ import com.practgame.game.Utils.LevelInfo;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
-
 public class LoadScreen implements Screen {
     public AssetManager manager;
     private long startTime;
@@ -54,6 +53,8 @@ public class LoadScreen implements Screen {
         manager.load("ui/settings.png", Texture.class);
         manager.load("ui/settingsDown.png", Texture.class);
         manager.load("ui/third.png", Texture.class);
+        manager.load("ui/newGame.png", Texture.class);
+        manager.load("ui/newGameDown.png", Texture.class);
         // maps
         //TODO add here maps
         maingame.levelList1.add(new LevelInfo("maps/lv1_1.tmx"));
@@ -62,10 +63,8 @@ public class LoadScreen implements Screen {
         maingame.levelList1.add(new LevelInfo("maps/lv1_4.tmx"));
         maingame.levelList2.add(new LevelInfo("maps/lv2_1.tmx"));
         maingame.levelList3.add(new LevelInfo("maps/lv1_1.tmx"));
-
         //Character
         manager.load("Character/bullet_texture.png", Texture.class);
-
         //game controls
         manager.load("gc/aDark.png", Texture.class);
         manager.load("gc/aLight.png", Texture.class);
@@ -89,28 +88,23 @@ public class LoadScreen implements Screen {
         manager.load("sound/err.wav", Sound.class);
         manager.load("music/world2.ogg", Music.class);
 
-        //pause screen
-        manager.load("pause/pause_menu.png", Texture.class);
-        manager.load("pause/pause_play.png", Texture.class);
-        manager.load("pause/pause.png", Texture.class);
-
         //guns
         maingame.gunMap.put("acr130", new Gun("acr130"));
         maingame.gunMap.get("acr130").unlock();
         maingame.gunMap.put("redLine", new Gun("redLine"));
-
+        //if gun is already unlocked - unlocking the gun
         if(Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getBoolean(AppPreferences.PREFS_IS_REDLINE_UNLOCKED, false)){
             maingame.gunMap.get("redLine").unlock();
         }
 
-        manager.finishLoading();
+        manager.finishLoading(); // forcing asynchronous load
     }
 
     @Override
     public void show(){
+        //using UniversalTweenEngine for fading in
         tweenManager = new TweenManager();
         Tween.registerAccessor(Image.class, new ImageAccessor());
-      //  Tween.set(background, ImageAccessor.ALPHA).target(0).start(tweenManager);
         Tween.to(background, ImageAccessor.ALPHA, 2).target(1).start(tweenManager);
     }
 
@@ -125,7 +119,6 @@ public class LoadScreen implements Screen {
             maingame.setScreen(maingame.startScreen);
         }
     }
-
 
     @Override
     public void resize(int width, int height) {}

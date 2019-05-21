@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -21,15 +23,15 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
 public class StartScreen extends ScreenAdapter {
-
     private static final float WORLD_WIDTH = 1280;
-    private static final float WORLD_HEIGHT = 720; // using 16/9 ( 1280X20, 1920X1080 )
+    private static final float WORLD_HEIGHT = 720; // using 16/9 ( 1280X20, 1920X1080...)
 
-    Texture backgroundtexture;
+    private Texture backgroundtexture;
     private Stage stage;
     private Texture playTexture, playPressedTexture;
     private Texture settingsTexture, settingsPressedTexture;
-    private ImageButton playButton, settingsButton;
+    private Texture newGameTexture, newGamePressedTexture;
+    private ImageButton playButton, settingsButton, newGameButton;
     private PractGame maingame;
 
     private TweenManager tweenManager;
@@ -50,10 +52,12 @@ public class StartScreen extends ScreenAdapter {
         Image background = new Image(backgroundtexture);
         background.getColor().a = 0;
         stage.addActor(background);
+
         playTexture = maingame.manager.get("ui/play.png");
         playPressedTexture = maingame.manager.get("ui/playDown.png");
-        playButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(playPressedTexture)), new TextureRegionDrawable(new TextureRegion(playTexture)));
-        playButton.getColor().a = 0;
+        playButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(playPressedTexture)),
+                new TextureRegionDrawable(new TextureRegion(playTexture)));
+        playButton.getColor().a = 0; // needed for fading in
 
         playButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2, Align.center);
 
@@ -75,7 +79,7 @@ public class StartScreen extends ScreenAdapter {
                 new TextureRegionDrawable(new TextureRegion(settingsPressedTexture)));
         settingsButton.getColor().a = 0;
 
-        settingsButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
+        settingsButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2 - WORLD_HEIGHT/3, Align.center);
         ClickListener settingsListener = new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -89,18 +93,52 @@ public class StartScreen extends ScreenAdapter {
 
         stage.addActor(settingsButton);
 
+        newGameTexture = maingame.manager.get("ui/newGame.png");
+        newGamePressedTexture = maingame.manager.get("ui/newGameDown.png");
+        newGameButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(newGameTexture)),
+                new TextureRegionDrawable(new TextureRegion(newGamePressedTexture)));
+        newGameButton.getColor().a = 0;
+
+        newGameButton.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
+
+        ClickListener newGameListener  = new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String rand ="sound/switch" + Integer.toString((int)(Math.random()*2 + 1)) + ".wav";
+                clickSound = maingame.manager.get(rand);
+                clickSound.play(maingame.playScreen.soundVolume);
+
+                Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+                Dialog dialog = new Dialog("", skin, "dialog"){
+                  public void result(Object agree){
+                        if((Boolean) agree){
+                            Gdx.app.log("Dialog", "Agree!");
+                            maingame.cleanSafeData();
+                        } else {
+                            // do nothing
+                        }
+                  }
+                };
+                dialog.setScale(2);
+                dialog.text("Are you sure?");
+                dialog.button("Definitely", true);
+                dialog.button("No", false);
+                dialog.show(stage);
+                dialog.setPosition(WORLD_WIDTH/2 - dialog.getWidth(), WORLD_HEIGHT/2);
+            }
+        };
+
+        newGameButton.addListener(newGameListener);
+        stage.addActor(newGameButton);
+
 
         Tween.registerAccessor(Image.class, new ImageAccessor());
-       Tween.registerAccessor(ImageButton.class, new ImageButtonAccessor());
+        Tween.registerAccessor(ImageButton.class, new ImageButtonAccessor());
 
-       // Tween.set(background, ImageAccessor.ALPHA).target(0).start(tweenManager);
         Tween.to(background, ImageAccessor.ALPHA, 1).target(1).start(tweenManager);
-
-       // Tween.set(playButton, ImageAccessor.ALPHA).target(0).start(tweenManager);
         Tween.to(playButton, ImageAccessor.ALPHA, 1).target(1).start(tweenManager);
-
-       // Tween.set(settingsButton, ImageAccessor.ALPHA).target(0).start(tweenManager);
         Tween.to(settingsButton, ImageAccessor.ALPHA, 1).target(1).start(tweenManager);
+        Tween.to(newGameButton, ImageAccessor.ALPHA, 1).target(1).start(tweenManager);
     }
 
     @Override

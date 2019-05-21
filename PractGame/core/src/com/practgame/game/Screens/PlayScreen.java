@@ -215,6 +215,8 @@ public class PlayScreen implements Screen {
                 shotsMade++;
                 hud.updateBullets(player.bulletsAmount - shotsMade);
                 gunShot.play(soundVolume);
+
+                if(prefs.getBoolean(AppPreferences.PREF_VIBRATION_ENABLED))
                 Gdx.input.vibrate(150);
             }
         }
@@ -331,10 +333,6 @@ public class PlayScreen implements Screen {
             block.draw(maingame.batch);
         }
         maingame.batch.end();
-
-
-       // windowManager.stage.draw();
-       //     hud.stage.draw();
 
        //  b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
 
