@@ -88,6 +88,7 @@ public class LoadScreen implements Screen {
         manager.load("sound/redLine.ogg", Sound.class);
         manager.load("sound/err.wav", Sound.class);
         manager.load("music/world2.ogg", Music.class);
+        manager.load("music/world3.ogg", Music.class);
 
         //guns
         maingame.gunMap.put("acr130", new Gun("acr130"));

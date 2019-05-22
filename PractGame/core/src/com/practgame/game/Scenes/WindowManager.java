@@ -157,7 +157,7 @@ public class WindowManager implements Disposable {
                     liftShown = false;
                     hideWindow();
                     maingame.changeScreen(3);
-                    maingame.musicManager.setSound("world2.ogg");
+                    maingame.musicManager.setSound("world3.ogg");
                     waitingForAnwser = "none";
                     return true;
                 }
