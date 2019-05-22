@@ -2,6 +2,7 @@ package com.practgame.game.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -17,7 +18,7 @@ import com.practgame.game.Sprites.Invader;
 
 public class WorldContactListener implements ContactListener {
     private WindowManager windowManager;
-    private boolean messageShown;
+    public boolean messageShown;
     private World world;
     private PlayScreen playScreen;
     private PractGame maingame;
@@ -94,6 +95,18 @@ public class WorldContactListener implements ContactListener {
                 messageShown = true;
                 break;
 
+            /*case PractGame.PLAYER_BIT | PractGame.JUMPBLOCK_BIT:
+                if(fixA.getFilterData().categoryBits == PractGame.PLAYER_BIT) {
+                    fixA.getBody().setLinearVelocity(fixA.getBody().getLinearVelocity().x,0);
+                    fixA.getBody().applyLinearImpulse(new Vector2(0, 3.5f), fixA.getBody().getWorldCenter(), true);
+                    Gdx.app.log("WorldContactList", "JUMP Block collision");
+                }
+                else {
+                    fixB.getBody().setLinearVelocity(fixB.getBody().getLinearVelocity().x,0);
+                    fixB.getBody().applyLinearImpulse(new Vector2(0, 3.5f), fixB.getBody().getWorldCenter(), true);
+                    Gdx.app.log("WorldContactList", "JUMP Block collision");
+                }
+                break;*/
         }
 
         if (contact.getFixtureB().getUserData() instanceof Bullet && contact.getFixtureA().getUserData() != "next_level") {
@@ -107,6 +120,17 @@ public class WorldContactListener implements ContactListener {
 
         if(("feet").equals(fixA.getUserData()) || ("feet").equals(fixB.getUserData())){
             windowManager.onGround = true;
+        }
+
+        //jumping block collision
+        if(("feet").equals(fixA.getUserData()) && fixB.getFilterData().categoryBits == PractGame.JUMPBLOCK_BIT) {
+            fixA.getBody().setLinearVelocity(fixA.getBody().getLinearVelocity().x,0);
+            fixA.getBody().applyLinearImpulse(new Vector2(0, 3.5f), fixA.getBody().getWorldCenter(), true);
+            Gdx.app.log("WorldContactList", "JUMP Block collision");
+        }else if(("feet").equals(fixB.getUserData()) && fixA.getFilterData().categoryBits == PractGame.JUMPBLOCK_BIT){
+            fixB.getBody().setLinearVelocity(fixB.getBody().getLinearVelocity().x,0);
+            fixB.getBody().applyLinearImpulse(new Vector2(0, 3.5f), fixB.getBody().getWorldCenter(), true);
+            Gdx.app.log("WorldContactList", "JUMP Block collision");
         }
 
         if(("player").equals(fixA.getUserData()) || ("player").equals(fixB.getUserData())){

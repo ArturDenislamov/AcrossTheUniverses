@@ -8,6 +8,5 @@ import com.practgame.game.PractGame;
 public class JumpBlock extends InteractiveTileObject {
     public JumpBlock(World world, TiledMap map, Rectangle bounds) {
         super(world, map, bounds, false, "jumpingBlock");
-        setCategoryFilter(PractGame.DEFAULT_BIT);
     }
 }

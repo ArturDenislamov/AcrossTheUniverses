@@ -22,11 +22,6 @@ public abstract class InteractiveTileObject {
 
     protected Fixture fixture;
 
-
-    public enum BlockType{
-        JUMP_BlOCK, MOVING_BLOCK, DEFAULT
-    };
-
     public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, boolean isSensor, String type){
         this.world = world;
         this.map = map;
@@ -39,8 +34,6 @@ public abstract class InteractiveTileObject {
         if(type.equals("movingBlock")) {
             bdef.type = BodyDef.BodyType.DynamicBody;
             bdef.linearDamping = 1f;
-        }else if(type.equals("jumpingBlock")){
-            fdef.restitution = 1.45f;
         }
         else
             bdef.type = BodyDef.BodyType.StaticBody; // static bodies require less computing power

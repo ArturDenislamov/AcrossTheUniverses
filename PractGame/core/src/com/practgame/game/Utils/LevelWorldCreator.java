@@ -122,9 +122,11 @@ public class LevelWorldCreator {
         for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) { // jumping block
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            new JumpBlock(world, map, rect);
+            new JumpBlock(world, map, rect).setCategoryFilter(PractGame.JUMPBLOCK_BIT);
         }
     }
+
+
 
     public void createWorld3(){
 

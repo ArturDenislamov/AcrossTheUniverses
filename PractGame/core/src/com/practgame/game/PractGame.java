@@ -33,6 +33,7 @@ public class PractGame extends Game {
     public static final short LIGHT_BIT = 16;
     public final static short MASK_LIGHT = DEFAULT_BIT;
 	public final static short LIGHT_GROUP = 3;
+	public final static short JUMPBLOCK_BIT = 128;
 
 	public static SpriteBatch batch;
 
@@ -192,6 +193,7 @@ public class PractGame extends Game {
 		prefs.putString(AppPreferences.PREFS_GUN, "acr130");
 		prefs.flush(); // yes, one flush() is enough for all put()'s
 
+		gunMap.get("redLine").lock();
         playScreen.player.updateGun();
         levelLine1 = 0;
         levelLine2 = 0;

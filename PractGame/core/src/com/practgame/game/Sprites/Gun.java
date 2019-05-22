@@ -28,6 +28,7 @@ public class Gun extends Sprite {
     public void unlock(){
         locked = false;
     }
+    public void lock(){ locked = true; }
 
     public boolean isLocked(){ return locked; }
 

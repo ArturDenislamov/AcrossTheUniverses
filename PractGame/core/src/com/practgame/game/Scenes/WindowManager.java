@@ -27,12 +27,14 @@ public class WindowManager implements Disposable {
     private Label messageLabel;
     private Table table, levelTable;
     public String waitingForAnwser = "none";
-    private ImageButton firstW, secondW, thirdW, backW;
+    private ImageButton firstW, secondW, thirdW, backW, gunW;
     float bsize = 50;
 
     public boolean onGround;
 
     private PractGame maingame;
+
+    public boolean liftShown;
 
     public WindowManager(PractGame maingame){
         this.maingame = maingame;
@@ -40,6 +42,7 @@ public class WindowManager implements Disposable {
         stage = new Stage(viewport, maingame.batch);
         onGround = false;
         levelTable = new Table();
+        liftShown = false;
 
         table = new Table();
         table.top();
@@ -88,15 +91,21 @@ public class WindowManager implements Disposable {
             messageLabel.setText("");
             levelTable.setFillParent(true);
             levelTable.center();
+
             Gdx.input.setInputProcessor(stage);
+            liftShown = true;
+
             Texture first = new Texture("ui/first.png");
             Texture second = new Texture("ui/second.png");
             Texture third = new Texture("ui/third.png");
             Texture back = new Texture("ui/back.png");
+            Texture gun = new Texture("ui/gun.png");
+
             firstW = new ImageButton(new TextureRegionDrawable(new TextureRegion(first)));
             firstW.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    liftShown = false;
                     hideWindow(); // if it is located after line 101, controller doesn't work, it's understandable
                     maingame.changeScreen(1);
                     maingame.musicManager.setSound("world1.ogg");
@@ -114,19 +123,21 @@ public class WindowManager implements Disposable {
             secondW.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    /*
+                    liftShown = false;
                     hideWindow(); // if it is located after line 101, controller doesn't work
                     maingame.changeScreen(2);
                     maingame.musicManager.setSound("world2.ogg");
                     waitingForAnwser = "none";
                     return true;
-                    */
+
                     //for gunScreen
 
+                    /*
                     hideWindow();
                     maingame.setScreen(maingame.gunScreen);
                     waitingForAnwser = "none";
                     return true;
+                    */
                 }
 
                 @Override
@@ -143,6 +154,7 @@ public class WindowManager implements Disposable {
 
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    liftShown = false;
                     hideWindow();
                     maingame.changeScreen(3);
                     maingame.musicManager.setSound("world2.ogg");
@@ -163,7 +175,25 @@ public class WindowManager implements Disposable {
             backW.addListener(new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    liftShown = false;
                     hideWindow();
+                    waitingForAnwser = "none";
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {}
+            });
+
+            gunW = new ImageButton(new TextureRegionDrawable(new TextureRegion(gun)));
+
+
+            gunW.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    liftShown = false;
+                    hideWindow();
+                    maingame.setScreen(maingame.gunScreen);
                     waitingForAnwser = "none";
                     return true;
                 }
@@ -177,9 +207,12 @@ public class WindowManager implements Disposable {
             levelTable.add(firstW).size(bsize, bsize).padTop(10);
             levelTable.add(secondW).size(bsize, bsize).padTop(10);
             levelTable.add(thirdW).size(bsize, bsize).padTop(10);
-            levelTable.add(backW).size(bsize, bsize).padTop(10);
+            levelTable.add(gunW).size(bsize, bsize).padTop(10);
+            levelTable.add(backW).size(bsize).padTop(10);
             levelTable.pack();
             stage.addActor(levelTable);
+
+            liftShown = true;
         }
 
         if(tag.equals("next_level")){

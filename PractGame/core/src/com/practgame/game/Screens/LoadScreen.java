@@ -62,7 +62,8 @@ public class LoadScreen implements Screen {
         maingame.levelList1.add(new LevelInfo("maps/lv1_3.tmx"));
         maingame.levelList1.add(new LevelInfo("maps/lv1_4.tmx"));
         maingame.levelList2.add(new LevelInfo("maps/lv2_1.tmx"));
-        maingame.levelList3.add(new LevelInfo("maps/lv1_1.tmx"));
+        maingame.levelList2.add(new LevelInfo("maps/lv2_2.tmx"));
+        maingame.levelList3.add(new LevelInfo("maps/lv3_1.tmx"));
         //Character
         manager.load("Character/bullet_texture.png", Texture.class);
         //game controls

@@ -38,9 +38,9 @@ public class MenuLevel implements Screen {
     public Controller controller;
 
    public WindowManager windowManager;
+   private WorldContactListener contactListener;
 
     private PractGame mainGame;
-
 
     public MenuLevel(PractGame practGame) {
         mainGame = practGame;
@@ -60,7 +60,8 @@ public class MenuLevel implements Screen {
 
         windowManager = new WindowManager(mainGame);
 
-        world.setContactListener(new WorldContactListener(windowManager, world));
+        contactListener = new WorldContactListener(windowManager, world);
+        world.setContactListener(contactListener);
     }
 
     public TextureAtlas getAtlas(){
@@ -71,10 +72,12 @@ public class MenuLevel implements Screen {
     public void show() {
         Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(controller.stage); // without this controller doesn't respond
-        if(windowManager.waitingForAnwser != "none")
-            Gdx.input.setInputProcessor(windowManager.stage);
 
-     //   controller.touchUpAll();
+        if(windowManager.liftShown){
+            Gdx.input.setInputProcessor(windowManager.stage);
+            Gdx.app.log("MenuLevel", "Yes, liftshown == true, input processor is wm stage");
+        }
+
     }
 
     public void handleInput() {
@@ -91,6 +94,7 @@ public class MenuLevel implements Screen {
         if(controller.isBPressed() && windowManager.waitingForAnwser != "none"){ // in case than message is shown
             controller.touchUpAll();
             windowManager.showWindow(windowManager.waitingForAnwser);
+            Gdx.app.log("MenuLevel", "TouchUpAll activated");
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){

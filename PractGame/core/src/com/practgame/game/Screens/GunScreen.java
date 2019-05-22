@@ -67,7 +67,7 @@ public class GunScreen implements Screen {
                 WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
 
         Label titleLabel = new Label("Guns", skin, "title");
-        titleLabel.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT - titleLabel.getHeight()); // TODO stage has is not
+        titleLabel.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT - titleLabel.getHeight());
 
         acr130Button.addListener(new ChangeListener() {
             @Override
@@ -79,7 +79,6 @@ public class GunScreen implements Screen {
                     pickSound.play(soundVolume);
                     maingame.playScreen.player.updateGun();
                     maingame.setScreen(maingame.menuLevel);
-                    // TODO add upadting the player's gun; here is error
                 }
             }
         });

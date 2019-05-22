@@ -169,7 +169,8 @@ public class Player extends Sprite {
             Shape shape = new PolygonShape();
             ((PolygonShape) shape).setAsBox(4/PractGame.PPM, 12/PractGame.PPM);
             fdef.filter.categoryBits = PractGame.PLAYER_BIT; // it is defined as a player
-            fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.RECHARGE_BIT | PractGame.GUN_BIT | PractGame.ENEMY_BIT;
+            fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.RECHARGE_BIT | PractGame.GUN_BIT |
+                    PractGame.ENEMY_BIT | PractGame.JUMPBLOCK_BIT;
 
             fdef.shape = shape;
             b2body.createFixture(fdef).setUserData("player");
