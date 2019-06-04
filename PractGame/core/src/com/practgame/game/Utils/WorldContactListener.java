@@ -82,6 +82,8 @@ public class WorldContactListener implements ContactListener {
                 String name = playScreen.getMap().getLayers().get(6).getName();
                 if(!maingame.gunMap.get(name).isLocked()) {
                     Gdx.app.log("WorldContactListener", "RedLine already unlocked");
+                    windowManager.showMessage("gun");
+                    messageShown = true;
                     break;
                 }
 
@@ -94,19 +96,6 @@ public class WorldContactListener implements ContactListener {
                 windowManager.showMessage("gun");
                 messageShown = true;
                 break;
-
-            /*case PractGame.PLAYER_BIT | PractGame.JUMPBLOCK_BIT:
-                if(fixA.getFilterData().categoryBits == PractGame.PLAYER_BIT) {
-                    fixA.getBody().setLinearVelocity(fixA.getBody().getLinearVelocity().x,0);
-                    fixA.getBody().applyLinearImpulse(new Vector2(0, 3.5f), fixA.getBody().getWorldCenter(), true);
-                    Gdx.app.log("WorldContactList", "JUMP Block collision");
-                }
-                else {
-                    fixB.getBody().setLinearVelocity(fixB.getBody().getLinearVelocity().x,0);
-                    fixB.getBody().applyLinearImpulse(new Vector2(0, 3.5f), fixB.getBody().getWorldCenter(), true);
-                    Gdx.app.log("WorldContactList", "JUMP Block collision");
-                }
-                break;*/
         }
 
         if (contact.getFixtureB().getUserData() instanceof Bullet && contact.getFixtureA().getUserData() != "next_level") {
@@ -122,7 +111,7 @@ public class WorldContactListener implements ContactListener {
             windowManager.onGround = true;
         }
 
-        //jumping block collision
+        //jumping block collision with feet-object
         if(("feet").equals(fixA.getUserData()) && fixB.getFilterData().categoryBits == PractGame.JUMPBLOCK_BIT) {
             fixA.getBody().setLinearVelocity(fixA.getBody().getLinearVelocity().x,0);
             fixA.getBody().applyLinearImpulse(new Vector2(0, 3.5f), fixA.getBody().getWorldCenter(), true);
@@ -152,6 +141,7 @@ public class WorldContactListener implements ContactListener {
                 windowManager.showMessage("next_level");
                 windowManager.waitingForAnwser = "next_level";
                 messageShown = true;
+                Gdx.app.log("WcontactListener", "next_level collision");
             }
         }
     }
@@ -162,6 +152,7 @@ public class WorldContactListener implements ContactListener {
                 messageShown = false;
                 windowManager.hideMessage();
             }
+            if((("player").equals(contact.getFixtureA().getUserData()) || ("player").equals(contact.getFixtureB().getUserData())))
             windowManager.waitingForAnwser = "none";
     }
 

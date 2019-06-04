@@ -129,15 +129,6 @@ public class WindowManager implements Disposable {
                     maingame.musicManager.setSound("world2.ogg");
                     waitingForAnwser = "none";
                     return true;
-
-                    //for gunScreen
-
-                    /*
-                    hideWindow();
-                    maingame.setScreen(maingame.gunScreen);
-                    waitingForAnwser = "none";
-                    return true;
-                    */
                 }
 
                 @Override

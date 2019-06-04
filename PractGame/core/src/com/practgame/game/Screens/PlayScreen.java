@@ -180,9 +180,14 @@ public class PlayScreen implements Screen {
 
         if(maingame.worldType == 1)
             shotsMade = 0;
-      //  shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
+        shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
 
-        hud.updateBullets(player.gun.bulletsAmount - shotsMade);
+        if(player.gun.bulletsAmount - shotsMade > 0) {
+            hud.updateBullets(player.gun.bulletsAmount - shotsMade);
+        }
+        else {
+            hud.updateBullets(0);
+            }
 
         gunShot = maingame.manager.get("sound/"+player.gun.name+".ogg");
        slideSound.play(soundVolume);
@@ -221,9 +226,10 @@ public class PlayScreen implements Screen {
             }
         }
 
-        if(controller.isBPressed() && windowManager.waitingForAnwser == "none" && shotsMade == player.bulletsAmount){
+        if(controller.isBPressed() && windowManager.waitingForAnwser == "none" && shotsMade >= player.bulletsAmount){
             noAmmo.stop();
             noAmmo.play(soundVolume);
+            Gdx.app.log("PlayScreen", "waiting for answer is : " + windowManager.waitingForAnwser);
         }
 
         for(int i = 0; i < bulletsArray.size(); i++){
@@ -415,7 +421,6 @@ public class PlayScreen implements Screen {
         map.dispose();
         world.dispose();
        // b2dr.dispose();
-      //  gunShot.dispose(); TODO just commented
         noAmmo.dispose();
         slideSound.dispose();
         magSoung.dispose();
