@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-
+//TODO class created for text CutScenes, it's under construction
 public class TextScreen implements Screen {
     private Label titleLabel;
     private Stage stage;
@@ -24,40 +24,24 @@ public class TextScreen implements Screen {
         titleLabel = new Label("", skin, "title");
     }
 
-
+    @Override
+    public void show() {}
 
     @Override
-    public void show() {
-
-    }
+    public void render(float delta) {}
 
     @Override
-    public void render(float delta) {
-
-    }
+    public void resize(int width, int height) {}
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void pause() {}
 
     @Override
-    public void pause() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void hide() {}
 
     @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 }

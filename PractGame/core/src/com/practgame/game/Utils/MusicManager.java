@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Music;
 
 public class MusicManager {
 // changes tracks, it doesn't load them
+// tracks are loaded by assetManager
 
     AssetManager manager;
     final Preferences preferences = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
@@ -41,7 +42,6 @@ public class MusicManager {
     public void play(){
         music.play();
     }
-
 
     public void setVolume(float volume){
         if(preferences.getBoolean(AppPreferences.PREF_MUSIC_ENABLED, true))

@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 
 import aurelienribon.tweenengine.TweenAccessor;
 
+
 public class ImageButtonAccessor implements TweenAccessor<ImageButton> {
     public static final int ALPHA = 0;
 
@@ -19,6 +20,7 @@ public class ImageButtonAccessor implements TweenAccessor<ImageButton> {
         }
     }
 
+    // changing alpha value of an image, (in imageButton), (fade in, fade out)
     @Override
     public void setValues(ImageButton imageButton, int i, float[] floats) {
         switch(i){

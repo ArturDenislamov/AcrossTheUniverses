@@ -1,6 +1,5 @@
 package com.practgame.game.Sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,7 +9,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.practgame.game.PractGame;
 
-public class MovingBlock extends InteractiveTileObject {
+
+public class MovingBlock extends InteractiveTileObject { // it appears in world 1 level 3
     Sprite sprite;
     private Body body;
 

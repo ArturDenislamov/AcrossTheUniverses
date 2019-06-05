@@ -12,10 +12,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.practgame.game.PractGame;
 
 
-
 public class PauseScreen implements Screen {
     private static final float WORLD_WIDTH = 1280;
-    private static final float WORLD_HEIGHT = 720; // using 16/9 ( 1280X720, 1920X1080 )
+    private static final float WORLD_HEIGHT = 720; // using 16/9 ( 1280X720, 1920X1080, ... )
 
     private Stage stage;
     private PractGame maingame;
@@ -47,10 +46,10 @@ public class PauseScreen implements Screen {
     }
     @Override
     public void show() {
-            Gdx.input.setInputProcessor(stage);
-            toGameButton.setPosition(WORLD_WIDTH/2 - toGameButton.getWidth(), WORLD_HEIGHT/2, Align.center);
-            toMenuButton.setPosition(WORLD_WIDTH/2  - toMenuButton.getWidth(), WORLD_HEIGHT/2 - WORLD_HEIGHT/3, Align.center);
-            toSettingsButton.setPosition(WORLD_WIDTH/2 - toSettingsButton.getWidth(), WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
+        Gdx.input.setInputProcessor(stage);
+        toGameButton.setPosition(WORLD_WIDTH/2 - toGameButton.getWidth(), WORLD_HEIGHT/2, Align.center);
+        toMenuButton.setPosition(WORLD_WIDTH/2  - toMenuButton.getWidth(), WORLD_HEIGHT/2 - WORLD_HEIGHT/3, Align.center);
+        toSettingsButton.setPosition(WORLD_WIDTH/2 - toSettingsButton.getWidth(), WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
 
         ClickListener playListener  = new ClickListener(){
             @Override

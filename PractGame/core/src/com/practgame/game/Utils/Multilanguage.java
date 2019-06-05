@@ -1,10 +1,16 @@
 package com.practgame.game.Utils;
 
-
 import java.util.HashMap;
 
+// under construction, it is needed for multilanguage support
+
+// actually, this class isn't needed any more
+// after learning libgdx i come to conclusion, that for internationalization (i18n) i will use i18n Bundle
+// i already has one in assets -> i18n -> resourse Bundle "string"
+// at this time other languages are not available, because different fonts are to be created (under construction)
+
+
 public class Multilanguage {
-    // under construction, it is needed for multilanguage support
     private static HashMap < String, HashMap <String, String> > data;
 
     private static String language;

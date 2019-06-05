@@ -3,7 +3,6 @@ package com.practgame.game.Scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -20,8 +19,9 @@ public class Hud implements Disposable {
 
     Label bulletsLabel;
 
+    //head-up display, needed for displaying amount of bullets
     public Hud(SpriteBatch sb){
-        viewport = new FitViewport(320, 180, new OrthographicCamera()); //16/9
+        viewport = new FitViewport(320, 180, new OrthographicCamera()); // 16/9
         stage = new Stage(viewport, sb);
 
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -43,6 +43,7 @@ public class Hud implements Disposable {
         }
         if(bulletsAmount > 0)
             bulletsLabel.setColor(Color.WHITE);
+
         bulletsLabel.setText(Integer.toString(bulletsAmount));
     }
 

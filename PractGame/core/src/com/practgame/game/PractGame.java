@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class PractGame extends Game {
+	// defining BitMasks for collision
     public static final short DEFAULT_BIT = 1; // ground
     public static final short PLAYER_BIT = 2; // player
     public static final short RECHARGE_BIT = 4; // recharge - item
@@ -45,12 +46,14 @@ public class PractGame extends Game {
 	public SettingsScreen settingsScreen;
 	public GunScreen gunScreen;
 
+	// stores the number of a level
 	public  Integer levelLine1;
 	public Integer levelLine2;
 	public Integer levelLine3;
 	public int worldType;
 
-	public static float PPM = 100;
+	public static float PPM = 100; // pixels per meter
+
 	public ArrayList <LevelInfo> levelList1;
     public ArrayList <LevelInfo> levelList2;
     public ArrayList <LevelInfo> levelList3;
@@ -61,7 +64,7 @@ public class PractGame extends Game {
 	private Preferences prefs;
 	private boolean toMenu;
 
-	 private I18NBundle i18NBundle;
+	 private I18NBundle i18NBundle; // i18n = internationalization
 
 	 public HashMap <String, Gun> gunMap;
 
@@ -81,7 +84,7 @@ public class PractGame extends Game {
         musicManager = new MusicManager(manager);
         musicManager.setSound("title.ogg");
 
-        levelLine1 = prefs.getInteger(AppPreferences.PREF_WORLD_1); // saving progress //TODO check here for defValue 0
+        levelLine1 = prefs.getInteger(AppPreferences.PREF_WORLD_1); // saving progress
         levelLine2 = prefs.getInteger(AppPreferences.PREF_WORLD_2, 0);
         levelLine3 = prefs.getInteger(AppPreferences.PREF_WORLD_3, 0);
 		batch = new SpriteBatch();
@@ -95,11 +98,9 @@ public class PractGame extends Game {
 
 		//localization
 		FileHandle baseFileHandle = Gdx.files.internal("i18n/strings");
-		//java.util.Locale.getDefault().toString();
+		//java.util.Locale.getDefault().toString(); // can be used
 		Locale locale = new Locale("en");
 		i18NBundle = I18NBundle.createBundle(baseFileHandle, locale);
-
-		//adding maps in ArrayLists in LoadScreen class
     }
 
     public void changeScreen(int worldType){
@@ -120,7 +121,6 @@ public class PractGame extends Game {
                             playScreen.shotsMade = 0;
 
                         prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
-                        Gdx.app.log("Ammo", Integer.toString(playScreen.shotsMade));
                         prefs.flush();
 						this.worldType = 1;
 						playScreen.setLevel(levelList1.get(levelLine1).mapInfo);
@@ -143,7 +143,6 @@ public class PractGame extends Game {
 							playScreen.shotsMade = 0;
 
 						prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
-						Gdx.app.log("Ammo", Integer.toString(playScreen.shotsMade));
 						prefs.flush();
                         this.worldType = 2;
                         playScreen.setLevel(levelList2.get(levelLine2).mapInfo);
@@ -165,13 +164,11 @@ public class PractGame extends Game {
                             playScreen.shotsMade = 0;
 
                         prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
-                        Gdx.app.log("Ammo : ", Integer.toString(playScreen.shotsMade));
                         prefs.flush();
                         this.worldType = 3;
                         playScreen.setLevel(levelList3.get(levelLine3).mapInfo);
                     }
                     break;
-
             }
             if(!toMenu)
                 setScreen(playScreen);
@@ -203,7 +200,6 @@ public class PractGame extends Game {
 	public I18NBundle getBundle(){
 		return i18NBundle;
 	}
-
 
 	@Override
 	public void dispose() {

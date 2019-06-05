@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -36,7 +35,6 @@ import com.practgame.game.Utils.WorldContactListener;
 
 import java.util.ArrayList;
 
-import box2dLight.ConeLight;
 import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
@@ -57,7 +55,7 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
-    private Box2DDebugRenderer b2dr;
+  //  private Box2DDebugRenderer b2dr;
     public Player player;
     private Controller controller;
     private LevelWorldCreator creator;
@@ -89,7 +87,7 @@ public class PlayScreen implements Screen {
         this.maingame = game;
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(SCREEN_W / PractGame.PPM, SCREEN_H / PractGame.PPM, gamecam);
-        world = new World(new Vector2(0, -10), true); // gravity vector
+        world = new World(new Vector2(0, -10), true); // ( in constructor - gravity vector )
         mapLoader = new TmxMapLoader();
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM,SCREEN_H / 2 / PractGame.PPM,0);
         atlas  = new TextureAtlas("Character/Character.pack");
@@ -98,7 +96,7 @@ public class PlayScreen implements Screen {
         creator = new LevelWorldCreator(this);
         windowManager = new WindowManager(maingame);
         player = new Player(world, this);
-        b2dr = new Box2DDebugRenderer();
+       // b2dr = new Box2DDebugRenderer(); // for debugging
 
         hud = new Hud(game.batch);
         hud.updateBullets(player.bulletsAmount);
@@ -136,20 +134,19 @@ public class PlayScreen implements Screen {
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM,SCREEN_H / 2 / PractGame.PPM,0);
 
         map = mapLoader.load(mapWay);
-        renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM); // PPM - pixels per meter
 
        switch (maingame.worldType){
            case 1:
                 creator.createWorld1();
                 world.setGravity(new Vector2(0, -10));
-                Gdx.app.log("PlayScreen", "World 1 Created");
                 rayHandler = null;
                 light = null;
                 break;
 
            case 2:
                creator.createWorld2();
-               world.setGravity(new Vector2(0, -8)); // check this value
+               world.setGravity(new Vector2(0, -8)); // low gravity in world 2
                rayHandler=  null;
                light = null;
                break;
@@ -158,7 +155,7 @@ public class PlayScreen implements Screen {
                creator.createWorld1();
                world.setGravity(new Vector2(0, -8));
                rayHandler = new RayHandler(world);
-               //  rayHandler.setAmbientLight(0.05f, 0.05f, 0.05f, 0.05f);
+               //  rayHandler.setAmbientLight(0.05f, 0.05f, 0.05f, 0.05f); // can be used for ambient light
                    light = new PointLight(rayHandler, 21);
                    light.setDistance(0.67f);
                    light.setSoftnessLength(0.3f);
@@ -178,8 +175,6 @@ public class PlayScreen implements Screen {
         mapPixelWidth = mapWidth * tilePixelWidth;
         mapPixelHeight = mapHeight * tilePixelHeight;
 
-        if(maingame.worldType == 1)
-            shotsMade = 0;
         shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
 
         if(player.gun.bulletsAmount - shotsMade > 0) {
@@ -189,11 +184,12 @@ public class PlayScreen implements Screen {
             hud.updateBullets(0);
             }
 
-        gunShot = maingame.manager.get("sound/"+player.gun.name+".ogg");
-       slideSound.play(soundVolume);
+        gunShot = maingame.manager.get("sound/"+player.gun.name+".ogg"); // each gun has unique sound
+       slideSound.play(soundVolume); // sound of a slide in a beginning of a level
     }
 
     public void handleInput() {
+        // handling controller
         if(controller.isRightPressed())
             player.b2body.setLinearVelocity(new Vector2(0.75f, player.b2body.getLinearVelocity().y));
         else if(controller.isLeftPressed())
@@ -212,12 +208,12 @@ public class PlayScreen implements Screen {
             windowManager.hideMessage();
         }
 
-            // in this case player shooting
+            // in this case player shoots
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none"){
             if(shotsMade < player.bulletsAmount) {
                 bulletsArray.add(new Bullet(world, player, maingame.manager, player.gun.bulletVelocity));
                 controller.bPressed = false; // for one click - one shot
-                shotsMade++;
+                shotsMade++; // this line can be commented for infinite bullets stress-test
                 hud.updateBullets(player.bulletsAmount - shotsMade);
                 gunShot.play(soundVolume);
 
@@ -242,23 +238,19 @@ public class PlayScreen implements Screen {
                 bulletsArray.get(i).dispose();
                 bulletsArray.remove(i);
             }
-
-
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
             maingame.musicManager.pause();
             maingame.setScreen(maingame.pauseScreen);
         }
-
     }
 
     public void update(float dt) {
         handleInput();
         world.step(1 / 60f, 6, 2);
 
-
-        //destroying bodies, cleaning destroy array (doing this out of step method)
+        //destroying bodies, cleaning destroy array (doing this out of world.step(...) method, quite important)
        for(int i = 0; i < destroyBullets.size(); i++){
            world.destroyBody(destroyBullets.get(i).b2bullet);
            destroyBullets.get(i).b2bullet = null;
@@ -292,9 +284,9 @@ public class PlayScreen implements Screen {
             }
         }
 
-        if( player.b2body.getPosition().y < -10 || killed){
+        if( player.b2body.getPosition().y < -10 || killed){ // kill player, if he falls
             killed = false;
-            maingame.changeScreen(maingame.worldType);
+            maingame.changeScreen(maingame.worldType); // restarting the level
         }
 
         for(Invader invader : creator.getInvaders()) {
@@ -315,14 +307,13 @@ public class PlayScreen implements Screen {
         }
     }
 
-
-
     @Override
     public void render(float delta) {
         update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+      //  controller.draw(); // this line was used in gameplay recording
 
         renderer.render();
 
@@ -340,7 +331,7 @@ public class PlayScreen implements Screen {
         }
         maingame.batch.end();
 
-       //  b2dr.render(world, gamecam.combined); // if it is used, debug render lines appear
+       //  b2dr.render(world, gamecam.combined); // if it is used, debug renderer lines appear
 
         if(rayHandler != null) {
             rayHandler.setCombinedMatrix(gamecam.combined);
@@ -365,7 +356,6 @@ public class PlayScreen implements Screen {
         }
         maingame.batch.end();
     }
-
 
     public TextureAtlas getAtlas(){return atlas;}
     public TextureAtlas getGunAtlas(){return gunAtlas;}
@@ -404,8 +394,6 @@ public class PlayScreen implements Screen {
         else
             soundVolume = 0;
     }
-
-
 
     @Override
     public void pause() {}

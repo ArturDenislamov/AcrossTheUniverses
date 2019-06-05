@@ -40,7 +40,7 @@ public class Invader extends Enemy {
         setToDestroy = false;
         destroyed = false;
 
-        velocity = new Vector2(0, 0);
+        velocity = new Vector2(0, 0); // doesn't move at the start
     }
 
     public void update(float dt){
@@ -76,11 +76,11 @@ public class Invader extends Enemy {
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-        fdef.friction = 0; // player doesn't stick to the walls (can be changed)
+        fdef.friction = 0; // body doesn't stick to the walls (can be changed)
         Shape shape = new PolygonShape();
         ((PolygonShape) shape).setAsBox(6/PractGame.PPM, 9.88f/PractGame.PPM);
         fdef.shape = shape;
-        fdef.filter.categoryBits = PractGame.ENEMY_BIT;
+        fdef.filter.categoryBits = PractGame.ENEMY_BIT; // collision with BitMasks
         fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.PLAYER_BIT | PractGame.BULLET_BIT;
         b2body.createFixture(fdef).setUserData(this); // important to set userData
         b2body.setGravityScale(12f); // falling faster

@@ -37,8 +37,8 @@ public class MenuLevel implements Screen {
     private Player player;
     public Controller controller;
 
-   public WindowManager windowManager;
-   private WorldContactListener contactListener;
+    public WindowManager windowManager;
+    private WorldContactListener contactListener;
 
     private PractGame mainGame;
 
@@ -52,7 +52,7 @@ public class MenuLevel implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM, SCREEN_H / 2 / PractGame.PPM, 0);
 
-        world = new World(new Vector2(0, -10), true); // gravity vector
+        world = new World(new Vector2(0, -10), true); // (in constructor - gravity vector)
         player = new Player(world, this);
         controller = new Controller(mainGame.manager);
 
@@ -75,9 +75,7 @@ public class MenuLevel implements Screen {
 
         if(windowManager.liftShown){
             Gdx.input.setInputProcessor(windowManager.stage);
-            Gdx.app.log("MenuLevel", "Yes, liftshown == true, input processor is wm stage");
         }
-
     }
 
     public void handleInput() {
@@ -102,23 +100,22 @@ public class MenuLevel implements Screen {
         }
     }
 
-
     public void update(float dt) {
         handleInput();
         world.step(1 / 60f, 6, 2);
-        if(player.b2body.getPosition().x >= 0.40 && player.b2body.getPosition().x <= 2.20) // 0.40 == 40 pixels
+        if(player.b2body.getPosition().x >= 0.40 && player.b2body.getPosition().x <= 2.20) // 0.40 == 40 pixels, that's why we use PPM
          gamecam.position.x = player.b2body.getPosition().x;
 
         gamecam.update();
         // tell our renderer to draw only what our camera see in game world
         renderer.setView(gamecam);
         player.update(dt);
-
     }
 
     @Override
     public void render(float delta) {
         update(delta);
+      //  controller.draw(); // this line was used in gameplay recording (it hides controllers under map)
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -131,7 +128,7 @@ public class MenuLevel implements Screen {
         mainGame.batch.end();
 
         if(Gdx.app.getType() == Application.ApplicationType.Android)
-        controller.draw();
+             controller.draw();
 
         windowManager.stage.draw();
     }
@@ -150,18 +147,14 @@ public class MenuLevel implements Screen {
         return world;
     }
 
+    @Override
+    public void pause() {}
 
     @Override
-    public void pause() {
-    }
+    public void resume() {}
 
     @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {

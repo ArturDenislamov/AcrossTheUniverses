@@ -1,10 +1,6 @@
 package com.practgame.game.Utils;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
-
-import java.util.logging.Logger;
-
+//store string key constants for preferences
 public final class AppPreferences {
     public static final String PREF_MUSIC_VOLUME = "volume";
     public static final String PREF_MUSIC_ENABLED = "music.enabled";
@@ -21,6 +17,5 @@ public final class AppPreferences {
     public static final String PREF_WORLD_3 = "world3";
 
     public static final String PREF_SHOTS = "shots";
-
 }
 

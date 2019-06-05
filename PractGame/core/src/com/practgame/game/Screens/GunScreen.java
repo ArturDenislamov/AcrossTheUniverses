@@ -22,6 +22,7 @@ import com.practgame.game.Utils.AppPreferences;
 
 import java.util.HashMap;
 
+
 public class GunScreen implements Screen {
     private final float WORLD_WIDTH = 1280;
     private final float WORLD_HEIGHT = 720;
@@ -106,7 +107,6 @@ public class GunScreen implements Screen {
         stage.addActor(redLineButton);
     }
 
-
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
@@ -116,7 +116,6 @@ public class GunScreen implements Screen {
 
     @Override
     public void render(float delta) {
-       // stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
 
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){

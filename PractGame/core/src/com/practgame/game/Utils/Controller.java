@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
 
-import java.util.logging.Logger;
 
 public class Controller {
     private float bsize = 20;
@@ -31,7 +30,7 @@ public class Controller {
     ImageButton aButton, leftButton, rightButton;
     public ImageButton bButton;
 
-    private AssetManager manager;;
+    private AssetManager manager;
 
     public boolean isUpPressed() {
         return upPressed;
@@ -65,23 +64,25 @@ public class Controller {
 
         Texture aTexture = manager.get("gc/aDark.png");
         Texture aPressedTexture = manager.get("gc/aLight.png");
-        aButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(aTexture)), new TextureRegionDrawable(new TextureRegion(aPressedTexture)));
+        aButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(aTexture)),
+                new TextureRegionDrawable(new TextureRegion(aPressedTexture)));
         aButton.addListener(new InputListener(){
-                                   @Override
-                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                       upPressed = true;
-                                       return true;
-                                   }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                upPressed = true; // upButton is an aButton
+                return true;
+            }
 
-                                   @Override
-                                   public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                       upPressed = false;
-                                   }
-                               });
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                upPressed = false;
+            }
+        });
 
         Texture rightTexture = manager.get("gc/rightDark.png");
         Texture rightPressedTexture = manager.get("gc/rightLight.png");
-        rightButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(rightTexture)), new TextureRegionDrawable(new TextureRegion(rightPressedTexture)));
+        rightButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(rightTexture)),
+                new TextureRegionDrawable(new TextureRegion(rightPressedTexture)));
         rightButton.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -97,7 +98,8 @@ public class Controller {
 
         Texture leftTexture = manager.get("gc/leftDark.png");
         Texture leftPressedTexture = manager.get("gc/leftLight.png");
-        leftButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(leftTexture)), new TextureRegionDrawable(new TextureRegion(leftPressedTexture)));
+        leftButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(leftTexture)),
+                new TextureRegionDrawable(new TextureRegion(leftPressedTexture)));
         leftButton.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -113,7 +115,8 @@ public class Controller {
 
         Texture bTexture = manager.get("gc/bDark.png");
         Texture bPressedTexture = manager.get("gc/bLight.png");
-        bButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(bTexture)), new TextureRegionDrawable(new TextureRegion(bPressedTexture)));
+        bButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(bTexture)),
+                new TextureRegionDrawable(new TextureRegion(bPressedTexture)));
 
         bButton.addListener(new InputListener(){
             @Override
@@ -149,6 +152,7 @@ public class Controller {
         stage.draw();
     }
 
+// method needed to avoid uncontrollable sticky keys
     public void touchUpAll(){
         bPressed = false;
         upPressed = false;

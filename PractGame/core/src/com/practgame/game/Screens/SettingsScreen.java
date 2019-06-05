@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.practgame.game.PractGame;
 import com.practgame.game.Utils.AppPreferences;
 
-import java.util.logging.Logger;
 
 public class SettingsScreen implements Screen {
     private Stage stage;
@@ -59,7 +58,6 @@ public class SettingsScreen implements Screen {
                 return false;
             }
         });
-
 
         //music
         final CheckBox musicCheckbox = new CheckBox(null, skin);
@@ -136,7 +134,6 @@ public class SettingsScreen implements Screen {
             }
         });
 
-
         titleLabel = new Label( "Preferences", skin, "title");
         volumeMusicLabel = new Label( "Music", skin );
         volumeSoundLabel = new Label( "Sounds", skin );
@@ -166,7 +163,6 @@ public class SettingsScreen implements Screen {
 
         stage.addActor(table);
     }
-
 
     @Override
     public void show() {

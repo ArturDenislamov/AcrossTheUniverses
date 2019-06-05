@@ -13,8 +13,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.practgame.game.PractGame;
 
 
-import java.util.logging.Logger;
-
 public class Bullet extends Sprite{
     private World world;
 

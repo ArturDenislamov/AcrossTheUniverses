@@ -5,10 +5,6 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.practgame.game.PractGame;
@@ -82,7 +78,6 @@ public class LevelWorldCreator {
         }
     }
 
-
     public void createWorld2(){
         map = playScreen.getMap();
         world = playScreen.getWorld();
@@ -95,10 +90,10 @@ public class LevelWorldCreator {
             new BlockTileObject(world, map, rect); // creating object using class
         }
 
-        //TODO Under construction
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // invaders spawns
+        // under construction, no enemies in world 2 at this moment
+        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // enemy spawns
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-        //    invaders.add(new Invader(playScreen, rect.getX()/ PractGame.PPM, rect.getY()/ PractGame.PPM));
+        //    enemies.add(new Soldier(playScreen, rect.getX()/ PractGame.PPM, rect.getY()/ PractGame.PPM));
         }
 
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // reload blocks
@@ -126,12 +121,8 @@ public class LevelWorldCreator {
         }
     }
 
-
-
     public void createWorld3(){
-
+        // under construction
+        // at this time world 3 uses createWorld1() method
     }
-
 }
-
-//TODO maybe you should add 2 classes for 2 different worlds (in total 3)

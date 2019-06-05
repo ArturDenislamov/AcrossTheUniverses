@@ -8,12 +8,12 @@ public class Gun extends Sprite {
 
     public int bulletsAmount;
     private boolean locked;
-    // int damage;
+    // int damage; // under construction
     public Gun(String name){
         this.name = name;
         locked = true;
         bulletsAmount = 100;
-        switch (Guns.valueOf(name.toUpperCase())){
+        switch (Guns.valueOf(name.toUpperCase())){ // each gun has its unique features
             case ACR130:
                 bulletsAmount = 5;
                 bulletVelocity = 200;
@@ -28,11 +28,12 @@ public class Gun extends Sprite {
     public void unlock(){
         locked = false;
     }
+
     public void lock(){ locked = true; }
 
     public boolean isLocked(){ return locked; }
 
     public enum Guns{
         ACR130, REDLINE
-    };
+    }
 }

@@ -22,6 +22,7 @@ import com.practgame.game.Tween.ImageButtonAccessor;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
+
 public class StartScreen extends ScreenAdapter {
     private static final float WORLD_WIDTH = 1280;
     private static final float WORLD_HEIGHT = 720; // using 16/9 ( 1280X20, 1920X1080...)
@@ -34,7 +35,7 @@ public class StartScreen extends ScreenAdapter {
     private ImageButton playButton, settingsButton, newGameButton;
     private PractGame maingame;
 
-    private TweenManager tweenManager;
+    private TweenManager tweenManager; // UniversalTweenManager library, for tweening ( interpolation )
 
     private Sound clickSound;
 
@@ -65,9 +66,9 @@ public class StartScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 maingame.setScreen(maingame.menuLevel);
-                String rand ="sound/switch" + Integer.toString((int)(Math.random()*2 + 1)) + ".wav";
+                String rand ="sound/switch" + ((int)(Math.random()*2 + 1)) + ".wav"; // random click sound
                 clickSound = maingame.manager.get(rand);
-                clickSound.play(maingame.playScreen.soundVolume); // TODO check for error (and below)
+                clickSound.play(maingame.playScreen.soundVolume);
             }
         };
         playButton.addListener(playListener);
@@ -84,7 +85,7 @@ public class StartScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 maingame.setScreen(maingame.settingsScreen);
-                String rand ="sound/switch" + Integer.toString((int)(Math.random()*2 + 1)) + ".wav";
+                String rand ="sound/switch" + ((int)(Math.random()*2 + 1)) + ".wav";
                 clickSound = maingame.manager.get(rand);
                 clickSound.play(maingame.playScreen.soundVolume);
             }
@@ -104,16 +105,15 @@ public class StartScreen extends ScreenAdapter {
         ClickListener newGameListener  = new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                String rand ="sound/switch" + Integer.toString((int)(Math.random()*2 + 1)) + ".wav";
+                String rand ="sound/switch" + ((int)(Math.random()*2 + 1)) + ".wav";
                 clickSound = maingame.manager.get(rand);
                 clickSound.play(maingame.playScreen.soundVolume);
 
                 Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-                Dialog dialog = new Dialog("", skin, "dialog"){
+                Dialog dialog = new Dialog("", skin, "dialog"){ // libgdx dialog, like in android
                   public void result(Object agree){
                         if((Boolean) agree){
-                            Gdx.app.log("Dialog", "Agree!");
-                            maingame.cleanSafeData();
+                            maingame.cleanSafeData(); // NewGame confirmed
                         } else {
                             // do nothing
                         }
@@ -130,7 +130,6 @@ public class StartScreen extends ScreenAdapter {
 
         newGameButton.addListener(newGameListener);
         stage.addActor(newGameButton);
-
 
         Tween.registerAccessor(Image.class, new ImageAccessor());
         Tween.registerAccessor(ImageButton.class, new ImageButtonAccessor());

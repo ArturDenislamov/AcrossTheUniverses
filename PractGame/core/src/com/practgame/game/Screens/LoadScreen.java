@@ -42,8 +42,8 @@ public class LoadScreen implements Screen {
     }
 
     public void loadAssets(){
-
         manager.load("mainMenuWall_hdpi_2.png" , Texture.class);
+
         //ui
         manager.load("ui/back.png", Texture.class);
         manager.load("ui/first.png", Texture.class);
@@ -55,8 +55,8 @@ public class LoadScreen implements Screen {
         manager.load("ui/third.png", Texture.class);
         manager.load("ui/newGame.png", Texture.class);
         manager.load("ui/newGameDown.png", Texture.class);
+
         // maps
-        //TODO add here maps
         maingame.levelList1.add(new LevelInfo("maps/lv1_1.tmx"));
         maingame.levelList1.add(new LevelInfo("maps/lv1_2.tmx"));
         maingame.levelList1.add(new LevelInfo("maps/lv1_3.tmx"));
@@ -64,9 +64,11 @@ public class LoadScreen implements Screen {
         maingame.levelList2.add(new LevelInfo("maps/lv2_1.tmx"));
         maingame.levelList2.add(new LevelInfo("maps/lv2_2.tmx"));
         maingame.levelList3.add(new LevelInfo("maps/lv3_1.tmx"));
+
         //Character
         manager.load("Character/bullet_texture.png", Texture.class);
-        //game controls
+
+        //Game controls
         manager.load("gc/aDark.png", Texture.class);
         manager.load("gc/aLight.png", Texture.class);
         manager.load("gc/rightDark.png", Texture.class);
@@ -76,7 +78,7 @@ public class LoadScreen implements Screen {
         manager.load("gc/bDark.png", Texture.class);
         manager.load("gc/bLight.png", Texture.class);
 
-        //music and sound
+        //Music and sound
         manager.load("sound/acr130.ogg", Sound.class);
         manager.load("music/title.ogg", Music.class);
         manager.load("sound/switch1.wav", Sound.class);
@@ -90,7 +92,7 @@ public class LoadScreen implements Screen {
         manager.load("music/world2.ogg", Music.class);
         manager.load("music/world3.ogg", Music.class);
 
-        //guns
+        //Guns
         maingame.gunMap.put("acr130", new Gun("acr130"));
         maingame.gunMap.get("acr130").unlock();
         maingame.gunMap.put("redLine", new Gun("redLine"));

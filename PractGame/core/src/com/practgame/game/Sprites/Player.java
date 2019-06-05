@@ -1,7 +1,6 @@
 package com.practgame.game.Sprites;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -40,9 +39,8 @@ public class Player extends Sprite {
 
     public int bulletsAmount;
 
-
     public Player (World world, MenuLevel level){
-        super(level.getAtlas().findRegion("stand")); // TODO here you can change player's textures (without helmet) 04/08
+        super(level.getAtlas().findRegion("stand"));
         this.world = world;
         currentState = State.STANDING;
         previousState = State.STANDING;
@@ -59,7 +57,6 @@ public class Player extends Sprite {
         playerStand = new TextureRegion(getTexture(), 55,0,13,26);
         setBounds(0,0, 13 / PractGame.PPM,26 / PractGame.PPM);
         setRegion(playerStand);
-
     }
 
     public Player (World world, PlayScreen level){
@@ -89,15 +86,10 @@ public class Player extends Sprite {
         gunSprite.setBounds(0, 0, gunSprite.getRegionWidth() / PractGame.PPM, gunSprite.getRegionHeight() / PractGame.PPM );
 
         bulletsAmount = gun.bulletsAmount;
-
     }
 
-
-
-
-
     public void update(float dt){
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight()*0.52f  ); // numbers are needed for correct image position 03/08
+        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight()*0.52f  ); // numbers are needed for correct sprite position
         setRegion(getFrame(dt));
 
         if(gunSprite != null) {
@@ -108,9 +100,7 @@ public class Player extends Sprite {
                 gunSprite.setPosition(this.getX() - gunSprite.getRegionWidth()/PractGame.PPM + 0.01f, b2body.getPosition().y - 0.02f);
             }
         }
-
     }
-
 
     public TextureRegion getFrame(float dt){
         currentState = getState();
@@ -125,7 +115,6 @@ public class Player extends Sprite {
                     region = playerStand;
                 break;
         }
-
 
         // flipping player horizontally if he is running left or right
         if((b2body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
@@ -159,25 +148,25 @@ public class Player extends Sprite {
     }
 
     public void definePlayer(){
-                BodyDef bdef = new BodyDef();
-                bdef.position.set( 32/ PractGame.PPM, 32/ PractGame.PPM); // were 32 and 32 (it suited normally)
-                bdef.type = BodyDef.BodyType.DynamicBody;
-                b2body = world.createBody(bdef);
+        BodyDef bdef = new BodyDef();
+        bdef.position.set( 32/ PractGame.PPM, 32/ PractGame.PPM);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        b2body = world.createBody(bdef);
 
-            FixtureDef fdef = new FixtureDef();
-            fdef.friction = 0; // player doesn't stick to the walls (can be changed)
-            Shape shape = new PolygonShape();
-            ((PolygonShape) shape).setAsBox(4/PractGame.PPM, 12/PractGame.PPM);
-            fdef.filter.categoryBits = PractGame.PLAYER_BIT; // it is defined as a player
-            fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.RECHARGE_BIT | PractGame.GUN_BIT |
-                    PractGame.ENEMY_BIT | PractGame.JUMPBLOCK_BIT;
+        FixtureDef fdef = new FixtureDef();
+        fdef.friction = 0; // player doesn't stick to the walls (can be changed)
+        Shape shape = new PolygonShape();
+        ((PolygonShape) shape).setAsBox(4/PractGame.PPM, 12/PractGame.PPM);
+        fdef.filter.categoryBits = PractGame.PLAYER_BIT; // it is defined as a player
+        fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.RECHARGE_BIT | PractGame.GUN_BIT |
+                PractGame.ENEMY_BIT | PractGame.JUMPBLOCK_BIT;
 
-            fdef.shape = shape;
-            b2body.createFixture(fdef).setUserData("player");
+        fdef.shape = shape;
+        b2body.createFixture(fdef).setUserData("player");
 
         // for not slipping with head
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-3 / PractGame.PPM, -12 / PractGame.PPM) , new Vector2( 3/ PractGame.PPM, -12 / PractGame.PPM)  ); // TODO  for not slipping with head (not finished)
+        feet.set(new Vector2(-3 / PractGame.PPM, -12 / PractGame.PPM) , new Vector2( 3/ PractGame.PPM, -12 / PractGame.PPM)  );
         fdef.shape = feet;
         fdef.isSensor = true;
 

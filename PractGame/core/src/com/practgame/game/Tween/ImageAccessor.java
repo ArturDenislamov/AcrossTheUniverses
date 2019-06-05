@@ -1,12 +1,11 @@
 package com.practgame.game.Tween;
 
-
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import aurelienribon.tweenengine.TweenAccessor;
 
+
 public class ImageAccessor implements TweenAccessor<Image> {
-    
     public static final int ALPHA = 0;
     
     @Override
@@ -21,6 +20,7 @@ public class ImageAccessor implements TweenAccessor<Image> {
         }
     }
 
+    // changing alpha value of an image, (fade in, fade out)
     @Override
     public void setValues(Image image, int i, float[] floats) {
             switch(i){
