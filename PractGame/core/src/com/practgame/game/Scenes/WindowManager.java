@@ -9,9 +9,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -27,6 +29,7 @@ public class WindowManager implements Disposable {
     public String waitingForAnwser = "none";  // safes a name of the window, which is displayed and can be accepted by pressing B button
     private ImageButton firstW, secondW, thirdW, backW, gunW;
     float bsize = 50;
+    Drawable backgroundLift;
 
     public boolean onGround; // checks, if player is on ground (for jumping)
 
@@ -40,6 +43,7 @@ public class WindowManager implements Disposable {
         stage = new Stage(viewport, maingame.batch);
         onGround = false;
         levelTable = new Table();
+        backgroundLift =  new TextureRegionDrawable(new Texture("ui/backgroundLift.png"));
         liftShown = false;
 
         table = new Table();
@@ -77,6 +81,7 @@ public class WindowManager implements Disposable {
 
     public void hideWindow(){
         levelTable.clearChildren();
+        levelTable.setBackground((Drawable) null); // setting background to null to clear it
         waitingForAnwser = "none";
         maingame.menuLevel.show();
     }
@@ -179,6 +184,7 @@ public class WindowManager implements Disposable {
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {}
             });
 
+            levelTable.setBackground(backgroundLift);
             levelTable.row().padLeft(5).padRight(5);
             levelTable.add(firstW).size(bsize, bsize).padTop(10);
             levelTable.add(secondW).size(bsize, bsize).padTop(10);

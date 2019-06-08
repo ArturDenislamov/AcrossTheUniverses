@@ -115,7 +115,7 @@ public class MenuLevel implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-      //  controller.draw(); // this line was used in gameplay recording (it hides controllers under map)
+     //   controller.draw(); // this line was used in gameplay recording (it hides controllers under map)
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
