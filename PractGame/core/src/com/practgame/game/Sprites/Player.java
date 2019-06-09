@@ -148,6 +148,11 @@ public class Player extends Sprite {
     }
 
     public void definePlayer(){
+        runningRight = true; // player is spawned looking to the right
+        if(gunSprite != null)
+            if(gunSprite.isFlipX()) // gun is also spawned looking to the right
+                gunSprite.flip(true, false);
+
         BodyDef bdef = new BodyDef();
         bdef.position.set( 32/ PractGame.PPM, 32/ PractGame.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
