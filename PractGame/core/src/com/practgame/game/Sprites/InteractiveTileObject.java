@@ -31,7 +31,8 @@ public abstract class InteractiveTileObject {
 
         if(type.equals("movingBlock")) {
             bdef.type = BodyDef.BodyType.DynamicBody;
-            bdef.linearDamping = 1f;
+            bdef.linearDamping = 5f;
+            bounds.setSize(6); // to avoid white spaces
         }
         else
             bdef.type = BodyDef.BodyType.StaticBody; // static bodies require less computing power

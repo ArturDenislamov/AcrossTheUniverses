@@ -32,6 +32,7 @@ public class GunScreen implements Screen {
     float bscale = 2.8f;
     TextButton acr130Button;
     TextButton redLineButton;
+    TextButton infinityButton;
     Skin skin;
 
     HashMap <String, Gun> guns;
@@ -59,15 +60,22 @@ public class GunScreen implements Screen {
         acr130Button = new TextButton("ACR130", skin, "default");
         acr130Button.setTransform(true);
         acr130Button.scaleBy(bscale);
+
         redLineButton = new TextButton("RedLine", skin, "default");
         redLineButton.setTransform(true);
         redLineButton.scaleBy(bscale);
 
-        acr130Button.setPosition(WORLD_WIDTH/2 - acr130Button.getWidth(), WORLD_HEIGHT/2, Align.center);
+        infinityButton = new TextButton("Infinity", skin, "default");
+        infinityButton.setTransform(true);
+        infinityButton.scaleBy(bscale);
+
+        acr130Button.setPosition(WORLD_WIDTH/2 - acr130Button.getWidth(), WORLD_HEIGHT/2 + WORLD_HEIGHT/6, Align.center);
         redLineButton.setPosition(WORLD_WIDTH/2 - redLineButton.getWidth(),
+                WORLD_HEIGHT/2, Align.center);
+        infinityButton.setPosition(WORLD_WIDTH/2 - infinityButton.getWidth(),
                 WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
 
-        Label titleLabel = new Label("Guns", skin, "title");
+        Label titleLabel = new Label("Guns", skin, "title"); // TODO out of use at the moment
         titleLabel.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT - titleLabel.getHeight());
 
         acr130Button.addListener(new ChangeListener() {
@@ -100,11 +108,28 @@ public class GunScreen implements Screen {
             }
         });
 
+        infinityButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(!guns.get("infinity").isLocked()) {
+                    Gdx.app.log("GunScreen", "Infinity activated");
+                    prefs.putString(AppPreferences.PREFS_GUN, "infinity");
+                    prefs.flush();
+                    pickSound.play(soundVolume);
+                    maingame.playScreen.player.updateGun();
+                    maingame.setScreen(maingame.menuLevel);
+                } else {
+                    errSound.play(soundVolume);
+                }
+            }
+        });
+
         background.setFillParent(true);
         stage.addActor(background);
 
         stage.addActor(acr130Button);
         stage.addActor(redLineButton);
+        stage.addActor(infinityButton);
     }
 
     @Override
@@ -112,6 +137,16 @@ public class GunScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
         soundVolume = maingame.playScreen.soundVolume;
+
+        if(guns.get("infinity").isLocked())
+           infinityButton.setVisible(false);
+        else
+            infinityButton.setVisible(true);
+
+        if(guns.get("redLine").isLocked())
+            redLineButton.setVisible(false);
+        else
+            redLineButton.setVisible(true);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class Gun extends Sprite {
     public Gun(String name){
         this.name = name;
         locked = true;
-        bulletsAmount = 100;
+        bulletsAmount = 100; // TODO is this needed? (think that maybe yes)
         switch (Guns.valueOf(name.toUpperCase())){ // each gun has its unique features
             case ACR130:
                 bulletsAmount = 5;
@@ -22,6 +22,9 @@ public class Gun extends Sprite {
                 bulletsAmount = 15;
                 bulletVelocity = 250;
                 break;
+            case INFINITY:
+                bulletsAmount = 1;
+                bulletVelocity = 245;
         }
     }
 
@@ -34,6 +37,6 @@ public class Gun extends Sprite {
     public boolean isLocked(){ return locked; }
 
     public enum Guns{
-        ACR130, REDLINE
+        ACR130, REDLINE, INFINITY
     }
 }

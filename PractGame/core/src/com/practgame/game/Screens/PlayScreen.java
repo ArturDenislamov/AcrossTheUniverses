@@ -55,7 +55,7 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
-  //  private Box2DDebugRenderer b2dr;
+    private Box2DDebugRenderer b2dr;
     public Player player;
     private Controller controller;
     private LevelWorldCreator creator;
@@ -96,7 +96,7 @@ public class PlayScreen implements Screen {
         creator = new LevelWorldCreator(this);
         windowManager = new WindowManager(maingame);
         player = new Player(world, this);
-       // b2dr = new Box2DDebugRenderer(); // for debugging
+        b2dr = new Box2DDebugRenderer(); // for debugging
 
         hud = new Hud(game.batch);
         hud.updateBullets(player.bulletsAmount);
@@ -175,7 +175,7 @@ public class PlayScreen implements Screen {
         mapPixelWidth = mapWidth * tilePixelWidth;
         mapPixelHeight = mapHeight * tilePixelHeight;
 
-        shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
+        shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS); // maybe you should create one for each
 
         if(player.gun.bulletsAmount - shotsMade > 0) {
             hud.updateBullets(player.gun.bulletsAmount - shotsMade);
@@ -213,7 +213,10 @@ public class PlayScreen implements Screen {
             if(shotsMade < player.bulletsAmount) {
                 bulletsArray.add(new Bullet(world, player, maingame.manager, player.gun.bulletVelocity));
                 controller.bPressed = false; // for one click - one shot
+
+                if(!player.gun.name.equals("infinity"))
                 shotsMade++; // this line can be commented for infinite bullets stress-test
+
                 hud.updateBullets(player.bulletsAmount - shotsMade);
                 gunShot.play(soundVolume);
 
@@ -331,7 +334,7 @@ public class PlayScreen implements Screen {
         }
         maingame.batch.end();
 
-       //  b2dr.render(world, gamecam.combined); // if it is used, debug renderer lines appear
+      //   b2dr.render(world, gamecam.combined); // if it is used, debug renderer lines appear
 
         if(rayHandler != null) {
             rayHandler.setCombinedMatrix(gamecam.combined);
@@ -408,7 +411,7 @@ public class PlayScreen implements Screen {
     public void dispose() {
         map.dispose();
         world.dispose();
-       // b2dr.dispose();
+        b2dr.dispose();
         noAmmo.dispose();
         slideSound.dispose();
         magSoung.dispose();

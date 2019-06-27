@@ -108,6 +108,10 @@ public class PractGame extends Game {
                 case 1:
 					if(levelLine1 == levelList1.size()){
                         levelLine1 = 0;
+                        playScreen.shotsMade = 0;
+						prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
+						prefs.flush();
+
                         prefs.putInteger(AppPreferences.PREF_WORLD_1, 0);
                         prefs.flush();
                         toMenu = true;
@@ -118,10 +122,11 @@ public class PractGame extends Game {
                         prefs.flush();
 
                         if(levelLine1 == 0)
-                            playScreen.shotsMade = 0;
+							playScreen.shotsMade = 0;
 
-                        prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
-                        prefs.flush();
+
+                        playScreen.shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
+
 						this.worldType = 1;
 						playScreen.setLevel(levelList1.get(levelLine1).mapInfo);
                     }
@@ -187,10 +192,14 @@ public class PractGame extends Game {
         prefs.putInteger(AppPreferences.PREF_WORLD_2, 0);
         prefs.putInteger(AppPreferences.PREF_WORLD_3, 0);
 		prefs.putBoolean(AppPreferences.PREFS_IS_REDLINE_UNLOCKED, false);
+		prefs.putBoolean(AppPreferences.PREFS_IS_INFINITY_UNLOCKED, false);
 		prefs.putString(AppPreferences.PREFS_GUN, "acr130");
+		playScreen.shotsMade = 0;
+		prefs.putInteger(AppPreferences.PREF_SHOTS, 0);
 		prefs.flush(); // yes, one flush() is enough for all put()'s
 
-		gunMap.get("redLine").lock();
+		gunMap.get("redLine").lock(); // in the future maybe you should create method lockAllGuns()
+		gunMap.get("infinity").lock();
         playScreen.player.updateGun();
         levelLine1 = 0;
         levelLine2 = 0;

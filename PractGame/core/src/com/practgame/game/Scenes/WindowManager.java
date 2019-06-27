@@ -1,6 +1,7 @@
 package com.practgame.game.Scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
+import com.practgame.game.Utils.AppPreferences;
 
 
 public class WindowManager implements Disposable {
@@ -36,6 +38,8 @@ public class WindowManager implements Disposable {
     private PractGame maingame;
 
     public boolean liftShown;
+
+    private Preferences prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
 
     public WindowManager(PractGame maingame){
         this.maingame = maingame;
@@ -198,8 +202,11 @@ public class WindowManager implements Disposable {
         }
 
         if(tag.equals("next_level")){
-            if(maingame.worldType == 1)
-                maingame.levelLine1++;
+            if(maingame.worldType == 1) {
+                maingame.levelLine1++; // TODO here check for bugs
+                prefs.putInteger(AppPreferences.PREF_SHOTS, maingame.playScreen.shotsMade);
+                prefs.flush();
+            }
             else if(maingame.worldType == 2)
                 maingame.levelLine2++;
             else

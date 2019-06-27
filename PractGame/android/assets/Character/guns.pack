@@ -3,16 +3,23 @@ guns.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+infinity
+  rotate: false
+  xy: 2, 8
+  size: 7, 6
+  orig: 7, 6
+  offset: 0, 0
+  index: -1
 redLine
   rotate: false
-  xy: 2, 9
+  xy: 11, 9
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
 acr130
   rotate: false
-  xy: 2, 2
+  xy: 11, 2
   size: 5, 5
   orig: 5, 5
   offset: 0, 0

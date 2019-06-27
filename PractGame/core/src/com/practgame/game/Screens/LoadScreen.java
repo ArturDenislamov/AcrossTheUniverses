@@ -61,6 +61,7 @@ public class LoadScreen implements Screen {
         maingame.levelList1.add(new LevelInfo("maps/lv1_2.tmx"));
         maingame.levelList1.add(new LevelInfo("maps/lv1_3.tmx"));
         maingame.levelList1.add(new LevelInfo("maps/lv1_4.tmx"));
+        maingame.levelList1.add(new LevelInfo("maps/lv1_5.tmx"));
         maingame.levelList2.add(new LevelInfo("maps/lv2_1.tmx"));
         maingame.levelList2.add(new LevelInfo("maps/lv2_2.tmx"));
         maingame.levelList3.add(new LevelInfo("maps/lv3_1.tmx"));
@@ -91,14 +92,20 @@ public class LoadScreen implements Screen {
         manager.load("sound/err.wav", Sound.class);
         manager.load("music/world2.ogg", Music.class);
         manager.load("music/world3.ogg", Music.class);
+        manager.load("sound/infinity.ogg", Sound.class);
 
         //Guns
         maingame.gunMap.put("acr130", new Gun("acr130"));
-        maingame.gunMap.get("acr130").unlock();
+        maingame.gunMap.get("acr130").unlock(); // default gun, always unlocked
         maingame.gunMap.put("redLine", new Gun("redLine"));
+        maingame.gunMap.put("infinity", new Gun("infinity"));
+
         //if gun is already unlocked - unlocking the gun
         if(Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getBoolean(AppPreferences.PREFS_IS_REDLINE_UNLOCKED, false)){
             maingame.gunMap.get("redLine").unlock();
+        }
+        if(Gdx.app.getPreferences(AppPreferences.PREFS_NAME).getBoolean(AppPreferences.PREFS_IS_INFINITY_UNLOCKED, false)){
+            maingame.gunMap.get("infinity").unlock();
         }
 
         manager.finishLoading(); // forcing asynchronous load

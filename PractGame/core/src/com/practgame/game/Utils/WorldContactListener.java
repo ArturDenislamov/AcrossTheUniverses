@@ -79,7 +79,7 @@ public class WorldContactListener implements ContactListener {
             case PractGame.PLAYER_BIT | PractGame.GUN_BIT:
                 String name = playScreen.getMap().getLayers().get(6).getName();
                 if(!maingame.gunMap.get(name).isLocked()) {
-                    Gdx.app.log("WorldContactListener", "RedLine already unlocked");
+                    Gdx.app.log("WorldContactListener", "Gun already unlocked");
                     windowManager.showMessage("gun");
                     messageShown = true;
                     break;

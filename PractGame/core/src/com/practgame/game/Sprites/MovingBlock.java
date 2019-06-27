@@ -24,7 +24,7 @@ public class MovingBlock extends InteractiveTileObject { // it appears in world 
     }
 
     public void draw(SpriteBatch batch){
-        sprite.setPosition(body.getPosition().x - sprite.getWidth()/2, body.getPosition().y - sprite.getHeight()/2 - 0.015f);
+        sprite.setPosition(body.getPosition().x - sprite.getWidth()/2, body.getPosition().y - sprite.getHeight()/2 - 0.01f);
         sprite.draw(batch);
     }
 }
