@@ -163,6 +163,7 @@ public class PlayScreen implements Screen {
                break;
        }
         player.definePlayer();
+
         controller = new Controller(maingame.manager); // this line influences gun shot ( after going to the next level)
 
         MapProperties prop = map.getProperties();

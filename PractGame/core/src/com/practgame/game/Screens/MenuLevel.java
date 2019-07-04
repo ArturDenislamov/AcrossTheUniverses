@@ -7,11 +7,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.practgame.game.PractGame;
@@ -28,6 +31,12 @@ public class MenuLevel implements Screen {
     private float SCREEN_W = 80;
     private float SCREEN_H = 45;
     private TextureAtlas atlas;
+
+    private int mapPixelWidth;
+    private int mapPixelHeight;
+
+    public int currentFloor;
+
 
     private TmxMapLoader mapLoader;
     private TiledMap map;
@@ -48,7 +57,8 @@ public class MenuLevel implements Screen {
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(SCREEN_W / PractGame.PPM, SCREEN_H / PractGame.PPM, gamecam);
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("maps/lv0.tmx"); // menu map, 260X60 pixels
+        map = mapLoader.load("maps/menu1.tmx"); // menu map, 260X60 pixels
+        currentFloor = 1;
         renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM);
         gamecam.position.set(SCREEN_W / 2 / PractGame.PPM, SCREEN_H / 2 / PractGame.PPM, 0);
 
@@ -62,6 +72,20 @@ public class MenuLevel implements Screen {
 
         contactListener = new WorldContactListener(windowManager, world);
         world.setContactListener(contactListener);
+
+        MapProperties prop = map.getProperties();
+
+        int mapWidth = prop.get("width", Integer.class);
+        int mapHeight = prop.get("height", Integer.class);
+        int tilePixelWidth = prop.get("tilewidth", Integer.class);
+        int tilePixelHeight = prop.get("tileheight", Integer.class);
+
+        mapPixelWidth = mapWidth * tilePixelWidth;
+        mapPixelHeight = mapHeight * tilePixelHeight;
+
+        gamePort.setWorldSize(mapPixelHeight/PractGame.PPM*16/9, mapPixelHeight/PractGame.PPM);
+        gamecam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
+
     }
 
     public TextureAtlas getAtlas(){
@@ -103,7 +127,7 @@ public class MenuLevel implements Screen {
     public void update(float dt) {
         handleInput();
         world.step(1 / 60f, 6, 2);
-        if(player.b2body.getPosition().x >= 0.40 && player.b2body.getPosition().x <= 2.20) // 0.40 == 40 pixels, that's why we use PPM
+        if(player.b2body.getPosition().x >= gamePort.getWorldWidth()/2 && player.b2body.getPosition().x <= mapPixelWidth/PractGame.PPM - gamePort.getWorldWidth()/2 ) // 0.40 == 40 pixels, that's why we use PPM
          gamecam.position.x = player.b2body.getPosition().x;
 
         gamecam.update();
@@ -138,6 +162,54 @@ public class MenuLevel implements Screen {
         gamePort.update(width, height);
         controller.resize(width, height);
     }
+
+    public void changeMap(int floorNum){
+        // deleting map objects
+        Array<Body> bodies = new Array<Body>();
+        world.getBodies(bodies);
+        for(int i = 0; i < bodies.size; i++){
+            world.destroyBody(bodies.get(i));
+        }
+
+        map = mapLoader.load("maps/menu"+floorNum+".tmx");
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / PractGame.PPM); // PPM - pixels per meter
+        new MenuWorldCreator(this);
+
+        // moving player to the lift
+        // method player.b2body.setTransform(...) can cause errors
+        switch (floorNum){
+            case 1:
+                player.definePlayer(210,32);
+                break;
+
+            case 2:
+                player.definePlayer(216, 32);
+                break;
+
+            case 3:
+                player.definePlayer(210,32);
+                break;
+        }
+
+        MapProperties prop = map.getProperties();
+
+        int mapWidth = prop.get("width", Integer.class); // width in tiles (my tiles is 8 X 8 pixels)
+        int mapHeight = prop.get("height", Integer.class);
+        int tilePixelWidth = prop.get("tilewidth", Integer.class);
+        int tilePixelHeight = prop.get("tileheight", Integer.class);
+
+        mapPixelWidth = mapWidth * tilePixelWidth;
+        mapPixelHeight = mapHeight * tilePixelHeight;
+
+        gamePort.setWorldSize(mapPixelHeight/PractGame.PPM*16/9, mapPixelHeight/PractGame.PPM);
+        gamePort.apply(); // applies the viewPort to the camera, (it is needed)
+        float playerX = player.b2body.getPosition().x;
+        gamecam.position.set(playerX > gamePort.getWorldWidth()/2 ? playerX : gamePort.getWorldWidth() / 2, gamePort.getWorldHeight()/2, 0);
+        gamecam.position.set(playerX < mapPixelWidth/PractGame.PPM - gamePort.getWorldWidth()/2 ? playerX : mapPixelWidth/PractGame.PPM - gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2,0);
+
+        currentFloor = floorNum;
+    }
+
 
     public TiledMap getMap(){
         return map;

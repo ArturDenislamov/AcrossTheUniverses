@@ -154,7 +154,7 @@ public class Player extends Sprite {
                 gunSprite.flip(true, false);
 
         BodyDef bdef = new BodyDef();
-        bdef.position.set( 32/ PractGame.PPM, 32/ PractGame.PPM);
+        bdef.position.set( 32 / PractGame.PPM, 32 / PractGame.PPM); // default position
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
@@ -170,6 +170,38 @@ public class Player extends Sprite {
         b2body.createFixture(fdef).setUserData("player");
 
         // for not slipping with head
+        EdgeShape feet = new EdgeShape();
+        feet.set(new Vector2(-3 / PractGame.PPM, -12 / PractGame.PPM) , new Vector2( 3/ PractGame.PPM, -12 / PractGame.PPM)  );
+        fdef.shape = feet;
+        fdef.isSensor = true;
+
+        b2body.createFixture(fdef).setUserData("feet");
+    }
+
+    //for certain position
+    public void definePlayer(float x, float y){
+        runningRight = true; // player is spawned looking to the right
+        if(gunSprite != null)
+            if(gunSprite.isFlipX()) // gun is also spawned looking to the right, needed to fix glitch
+                gunSprite.flip(true, false);
+
+        BodyDef bdef = new BodyDef();
+        bdef.position.set( x / PractGame.PPM, y / PractGame.PPM);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        b2body = world.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        fdef.friction = 0; // player doesn't stick to the walls (can be changed)
+        Shape shape = new PolygonShape();
+        ((PolygonShape) shape).setAsBox(4/PractGame.PPM, 12/PractGame.PPM);
+        fdef.filter.categoryBits = PractGame.PLAYER_BIT; // it is defined as a player
+        fdef.filter.maskBits = PractGame.DEFAULT_BIT | PractGame.RECHARGE_BIT | PractGame.GUN_BIT |
+                PractGame.ENEMY_BIT | PractGame.JUMPBLOCK_BIT;
+
+        fdef.shape = shape;
+        b2body.createFixture(fdef).setUserData("player");
+
+        // for not slipping with head. player can jump, when feet is on ground
         EdgeShape feet = new EdgeShape();
         feet.set(new Vector2(-3 / PractGame.PPM, -12 / PractGame.PPM) , new Vector2( 3/ PractGame.PPM, -12 / PractGame.PPM)  );
         fdef.shape = feet;

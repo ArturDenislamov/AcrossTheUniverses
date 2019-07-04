@@ -98,8 +98,9 @@ public class PractGame extends Game {
 
 		//localization
 		FileHandle baseFileHandle = Gdx.files.internal("i18n/strings");
-		//java.util.Locale.getDefault().toString(); // can be used
-		Locale locale = new Locale("en");
+		String lang = java.util.Locale.getDefault().toString();
+		Locale locale = new Locale(lang); // suitable i18n bundle is chosen automatically (there is also default bundle)
+		// i18N == internationalization
 		i18NBundle = I18NBundle.createBundle(baseFileHandle, locale);
     }
 

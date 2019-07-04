@@ -75,6 +75,8 @@ public class WindowManager implements Disposable {
         }else if(tag.equals("gun")){
             messageLabel.setColor(Color.BLUE);
             messageLabel.setText("Gun Unlocked");
+        }else if(tag.equals("level_select")){
+            messageLabel.setText("B - select mission");
         }
     }
 
@@ -92,7 +94,7 @@ public class WindowManager implements Disposable {
 
     // this method also does actions, not only shows windows
     public void showWindow(String tag){
-        if(tag.equals("lift")){
+        if(tag.equals("level_select")){
             messageLabel.setText("");
             levelTable.setFillParent(true);
             levelTable.center();
@@ -194,6 +196,101 @@ public class WindowManager implements Disposable {
             levelTable.add(secondW).size(bsize, bsize).padTop(10);
             levelTable.add(thirdW).size(bsize, bsize).padTop(10);
             levelTable.add(gunW).size(bsize, bsize).padTop(10);
+            levelTable.add(backW).size(bsize).padTop(10);
+            levelTable.pack();
+            stage.addActor(levelTable);
+
+            liftShown = true;
+        }
+
+        if(tag.equals("lift")){ // lift, moving in menu
+            messageLabel.setText("");
+            levelTable.setFillParent(true);
+            levelTable.center();
+
+            Gdx.input.setInputProcessor(stage);
+            liftShown = true;
+
+            Texture first = new Texture("ui/first.png");
+            Texture second = new Texture("ui/second.png");
+            Texture third = new Texture("ui/third.png");
+            Texture back = new Texture("ui/back.png");
+
+            firstW = new ImageButton(new TextureRegionDrawable(new TextureRegion(first)));
+            firstW.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    liftShown = false;
+                    hideWindow(); // if it is located after line "change screen", controller doesn't work, it's understandable
+                   maingame.menuLevel.changeMap(1);
+                    waitingForAnwser = "none";
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {}
+            });
+
+            secondW = new ImageButton(new TextureRegionDrawable(new TextureRegion(second)));
+
+            secondW.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    liftShown = false;
+                    hideWindow();
+                    maingame.menuLevel.changeMap(2);
+                    waitingForAnwser = "none";
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {}
+            });
+
+            thirdW = new ImageButton(new TextureRegionDrawable(new TextureRegion(third)));
+
+            thirdW.addListener(new InputListener(){
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    liftShown = false;
+                    hideWindow();
+                    maingame.menuLevel.changeMap(3);
+                    waitingForAnwser = "none";
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {}
+            });
+
+            backW = new ImageButton(new TextureRegionDrawable(new TextureRegion(back)));
+
+            backW.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    liftShown = false;
+                    hideWindow();
+                    waitingForAnwser = "none";
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {}
+            });
+
+            levelTable.setBackground(backgroundLift);
+            levelTable.row().padLeft(5).padRight(5);
+
+            if(maingame.menuLevel.currentFloor != 1)
+                levelTable.add(firstW).size(bsize, bsize).padTop(10);
+
+            if(maingame.menuLevel.currentFloor != 2)
+                levelTable.add(secondW).size(bsize, bsize).padTop(10);
+
+            if(maingame.menuLevel.currentFloor != 3)
+                levelTable.add(thirdW).size(bsize, bsize).padTop(10);
+
             levelTable.add(backW).size(bsize).padTop(10);
             levelTable.pack();
             stage.addActor(levelTable);

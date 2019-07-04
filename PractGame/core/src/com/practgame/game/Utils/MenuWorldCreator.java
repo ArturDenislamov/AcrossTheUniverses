@@ -27,10 +27,10 @@ public class MenuWorldCreator {
             new ActionBrick(world, map, rect, "lift");
         }
 
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // for "coming soon" message
+        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // level select screen
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-             new BlockTileObject(world, map, rect);
+            new ActionBrick(world, map, rect, "level_select");
         }
 
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // lobby

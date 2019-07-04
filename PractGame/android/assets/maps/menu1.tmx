@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="52" height="11" tilewidth="5" tileheight="5" infinite="0" nextlayerid="12" nextobjectid="46">
+ <tileset firstgid="1" name="coffee" tilewidth="8" tileheight="8" tilecount="3" columns="3">
+  <image source="coffee.png" width="24" height="8"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="250"/>
+    <frame tileid="1" duration="250"/>
+    <frame tileid="2" duration="250"/>
+   </animation>
+  </tile>
+ </tileset>
+ <imagelayer id="2" name="background" offsetx="0" offsety="-5">
+  <image source="image_lv1.png" width="261" height="60"/>
+ </imagelayer>
+ <objectgroup id="3" name="floor">
+  <object id="3" x="0" y="50" width="260" height="5"/>
+  <object id="29" x="0" y="19.25" width="5" height="30.75"/>
+  <object id="45" x="257.75" y="6.25" width="2.25" height="43.75"/>
+ </objectgroup>
+ <objectgroup id="4" name="lift">
+  <object id="4" x="200" y="25" width="15" height="25"/>
+ </objectgroup>
+ <objectgroup id="5" name="willbesoon"/>
+ <objectgroup id="7" name="guy">
+  <object id="43" x="75" y="35" width="10" height="15"/>
+ </objectgroup>
+ <layer id="11" name="graphics" width="52" height="11" offsetx="-0.25" offsety="2">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRAAKMA+2AUTAKRgHNAAAM0AAC
+  </data>
+ </layer>
+</map>

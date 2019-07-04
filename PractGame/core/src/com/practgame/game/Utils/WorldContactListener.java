@@ -135,6 +135,12 @@ public class WorldContactListener implements ContactListener {
                 messageShown = true;
             }
 
+            if(("level_select").equals(object.getUserData())){
+                windowManager.showMessage("level_select");
+                windowManager.waitingForAnwser = "level_select";
+                messageShown = true;
+            }
+
             if(("next_level".equals(object.getUserData()))){
                 windowManager.showMessage("next_level");
                 windowManager.waitingForAnwser = "next_level";
