@@ -34,8 +34,10 @@ public abstract class InteractiveTileObject {
             bdef.linearDamping = 5f;
             bounds.setSize(6); // to avoid white spaces
         }
-        else
+        else {
             bdef.type = BodyDef.BodyType.StaticBody; // static bodies require less computing power
+            fdef.friction = 0;
+        }
 
         bdef.position.set((bounds.getX() + bounds.getWidth() / 2) / PractGame.PPM, (bounds.getY() + bounds.getHeight() / 2) / PractGame.PPM);
         body = world.createBody(bdef);

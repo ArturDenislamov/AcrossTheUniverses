@@ -10,16 +10,23 @@ infinity
   orig: 7, 6
   offset: 0, 0
   index: -1
-redLine
+platformGun
   rotate: false
   xy: 11, 9
   size: 7, 5
   orig: 7, 5
   offset: 0, 0
   index: -1
-acr130
+redLine
   rotate: false
   xy: 11, 2
+  size: 7, 5
+  orig: 7, 5
+  offset: 0, 0
+  index: -1
+acr130
+  rotate: false
+  xy: 20, 9
   size: 5, 5
   orig: 5, 5
   offset: 0, 0

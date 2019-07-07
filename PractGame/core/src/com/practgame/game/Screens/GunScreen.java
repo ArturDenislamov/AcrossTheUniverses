@@ -33,6 +33,7 @@ public class GunScreen implements Screen {
     TextButton acr130Button;
     TextButton redLineButton;
     TextButton infinityButton;
+    TextButton platformGunButton;
     Skin skin;
 
     HashMap <String, Gun> guns;
@@ -69,11 +70,17 @@ public class GunScreen implements Screen {
         infinityButton.setTransform(true);
         infinityButton.scaleBy(bscale);
 
+        platformGunButton = new TextButton("PlatformGun", skin, "default");
+        platformGunButton.setTransform(true);
+        platformGunButton.scaleBy(bscale);
+
         acr130Button.setPosition(WORLD_WIDTH/2 - acr130Button.getWidth(), WORLD_HEIGHT/2 + WORLD_HEIGHT/6, Align.center);
         redLineButton.setPosition(WORLD_WIDTH/2 - redLineButton.getWidth(),
                 WORLD_HEIGHT/2, Align.center);
         infinityButton.setPosition(WORLD_WIDTH/2 - infinityButton.getWidth(),
                 WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
+        platformGunButton.setPosition(WORLD_WIDTH/2 - platformGunButton.getWidth(),
+                WORLD_HEIGHT/2 - WORLD_HEIGHT/3, Align.center);
 
         Label titleLabel = new Label("Guns", skin, "title"); // TODO out of use at the moment
         titleLabel.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT - titleLabel.getHeight());
@@ -124,12 +131,29 @@ public class GunScreen implements Screen {
             }
         });
 
+        platformGunButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(!guns.get("platformGun").isLocked()) {
+                    Gdx.app.log("GunScreen", "PlatformGun activated");
+                    prefs.putString(AppPreferences.PREFS_GUN, "platformGun");
+                    prefs.flush();
+                    pickSound.play(soundVolume);
+                    maingame.playScreen.player.updateGun();
+                    maingame.setScreen(maingame.menuLevel);
+                } else {
+                    errSound.play(soundVolume);
+                }
+            }
+        });
+
         background.setFillParent(true);
         stage.addActor(background);
 
         stage.addActor(acr130Button);
         stage.addActor(redLineButton);
         stage.addActor(infinityButton);
+        stage.addActor(platformGunButton);
     }
 
     @Override
@@ -147,6 +171,11 @@ public class GunScreen implements Screen {
             redLineButton.setVisible(false);
         else
             redLineButton.setVisible(true);
+
+        if(guns.get("platformGun").isLocked())
+            platformGunButton.setVisible(false);
+        else
+            platformGunButton.setVisible(true);
     }
 
     @Override

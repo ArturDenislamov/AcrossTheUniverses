@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ai.btree.BehaviorTree;
+import com.badlogic.gdx.ai.btree.utils.BehaviorTreeParser;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,6 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -28,6 +31,7 @@ import com.practgame.game.Sprites.Bullet;
 import com.practgame.game.Sprites.Invader;
 import com.practgame.game.Sprites.MovingBlock;
 import com.practgame.game.Sprites.Player;
+import com.practgame.game.Sprites.Soldier;
 import com.practgame.game.Utils.AppPreferences;
 import com.practgame.game.Utils.Controller;
 import com.practgame.game.Utils.LevelWorldCreator;
@@ -58,7 +62,7 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer b2dr;
     public Player player;
     private Controller controller;
-    private LevelWorldCreator creator;
+    public LevelWorldCreator creator;
 
     private WindowManager windowManager;
 
@@ -75,13 +79,19 @@ public class PlayScreen implements Screen {
     Sound magSoung;
     Sound noAmmo;
 
-    public boolean killed;
+    public boolean killed; // for player
     public float soundVolume;
 
     private RayHandler rayHandler;
     private Light light;
 
     private final Preferences prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
+
+    public BehaviorTree<PlayScreen> bTree;
+
+    private Contact playerBulletContact = null;
+
+    public Controller getController() { return controller; }
 
     public PlayScreen(PractGame game){
         this.maingame = game;
@@ -111,6 +121,12 @@ public class PlayScreen implements Screen {
         noAmmo = maingame.manager.get("sound/noAmmo.wav");
         magSoung = maingame.manager.get("sound/reload.wav");
         updateSoundVolume();
+
+        // test version
+
+        BehaviorTreeParser parser = new BehaviorTreeParser();
+        // getting bahavior tree from txt file
+        bTree = parser.parse(Gdx.files.internal("trees/soldierTree"), this);
     }
 
     @Override
@@ -176,7 +192,10 @@ public class PlayScreen implements Screen {
         mapPixelWidth = mapWidth * tilePixelWidth;
         mapPixelHeight = mapHeight * tilePixelHeight;
 
-        shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS); // maybe you should create one for each
+        shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS); // maybe you should create one for each line
+
+        if(player.gun.name.equals("infinity")) // needed for fixing glitch // TODO check this ! here is a glitch !
+            shotsMade = 0;
 
         if(player.gun.bulletsAmount - shotsMade > 0) {
             hud.updateBullets(player.gun.bulletsAmount - shotsMade);
@@ -186,7 +205,7 @@ public class PlayScreen implements Screen {
             }
 
         gunShot = maingame.manager.get("sound/"+player.gun.name+".ogg"); // each gun has unique sound
-       slideSound.play(soundVolume); // sound of a slide in a beginning of a level
+        slideSound.play(soundVolume); // sound of a slide in a beginning of a level
     }
 
     public void handleInput() {
@@ -212,8 +231,12 @@ public class PlayScreen implements Screen {
             // in this case player shoots
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none"){
             if(shotsMade < player.bulletsAmount) {
-                bulletsArray.add(new Bullet(world, player, maingame.manager, player.gun.bulletVelocity));
-                controller.bPressed = false; // for one click - one shot
+                if(player.gun.name.equals("platformGun")){
+                    bulletsArray.add(new Bullet(world, player, maingame.manager, player.gun.bulletVelocity, player.gun.name));
+                } else {
+                    bulletsArray.add(new Bullet(world, player, maingame.manager, player.gun.bulletVelocity));
+                }
+                    controller.bPressed = false; // for one click - one shot
 
                 if(!player.gun.name.equals("infinity"))
                 shotsMade++; // this line can be commented for infinite bullets stress-test
@@ -248,11 +271,22 @@ public class PlayScreen implements Screen {
             maingame.musicManager.pause();
             maingame.setScreen(maingame.pauseScreen);
         }
+
+        // for standing on a bullet situation
+        if(playerBulletContact != null){
+            if(controller.isRightPressed() || controller.isLeftPressed()){
+                playerBulletContact.setFriction(0);
+            } else {
+                playerBulletContact.setFriction(1000);
+            }
+        }
     }
 
     public void update(float dt) {
         handleInput();
         world.step(1 / 60f, 6, 2);
+
+        bTree.step();
 
         //destroying bodies, cleaning destroy array (doing this out of world.step(...) method, quite important)
        for(int i = 0; i < destroyBullets.size(); i++){
@@ -309,6 +343,10 @@ public class PlayScreen implements Screen {
         if(light != null){
            light.setPosition(player.getX() + player.getWidth()/2, player.getY() + player.getHeight());
         }
+
+        if(maingame.worldType == 2 && maingame.levelLine2 == 3){
+            bTree.step();
+        }
     }
 
     @Override
@@ -335,7 +373,7 @@ public class PlayScreen implements Screen {
         }
         maingame.batch.end();
 
-      //   b2dr.render(world, gamecam.combined); // if it is used, debug renderer lines appear
+         b2dr.render(world, gamecam.combined); // if it is used, debug renderer lines appear
 
         if(rayHandler != null) {
             rayHandler.setCombinedMatrix(gamecam.combined);
@@ -377,13 +415,13 @@ public class PlayScreen implements Screen {
         }
     }
 
-    public TiledMap getMap(){
-        return map;
-    }
+    public void setPlayerBulletContact(Contact feetBulletContact) { this.playerBulletContact = feetBulletContact; }
 
-    public World getWorld(){
-        return world;
-    }
+    public Contact getPlayerBulletContact() { return playerBulletContact; }
+
+    public TiledMap getMap(){ return map; }
+
+    public World getWorld(){ return world; }
 
     public void reload(){
         shotsMade = 0;
@@ -398,6 +436,7 @@ public class PlayScreen implements Screen {
         else
             soundVolume = 0;
     }
+
 
     @Override
     public void pause() {}

@@ -96,27 +96,54 @@ public class WorldContactListener implements ContactListener {
                 break;
         }
 
-        if (contact.getFixtureB().getUserData() instanceof Bullet && contact.getFixtureA().getUserData() != "next_level") {
+
+        if(("feet").equals(fixA.getUserData()) && fixB.getUserData() instanceof Bullet){
+            windowManager.onBullet = true;
+        }
+        if(("feet").equals(fixB.getUserData()) && fixA.getUserData() instanceof Bullet) {
+            windowManager.onBullet = true;
+        }
+
+        if (contact.getFixtureB().getUserData() instanceof Bullet && contact.getFixtureA().getUserData() != "next_level"
+                && contact.getFixtureA().getUserData() != "player" && contact.getFixtureA().getUserData() != "feet") {
             playScreen.destroy((Bullet) contact.getFixtureB().getUserData());
         }
 
-        // needed for correct bullet collision control
-        if (contact.getFixtureA().getUserData() instanceof Bullet && contact.getFixtureB().getUserData() != "next_level") {
+        // this "reverse" B to A line needed for correct bullet collision control ( important )
+        if (contact.getFixtureA().getUserData() instanceof Bullet && contact.getFixtureB().getUserData() != "next_level"
+                && contact.getFixtureB().getUserData() != "player" && contact.getFixtureB().getUserData() != "feet") {
             playScreen.destroy((Bullet) contact.getFixtureA().getUserData());
         }
 
-        if(("feet").equals(fixA.getUserData()) || ("feet").equals(fixB.getUserData())){
-            windowManager.onGround = true; // player can jump once, when he is onGround
+
+        // case for standing on a bullet ( special gun has low-speed and wide bullets ) ( it is an usual, but interesting mechanic )
+        if(windowManager.onBullet && contact.getFixtureB().getUserData() instanceof Bullet && contact.getFixtureA().getUserData() == "player"){
+                playScreen.setPlayerBulletContact(contact);
+        }
+
+        if(windowManager.onBullet && contact.getFixtureA().getUserData() instanceof Bullet && contact.getFixtureB().getUserData() == "player"){
+                playScreen.setPlayerBulletContact(contact);
+        }
+
+        // player can jump once, when he is onGround
+        if(("feet").equals(fixA.getUserData()) && !fixB.isSensor()){
+            windowManager.onGround = true;
+        }
+
+        if(("feet").equals(fixB.getUserData()) && !fixA.isSensor()) {
+            windowManager.onGround = true;
         }
 
         //jump block collision with feet-object, (this blocks appear in world 2)
         if(("feet").equals(fixA.getUserData()) && fixB.getFilterData().categoryBits == PractGame.JUMPBLOCK_BIT) {
             fixA.getBody().setLinearVelocity(fixA.getBody().getLinearVelocity().x,0);
             fixA.getBody().applyLinearImpulse(new Vector2(0, 3.5f), fixA.getBody().getWorldCenter(), true);
+            windowManager.onGround = false;
             Gdx.app.log("WorldContactList", "JUMP Block collision");
         }else if(("feet").equals(fixB.getUserData()) && fixA.getFilterData().categoryBits == PractGame.JUMPBLOCK_BIT){
             fixB.getBody().setLinearVelocity(fixB.getBody().getLinearVelocity().x,0);
             fixB.getBody().applyLinearImpulse(new Vector2(0, 3.5f), fixB.getBody().getWorldCenter(), true);
+            windowManager.onGround = false;
             Gdx.app.log("WorldContactList", "JUMP Block collision");
         }
 
@@ -157,6 +184,15 @@ public class WorldContactListener implements ContactListener {
             }
             if((("player").equals(contact.getFixtureA().getUserData()) || ("player").equals(contact.getFixtureB().getUserData())))
             windowManager.waitingForAnwser = "none";
+
+            if(("feet").equals(contact.getFixtureA().getUserData()) && contact.getFixtureB().getUserData() instanceof Bullet)
+                windowManager.onBullet = false;
+
+            if(("feet").equals(contact.getFixtureB().getUserData()) && contact.getFixtureA().getUserData() instanceof Bullet) {
+                windowManager.onBullet = false;
+                if(playScreen.getPlayerBulletContact() != null)
+                    playScreen.setPlayerBulletContact(null);
+            }
     }
 
     @Override

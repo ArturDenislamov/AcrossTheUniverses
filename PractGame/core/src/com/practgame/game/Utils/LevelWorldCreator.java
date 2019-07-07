@@ -14,6 +14,7 @@ import com.practgame.game.Sprites.BlockTileObject;
 import com.practgame.game.Sprites.Invader;
 import com.practgame.game.Sprites.JumpBlock;
 import com.practgame.game.Sprites.MovingBlock;
+import com.practgame.game.Sprites.Soldier;
 
 
 public class LevelWorldCreator {
@@ -21,9 +22,11 @@ public class LevelWorldCreator {
         return invaders;
     }
     public Array<MovingBlock> getMovingBlocks(){return movingBlocks;}
+    public Soldier getSoldier() {return soldier;}
 
     private Array <Invader> invaders;
     private Array<MovingBlock> movingBlocks;
+    private Soldier soldier;
 
     TiledMap map;
     World world;
@@ -32,6 +35,7 @@ public class LevelWorldCreator {
     public LevelWorldCreator(PlayScreen playScreen) {
         this.playScreen = playScreen;
         invaders = new Array<Invader>();
+        soldier = null;
         movingBlocks = new Array<MovingBlock>();
     }
 
@@ -93,7 +97,7 @@ public class LevelWorldCreator {
         // under construction, no enemies in world 2 at this moment
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) { // enemy spawns
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-        //    enemies.add(new Soldier(playScreen, rect.getX()/ PractGame.PPM, rect.getY()/ PractGame.PPM));
+            soldier = new Soldier(playScreen, rect.getX()/ PractGame.PPM, rect.getY()/ PractGame.PPM);
         }
 
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) { // reload blocks
@@ -108,7 +112,7 @@ public class LevelWorldCreator {
             new ActionBrick(world, map, rect, "next_level");
         }
 
-        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) { // extra, guns
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) { // guns
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             new ActionBrick(world, map, rect, map.getLayers().get(6).getName()).setCategoryFilter(PractGame.GUN_BIT);

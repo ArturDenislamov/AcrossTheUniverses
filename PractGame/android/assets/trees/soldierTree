@@ -1,0 +1,8 @@
+import playervisible?:"com.practgame.game.Ai.PlayerVisibleCondition"
+import enemyAttack:"com.practgame.game.Ai.EnemyAttack"
+
+root
+    selector
+        sequence
+            playervisible?
+            enemyAttack
