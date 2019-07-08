@@ -34,7 +34,6 @@ public class WindowManager implements Disposable {
     Drawable backgroundLift;
 
     public boolean onGround; // checks, if player is on ground (for jumping)
-    public boolean onBullet;
 
     private PractGame maingame;
 
@@ -47,7 +46,6 @@ public class WindowManager implements Disposable {
         viewport = new FitViewport(320, 180, new OrthographicCamera());
         stage = new Stage(viewport, maingame.batch);
         onGround = false;
-        onBullet = false;
         levelTable = new Table();
         backgroundLift =  new TextureRegionDrawable(new Texture("ui/backgroundLift.png"));
         liftShown = false;

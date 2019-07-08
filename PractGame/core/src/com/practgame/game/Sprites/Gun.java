@@ -13,8 +13,11 @@ public class Gun extends Sprite {
     public Gun(String name){
         this.name = name;
         locked = true;
+        bulletsAmount = 0;
+        bulletVelocity = 0;
+        damage = 0;
         switch (Guns.valueOf(name.toUpperCase())){ // each gun has its unique features
-            case ACR130:
+            case ACR130: // default gun
                 bulletsAmount = 5;
                 bulletVelocity = 200;
                 damage = 1;
@@ -24,13 +27,16 @@ public class Gun extends Sprite {
                 bulletVelocity = 250;
                 damage = 1;
                 break;
-            case INFINITY:
+            case INFINITY: // it has infinite number of bullets
                 bulletsAmount = 1;
                 bulletVelocity = 245;
                 damage = 1;
                 break;
-            case PLATFORMGUN:
-                bulletsAmount = 1000;
+            case ACCELERATOR: // it accelerates the player, doesn't shoot bullets
+                bulletsAmount = 4;
+                break;
+            case PLATFORMGUN:  // under construction, player can stand on its large and slow bullets
+                bulletsAmount = 1;
                 bulletVelocity = 30;
                 damage = 2;
         }
@@ -45,6 +51,6 @@ public class Gun extends Sprite {
     public boolean isLocked(){ return locked; }
 
     public enum Guns{
-        ACR130, REDLINE, INFINITY, PLATFORMGUN
+        ACR130, REDLINE, INFINITY, PLATFORMGUN, ACCELERATOR,
     }
 }

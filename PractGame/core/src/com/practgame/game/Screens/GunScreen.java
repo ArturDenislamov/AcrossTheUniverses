@@ -33,7 +33,9 @@ public class GunScreen implements Screen {
     TextButton acr130Button;
     TextButton redLineButton;
     TextButton infinityButton;
-    TextButton platformGunButton;
+    TextButton acceleratorButton;
+    TextButton tpsl2Button;
+
     Skin skin;
 
     HashMap <String, Gun> guns;
@@ -70,17 +72,23 @@ public class GunScreen implements Screen {
         infinityButton.setTransform(true);
         infinityButton.scaleBy(bscale);
 
-        platformGunButton = new TextButton("PlatformGun", skin, "default");
-        platformGunButton.setTransform(true);
-        platformGunButton.scaleBy(bscale);
+        acceleratorButton = new TextButton("Accelerator", skin, "default");
+        acceleratorButton.setTransform(true);
+        acceleratorButton.scaleBy(bscale);
+
+        tpsl2Button = new TextButton("TPS-L2", skin, "default");
+        tpsl2Button.setTransform(true);
+        tpsl2Button.scaleBy(bscale);
 
         acr130Button.setPosition(WORLD_WIDTH/2 - acr130Button.getWidth(), WORLD_HEIGHT/2 + WORLD_HEIGHT/6, Align.center);
         redLineButton.setPosition(WORLD_WIDTH/2 - redLineButton.getWidth(),
                 WORLD_HEIGHT/2, Align.center);
         infinityButton.setPosition(WORLD_WIDTH/2 - infinityButton.getWidth(),
                 WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
-        platformGunButton.setPosition(WORLD_WIDTH/2 - platformGunButton.getWidth(),
+        acceleratorButton.setPosition(WORLD_WIDTH/2 - acceleratorButton.getWidth(),
                 WORLD_HEIGHT/2 - WORLD_HEIGHT/3, Align.center);
+        tpsl2Button.setPosition(WORLD_WIDTH/2 - tpsl2Button.getWidth(),
+                WORLD_HEIGHT/2 - (WORLD_HEIGHT *2 / 3), Align.center);
 
         Label titleLabel = new Label("Guns", skin, "title"); // TODO out of use at the moment
         titleLabel.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT - titleLabel.getHeight());
@@ -131,12 +139,28 @@ public class GunScreen implements Screen {
             }
         });
 
-        platformGunButton.addListener(new ChangeListener() {
+        acceleratorButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(!guns.get("platformGun").isLocked()) {
-                    Gdx.app.log("GunScreen", "PlatformGun activated");
-                    prefs.putString(AppPreferences.PREFS_GUN, "platformGun");
+                if(!guns.get("accelerator").isLocked()) {
+                    Gdx.app.log("GunScreen", "Accelerator activated");
+                    prefs.putString(AppPreferences.PREFS_GUN, "accelerator");
+                    prefs.flush();
+                    pickSound.play(soundVolume);
+                    maingame.playScreen.player.updateGun();
+                    maingame.setScreen(maingame.menuLevel);
+                } else {
+                    errSound.play(soundVolume);
+                }
+            }
+        });
+
+        tpsl2Button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(!guns.get("tpsl2").isLocked()) {
+                    Gdx.app.log("GunScreen", "TPS-L2 activated");
+                    prefs.putString(AppPreferences.PREFS_GUN, "tpsl2");
                     prefs.flush();
                     pickSound.play(soundVolume);
                     maingame.playScreen.player.updateGun();
@@ -153,7 +177,8 @@ public class GunScreen implements Screen {
         stage.addActor(acr130Button);
         stage.addActor(redLineButton);
         stage.addActor(infinityButton);
-        stage.addActor(platformGunButton);
+        stage.addActor(acceleratorButton);
+        stage.addActor(tpsl2Button);
     }
 
     @Override
@@ -172,10 +197,15 @@ public class GunScreen implements Screen {
         else
             redLineButton.setVisible(true);
 
-        if(guns.get("platformGun").isLocked())
-            platformGunButton.setVisible(false);
+        if(guns.get("accelerator").isLocked())
+            acceleratorButton.setVisible(false);
         else
-            platformGunButton.setVisible(true);
+            acceleratorButton.setVisible(true);
+
+        if(guns.get("tpsl2").isLocked())
+            tpsl2Button.setVisible(false);
+        else
+            tpsl2Button.setVisible(true);
     }
 
     @Override

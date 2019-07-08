@@ -110,8 +110,7 @@ public class PractGame extends Game {
 					if(levelLine1 == levelList1.size()){
                         levelLine1 = 0;
                         playScreen.shotsMade = 0;
-						prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
-						prefs.flush();
+						prefs.putInteger(AppPreferences.PREF_SHOTS_1, playScreen.shotsMade);
 
                         prefs.putInteger(AppPreferences.PREF_WORLD_1, 0);
                         prefs.flush();
@@ -126,7 +125,7 @@ public class PractGame extends Game {
 							playScreen.shotsMade = 0;
 
 
-                        playScreen.shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS);
+                        playScreen.shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS_1);
 
 						this.worldType = 1;
 						playScreen.setLevel(levelList1.get(levelLine1).mapInfo);
@@ -136,6 +135,9 @@ public class PractGame extends Game {
                 case 2:
 					if(levelLine2 == levelList2.size()){
 						levelLine2 = 0;
+						playScreen.shotsMade = 0;
+						prefs.putInteger(AppPreferences.PREF_SHOTS_2, playScreen.shotsMade);
+
 						prefs.putInteger(AppPreferences.PREF_WORLD_2, 0);
 						prefs.flush();
 						toMenu = true;
@@ -148,7 +150,7 @@ public class PractGame extends Game {
 						if(levelLine2 == 0)
 							playScreen.shotsMade = 0;
 
-						prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
+						prefs.putInteger(AppPreferences.PREF_SHOTS_2, playScreen.shotsMade);
 						prefs.flush();
                         this.worldType = 2;
                         playScreen.setLevel(levelList2.get(levelLine2).mapInfo);
@@ -157,7 +159,10 @@ public class PractGame extends Game {
                 case 3:
                     if(levelLine3 == levelList3.size()){
                         levelLine3 = 0;
-                        prefs.putInteger(AppPreferences.PREF_WORLD_3, 0);
+                        playScreen.shotsMade = 0;
+						prefs.putInteger(AppPreferences.PREF_SHOTS_3, playScreen.shotsMade);
+
+						prefs.putInteger(AppPreferences.PREF_WORLD_3, 0);
                         prefs.flush();
                         toMenu = true;
                         musicManager.setSound("title.ogg");
@@ -169,7 +174,7 @@ public class PractGame extends Game {
                         if(levelLine3 == 0)
                             playScreen.shotsMade = 0;
 
-                        prefs.putInteger(AppPreferences.PREF_SHOTS, playScreen.shotsMade);
+                        prefs.putInteger(AppPreferences.PREF_SHOTS_3, playScreen.shotsMade);
                         prefs.flush();
                         this.worldType = 3;
                         playScreen.setLevel(levelList3.get(levelLine3).mapInfo);
@@ -192,20 +197,32 @@ public class PractGame extends Game {
 		prefs.putInteger(AppPreferences.PREF_WORLD_1, 0);
         prefs.putInteger(AppPreferences.PREF_WORLD_2, 0);
         prefs.putInteger(AppPreferences.PREF_WORLD_3, 0);
+
 		prefs.putBoolean(AppPreferences.PREFS_IS_REDLINE_UNLOCKED, false);
 		prefs.putBoolean(AppPreferences.PREFS_IS_INFINITY_UNLOCKED, false);
+		prefs.putBoolean(AppPreferences.PREFS_IS_ACCELERATOR_UNLOCKED, false);
+		prefs.putBoolean(AppPreferences.PREFS_IS_TPSL2_UNLOCKED, false);
+
 		prefs.putString(AppPreferences.PREFS_GUN, "acr130");
 		playScreen.shotsMade = 0;
-		prefs.putInteger(AppPreferences.PREF_SHOTS, 0);
+		prefs.putInteger(AppPreferences.PREF_SHOTS_1, 0);
+
 		prefs.flush(); // yes, one flush() is enough for all put()'s
 
-		gunMap.get("redLine").lock(); // in the future maybe you should create method lockAllGuns()
-		gunMap.get("infinity").lock();
+		lockAllGuns();
         playScreen.player.updateGun();
         levelLine1 = 0;
         levelLine2 = 0;
         levelLine3 = 0;
 	}
+
+	public void lockAllGuns(){
+		gunMap.get("redLine").lock();
+		gunMap.get("infinity").lock();
+		gunMap.get("accelerator").lock();
+		gunMap.get("tpsl2").lock();
+	}
+
 
 	public I18NBundle getBundle(){
 		return i18NBundle;
