@@ -300,15 +300,18 @@ public class WindowManager implements Disposable {
 
         if(tag.equals("next_level")){
             if(maingame.worldType == 1) {
-                maingame.levelLine1++; // TODO here check for bugs
-                prefs.putInteger(AppPreferences.PREF_SHOTS, maingame.playScreen.shotsMade);
+                maingame.levelLine1++;
+                prefs.putInteger(AppPreferences.PREF_SHOTS_1, maingame.playScreen.shotsMade);
+                prefs.flush();
+            } else if(maingame.worldType == 2) {
+                maingame.levelLine2++;
+                prefs.putInteger(AppPreferences.PREF_SHOTS_2, maingame.playScreen.shotsMade);
+                prefs.flush();
+            } else {
+                maingame.levelLine3++;
+                prefs.putInteger(AppPreferences.PREF_SHOTS_3, maingame.playScreen.shotsMade);
                 prefs.flush();
             }
-            else if(maingame.worldType == 2)
-                maingame.levelLine2++;
-            else
-                maingame.levelLine3++;
-
             maingame.changeScreen(maingame.worldType);
         }
     }

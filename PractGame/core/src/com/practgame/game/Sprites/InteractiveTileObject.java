@@ -33,7 +33,7 @@ public abstract class InteractiveTileObject {
             bdef.type = BodyDef.BodyType.DynamicBody;
             bdef.linearDamping = 20f;
             bdef.gravityScale = 2.7f;
-            bounds.setSize(6); // to avoid white spaces
+            bounds.setSize(7); // to avoid white spaces (it isn't 8)
         }
         else {
             bdef.type = BodyDef.BodyType.StaticBody; // static bodies require less computing power

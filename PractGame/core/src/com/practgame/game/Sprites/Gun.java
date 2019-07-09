@@ -13,9 +13,6 @@ public class Gun extends Sprite {
     public Gun(String name){
         this.name = name;
         locked = true;
-        bulletsAmount = 0;
-        bulletVelocity = 0;
-        damage = 0;
         switch (Guns.valueOf(name.toUpperCase())){ // each gun has its unique features
             case ACR130: // default gun
                 bulletsAmount = 5;
@@ -39,6 +36,12 @@ public class Gun extends Sprite {
                 bulletsAmount = 1;
                 bulletVelocity = 30;
                 damage = 2;
+                break;
+            default:
+                bulletsAmount = 0;
+                bulletVelocity = 0;
+                damage = 0;
+                break;
         }
     }
 
@@ -51,6 +54,6 @@ public class Gun extends Sprite {
     public boolean isLocked(){ return locked; }
 
     public enum Guns{
-        ACR130, REDLINE, INFINITY, PLATFORMGUN, ACCELERATOR,
+        ACR130, REDLINE, INFINITY, PLATFORMGUN, ACCELERATOR, TPSL2
     }
 }

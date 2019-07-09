@@ -84,7 +84,7 @@ public class PractGame extends Game {
         musicManager = new MusicManager(manager);
         musicManager.setSound("title.ogg");
 
-        levelLine1 = prefs.getInteger(AppPreferences.PREF_WORLD_1); // saving progress
+        levelLine1 = prefs.getInteger(AppPreferences.PREF_WORLD_1, 0); // saving progress
         levelLine2 = prefs.getInteger(AppPreferences.PREF_WORLD_2, 0);
         levelLine3 = prefs.getInteger(AppPreferences.PREF_WORLD_3, 0);
 		batch = new SpriteBatch();
@@ -96,7 +96,7 @@ public class PractGame extends Game {
 		gunScreen = new GunScreen(gunMap, this);
 		toMenu = false;
 
-		//localization
+		//localization, this time english and german are available (only for lobby-guy phrases)
 		FileHandle baseFileHandle = Gdx.files.internal("i18n/strings");
 		String lang = java.util.Locale.getDefault().toString();
 		Locale locale = new Locale(lang); // suitable i18n bundle is chosen automatically (there is also default bundle)
@@ -112,7 +112,6 @@ public class PractGame extends Game {
                         playScreen.shotsMade = 0;
 						prefs.putInteger(AppPreferences.PREF_SHOTS_1, playScreen.shotsMade);
 
-                        prefs.putInteger(AppPreferences.PREF_WORLD_1, 0);
                         prefs.flush();
                         toMenu = true;
                         musicManager.setSound("title.ogg");
@@ -138,7 +137,6 @@ public class PractGame extends Game {
 						playScreen.shotsMade = 0;
 						prefs.putInteger(AppPreferences.PREF_SHOTS_2, playScreen.shotsMade);
 
-						prefs.putInteger(AppPreferences.PREF_WORLD_2, 0);
 						prefs.flush();
 						toMenu = true;
 						musicManager.setSound("title.ogg");
@@ -150,8 +148,8 @@ public class PractGame extends Game {
 						if(levelLine2 == 0)
 							playScreen.shotsMade = 0;
 
-						prefs.putInteger(AppPreferences.PREF_SHOTS_2, playScreen.shotsMade);
-						prefs.flush();
+						playScreen.shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS_2);
+
                         this.worldType = 2;
                         playScreen.setLevel(levelList2.get(levelLine2).mapInfo);
 					}
@@ -174,8 +172,8 @@ public class PractGame extends Game {
                         if(levelLine3 == 0)
                             playScreen.shotsMade = 0;
 
-                        prefs.putInteger(AppPreferences.PREF_SHOTS_3, playScreen.shotsMade);
-                        prefs.flush();
+                        playScreen.shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS_3);
+
                         this.worldType = 3;
                         playScreen.setLevel(levelList3.get(levelLine3).mapInfo);
                     }
@@ -206,6 +204,8 @@ public class PractGame extends Game {
 		prefs.putString(AppPreferences.PREFS_GUN, "acr130");
 		playScreen.shotsMade = 0;
 		prefs.putInteger(AppPreferences.PREF_SHOTS_1, 0);
+		prefs.putInteger(AppPreferences.PREF_SHOTS_2, 0);
+        prefs.putInteger(AppPreferences.PREF_SHOTS_3, 0);
 
 		prefs.flush(); // yes, one flush() is enough for all put()'s
 

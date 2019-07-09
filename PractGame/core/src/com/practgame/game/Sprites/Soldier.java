@@ -40,7 +40,7 @@ public class Soldier extends Enemy {
         this.playScreen = screen;
 
         // needed to be changed
-        atlas = new TextureAtlas("Enemy/invader.pack");
+        atlas = new TextureAtlas("Enemy/invader.pack"); //under construction, texture isn't changed yet
         frames = new Array<TextureRegion>();
         for(int i = 0; i < 2; i++){
             frames.add(new TextureRegion(atlas.findRegion("invader_right1"), i*12,0, 12, 21));

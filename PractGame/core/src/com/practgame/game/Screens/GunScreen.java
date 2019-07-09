@@ -29,12 +29,13 @@ public class GunScreen implements Screen {
 
     Stage stage;
     Texture backgroundTexture;
-    float bscale = 2.8f;
+    float bscale = 2.6f;
     TextButton acr130Button;
     TextButton redLineButton;
     TextButton infinityButton;
     TextButton acceleratorButton;
     TextButton tpsl2Button;
+    TextButton unlockAllButton;
 
     Skin skin;
 
@@ -49,7 +50,7 @@ public class GunScreen implements Screen {
 
     private final Preferences prefs = Gdx.app.getPreferences(AppPreferences.PREFS_NAME);
 
-    public GunScreen(HashMap <String, Gun> gunMap, PractGame game){
+    public GunScreen(final HashMap <String, Gun> gunMap, PractGame game){
         maingame = game;
         manager = maingame.manager;
         pickSound = manager.get("sound/switch1.wav");
@@ -80,18 +81,21 @@ public class GunScreen implements Screen {
         tpsl2Button.setTransform(true);
         tpsl2Button.scaleBy(bscale);
 
-        acr130Button.setPosition(WORLD_WIDTH/2 - acr130Button.getWidth(), WORLD_HEIGHT/2 + WORLD_HEIGHT/6, Align.center);
-        redLineButton.setPosition(WORLD_WIDTH/2 - redLineButton.getWidth(),
-                WORLD_HEIGHT/2, Align.center);
-        infinityButton.setPosition(WORLD_WIDTH/2 - infinityButton.getWidth(),
-                WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
-        acceleratorButton.setPosition(WORLD_WIDTH/2 - acceleratorButton.getWidth(),
-                WORLD_HEIGHT/2 - WORLD_HEIGHT/3, Align.center);
-        tpsl2Button.setPosition(WORLD_WIDTH/2 - tpsl2Button.getWidth(),
-                WORLD_HEIGHT/2 - (WORLD_HEIGHT *2 / 3), Align.center);
+        unlockAllButton = new TextButton("Unlock all guns", skin, "default");
+        unlockAllButton.setTransform(true);
+        unlockAllButton.scaleBy(2f);
 
-        Label titleLabel = new Label("Guns", skin, "title"); // TODO out of use at the moment
-        titleLabel.setPosition(WORLD_WIDTH/2, WORLD_HEIGHT - titleLabel.getHeight());
+        acr130Button.setPosition(WORLD_WIDTH/2 - acr130Button.getWidth(), WORLD_HEIGHT/2 + WORLD_HEIGHT/3, Align.center);
+        redLineButton.setPosition(WORLD_WIDTH/2 - redLineButton.getWidth(),
+                WORLD_HEIGHT/2 + WORLD_HEIGHT/6, Align.center);
+        infinityButton.setPosition(WORLD_WIDTH/2 - infinityButton.getWidth(),
+                WORLD_HEIGHT/2, Align.center);
+        acceleratorButton.setPosition(WORLD_WIDTH/2 - acceleratorButton.getWidth(),
+                WORLD_HEIGHT/2 - WORLD_HEIGHT/6, Align.center);
+        tpsl2Button.setPosition(WORLD_WIDTH/2 - tpsl2Button.getWidth(),
+                WORLD_HEIGHT/2 - WORLD_HEIGHT/3, Align.center);
+        unlockAllButton.setPosition(WORLD_WIDTH/2 - unlockAllButton.getWidth() + 60,
+                WORLD_HEIGHT/20, Align.center);
 
         acr130Button.addListener(new ChangeListener() {
             @Override
@@ -171,6 +175,24 @@ public class GunScreen implements Screen {
             }
         });
 
+        unlockAllButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                gunMap.get("redLine").unlock();
+                gunMap.get("accelerator").unlock();
+                gunMap.get("infinity").unlock();
+                gunMap.get("tpsl2").unlock();
+
+                prefs.putBoolean(AppPreferences.PREFS_IS_REDLINE_UNLOCKED, true);
+                prefs.putBoolean(AppPreferences.PREFS_IS_ACCELERATOR_UNLOCKED, true);
+                prefs.putBoolean(AppPreferences.PREFS_IS_INFINITY_UNLOCKED, true);
+                prefs.putBoolean(AppPreferences.PREFS_IS_TPSL2_UNLOCKED, true);
+                pickSound.play(soundVolume);
+
+                show(); // updating screen, buttons become visible
+            }
+        });
+
         background.setFillParent(true);
         stage.addActor(background);
 
@@ -179,6 +201,7 @@ public class GunScreen implements Screen {
         stage.addActor(infinityButton);
         stage.addActor(acceleratorButton);
         stage.addActor(tpsl2Button);
+        stage.addActor(unlockAllButton);
     }
 
     @Override

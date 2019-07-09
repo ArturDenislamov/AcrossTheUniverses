@@ -188,8 +188,6 @@ public class PlayScreen implements Screen {
         mapPixelWidth = mapWidth * tilePixelWidth;
         mapPixelHeight = mapHeight * tilePixelHeight;
 
-    //    shotsMade = prefs.getInteger(AppPreferences.PREF_SHOTS); // maybe you should create one for each line
-
         if(player.gun.name.equals("infinity")) // needed for fixing glitch // TODO check this ! here is a glitch !
             shotsMade = 0;
 
@@ -200,14 +198,18 @@ public class PlayScreen implements Screen {
             hud.updateBullets(0);
             }
 
-        if(!player.gun.name.equals("tpsl2")) // because tpsl2 has 2 sounds
-        gunShot = maingame.manager.get("sound/"+player.gun.name+".ogg"); // each gun has unique sound
+        if(!player.gun.name.equals("tpsl2")) { // because tpsl2 has 2 sounds
+            gunShot = maingame.manager.get("sound/" + player.gun.name + ".ogg"); // each gun has unique sound
+            speedScale = 1;
+        }
 
         slideSound.play(soundVolume); // sound of a slide in a beginning of a level
     }
 
     public void handleInput() {
         // handling controller
+
+        // moving
         if(controller.isRightPressed())
             player.b2body.setLinearVelocity(new Vector2(0.75f, player.b2body.getLinearVelocity().y));
         else if(controller.isLeftPressed())
@@ -215,28 +217,38 @@ public class PlayScreen implements Screen {
         else
             player.b2body.setLinearVelocity(new Vector2(0, player.b2body.getLinearVelocity().y));
 
+        // jumping
         if(controller.isUpPressed() && player.b2body.getLinearVelocity().y == 0 && windowManager.onGround) {
             player.b2body.applyLinearImpulse(new Vector2(0, 2.5f), player.b2body.getWorldCenter(), true);
             windowManager.onGround = false;
         }
 
+        // activating Press B request
         if(controller.isBPressed() && windowManager.waitingForAnwser != "none"){
             Gdx.app.log("PlayScreen", "Window shown");
             windowManager.showWindow(windowManager.waitingForAnwser);
             windowManager.hideMessage();
         }
 
-            // in this case player shoots
+        // shooting (if there'is no Press B request)
         if(controller.isBPressed() && windowManager.waitingForAnwser == "none"){
             if(player.gun.name.equals("tpsl2")) {
                 if (speedScale == 1) {
                     speedScale = 0.5f;
                     Sound slowDown = maingame.manager.get("sound/slowDown.ogg");
                     slowDown.play(soundVolume);
+                    controller.bPressed = false;
+
+                    if(prefs.getBoolean(AppPreferences.PREF_VIBRATION_ENABLED))
+                        Gdx.input.vibrate(150);
                 } else {
                     speedScale = 1;
                     Sound speedUp = maingame.manager.get("sound/speedUp.ogg");
                     speedUp.play(soundVolume);
+                    controller.bPressed = false;
+
+                    if(prefs.getBoolean(AppPreferences.PREF_VIBRATION_ENABLED))
+                        Gdx.input.vibrate(150);
                 }
             } else if(player.gun.name.equals("accelerator") && shotsMade < player.bulletsAmount) {
                 if(player.runningRight)
@@ -251,11 +263,11 @@ public class PlayScreen implements Screen {
                 hud.updateBullets(player.bulletsAmount - shotsMade);
                 gunShot.play(soundVolume);
 
-                if(prefs.getBoolean(AppPreferences.PREF_VIBRATION_ENABLED)) // TODO check vibration after installation
+                if(prefs.getBoolean(AppPreferences.PREF_VIBRATION_ENABLED))
                     Gdx.input.vibrate(150);
             } else if(shotsMade < player.bulletsAmount) {
-                    bulletsArray.add(new Bullet(world, player, maingame.manager, player.gun.bulletVelocity));
-                    controller.bPressed = false; // for one click - one shot
+                bulletsArray.add(new Bullet(world, player, maingame.manager, player.gun.bulletVelocity));
+                controller.bPressed = false; // for one click - one shot
 
                 if(!player.gun.name.equals("infinity"))
                 shotsMade++; // this line can be commented for infinite bullets stress-test
