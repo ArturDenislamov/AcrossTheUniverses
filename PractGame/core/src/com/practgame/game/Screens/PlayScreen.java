@@ -5,8 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ai.btree.BehaviorTree;
-import com.badlogic.gdx.ai.btree.utils.BehaviorTreeParser;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,7 +17,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -47,7 +44,7 @@ public class PlayScreen implements Screen {
     private OrthographicCamera gamecam;
     private Viewport gamePort;
     public PractGame maingame;
-    private Hud hud;
+    private Hud hud; // head-up display
     private final float SCREEN_W = 160;
     private final float SCREEN_H = 90;
     private TextureAtlas atlas;
@@ -188,7 +185,7 @@ public class PlayScreen implements Screen {
         mapPixelWidth = mapWidth * tilePixelWidth;
         mapPixelHeight = mapHeight * tilePixelHeight;
 
-        if(player.gun.name.equals("infinity")) // needed for fixing glitch // TODO check this ! here is a glitch !
+        if(player.gun.name.equals("infinity"))
             shotsMade = 0;
 
         if(player.gun.bulletsAmount - shotsMade > 0) {
@@ -450,7 +447,6 @@ public class PlayScreen implements Screen {
         else
             soundVolume = 0;
     }
-
 
     @Override
     public void pause() {}

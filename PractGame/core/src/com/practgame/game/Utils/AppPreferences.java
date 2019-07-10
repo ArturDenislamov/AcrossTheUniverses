@@ -14,7 +14,7 @@ public final class AppPreferences {
     public static final String PREFS_IS_INFINITY_UNLOCKED = "PREFS_IS_INFINITY_UNLOCKED";
     public static final String PREFS_IS_ACCELERATOR_UNLOCKED = "PREFS_IS_ACCELERATOR_UNLOCKED";
     public static final String PREFS_IS_TPSL2_UNLOCKED = "PREFS_IS_TPSL2_UNLOCKED";
-    public static final String PREFS_IS_PLATFORMGUN_UNLOCKED = "PREFS_IS_PLATFORMGUN_UNLOCKED";
+    public static final String PREFS_IS_PLATFORMGUN_UNLOCKED = "PREFS_IS_PLATFORMGUN_UNLOCKED"; // gun under construction
 
     public static final String PREF_WORLD_1 = "world1";
     public static final String PREF_WORLD_2 = "world2";

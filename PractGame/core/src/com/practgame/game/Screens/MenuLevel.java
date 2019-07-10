@@ -176,7 +176,7 @@ public class MenuLevel implements Screen {
         new MenuWorldCreator(this);
 
         // moving player to the lift
-        // method player.b2body.setTransform(...) can cause errors
+        // method player.b2body.setTransform(...) can cause errors, thats why we define player, not transform
         switch (floorNum){
             case 1:
                 player.definePlayer(210,32);

@@ -211,10 +211,10 @@ public class WindowManager implements Disposable {
             Gdx.input.setInputProcessor(stage);
             liftShown = true;
 
-            Texture first = new Texture("ui/first.png");
-            Texture second = new Texture("ui/second.png");
+            Texture first = new Texture("ui/firstLift.png");
+            Texture second = new Texture("ui/secondLift.png");
             Texture third = new Texture("ui/third.png");
-            Texture back = new Texture("ui/back.png");
+            Texture back = new Texture("ui/backLift.png");
 
             firstW = new ImageButton(new TextureRegionDrawable(new TextureRegion(first)));
             firstW.addListener(new InputListener() {
@@ -288,8 +288,8 @@ public class WindowManager implements Disposable {
             if(maingame.menuLevel.currentFloor != 2)
                 levelTable.add(secondW).size(bsize, bsize).padTop(10);
 
-            if(maingame.menuLevel.currentFloor != 3)
-                levelTable.add(thirdW).size(bsize, bsize).padTop(10);
+          //  if(maingame.menuLevel.currentFloor != 3) // menu level third is under construction
+          //      levelTable.add(thirdW).size(bsize, bsize).padTop(10);
 
             levelTable.add(backW).size(bsize).padTop(10);
             levelTable.pack();

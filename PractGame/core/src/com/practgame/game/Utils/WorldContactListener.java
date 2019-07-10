@@ -129,6 +129,7 @@ public class WorldContactListener implements ContactListener {
             Gdx.app.log("WorldContactList", "JUMP Block collision");
         }
 
+
         if(("player").equals(fixA.getUserData()) || ("player").equals(fixB.getUserData())){
             Fixture player = ("player").equals(fixA.getUserData()) ? fixA : fixB;
             Fixture object = fixA == player ? fixB : fixA;

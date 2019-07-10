@@ -223,7 +223,6 @@ public class PractGame extends Game {
 		gunMap.get("tpsl2").lock();
 	}
 
-
 	public I18NBundle getBundle(){
 		return i18NBundle;
 	}

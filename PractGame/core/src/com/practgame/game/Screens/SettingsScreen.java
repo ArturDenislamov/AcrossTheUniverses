@@ -162,6 +162,9 @@ public class SettingsScreen implements Screen {
         table.add(backButton);
 
         stage.addActor(table);
+
+        preferences.putBoolean(AppPreferences.PREF_VIBRATION_ENABLED, true);
+        preferences.flush();
     }
 
     @Override
